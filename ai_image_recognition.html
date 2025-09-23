@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Recognition Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Home Page Styles */
+        .home-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="300" cy="700" r="120" fill="url(%23a)"/><circle cx="700" cy="800" r="80" fill="url(%23a)"/></svg>') no-repeat center center;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        /* Basic Page Styles */
+        .basic-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Advanced Page Styles */
+        .advanced-page {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+        }
+
+        .advanced-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><linearGradient id="tech" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23e74c3c" stop-opacity="0.1"/><stop offset="50%" stop-color="%23f39c12" stop-opacity="0.1"/><stop offset="100%" stop-color="%23e67e22" stop-opacity="0.1"/></linearGradient></defs><rect width="1000" height="1000" fill="url(%23tech)"/><circle cx="100" cy="100" r="2" fill="%23ffffff" opacity="0.3"/><circle cx="300" cy="200" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="500" cy="150" r="1.5" fill="%23ffffff" opacity="0.3"/><circle cx="700" cy="300" r="2" fill="%23ffffff" opacity="0.5"/><circle cx="200" cy="400" r="1" fill="%23ffffff" opacity="0.3"/><circle cx="800" cy="500" r="1.5" fill="%23ffffff" opacity="0.4"/></svg>') no-repeat center center;
+            background-size: cover;
+            opacity: 0.2;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD93D;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #FFD93D;
+            color: #333;
+            border-color: #FFD93D;
+        }
+
+        /* Home Page Specific */
+        .hero-section {
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .level-selection {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            min-width: 300px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #FFD93D;
+        }
+
+        .level-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .level-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #FFD93D;
+        }
+
+        .level-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .features-section {
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .features-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #FFD93D;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #FFD93D;
+        }
+
+        /* Learning Page Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .training-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #FFD93D;
+        }
+
+        .category-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .category-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: #FFD93D;
+            color: #333;
+            border-color: #FFD93D;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .training-image {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .training-image:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .training-image.selected {
+            border-color: #4ECDC4;
+            background: rgba(78, 205, 196, 0.3);
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.5);
+        }
+
+        /* Advanced level photo styles */
+        .photo-image {
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .training-counter {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ECDC4, #44A08D);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-train {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+
+        .btn-test {
+            background: linear-gradient(45deg, #FF6B6B, #EE5A52);
+            color: white;
+        }
+
+        .btn-reset {
+            background: linear-gradient(45deg, #95A5A6, #7F8C8D);
+            color: white;
+        }
+
+        .btn-posttest {
+            background: linear-gradient(45deg, #9B59B6, #8E44AD);
+            color: white;
+        }
+
+        .btn-restart {
+            background: linear-gradient(45deg, #E67E22, #D35400);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .ai-brain {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .brain-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .brain-status {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .accuracy-display {
+            font-size: 2rem;
+            color: #FFD93D;
+            font-weight: bold;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-image-area {
+            background: rgba(0, 0, 0, 0.2);
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .test-image-area.active {
+            border-color: #4ECDC4;
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        .test-image {
+            font-size: 6rem;
+            transition: all 0.3s ease;
+        }
+
+        .prediction-results {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .confidence-bar {
+            width: 100px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            transition: width 0.5s ease;
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-tab {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .info-tab.active {
+            background: #FFD93D;
+            color: #333;
+        }
+
+        .info-content {
+            display: none;
+        }
+
+        .info-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4ECDC4;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-header {
+            padding: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: white;
+        }
+
+        .close {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #FFD93D;
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .question-counter {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #FFD93D;
+        }
+
+        .question-area {
+            margin: 30px 0;
+        }
+
+        .question-area h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: rgba(78, 205, 196, 0.3);
+            border-color: #4ECDC4;
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .option.correct {
+            background: rgba(46, 204, 113, 0.3);
+            border-color: #2ECC71;
+        }
+
+        .option.incorrect {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #E74C3C;
+        }
+
+        .test-controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .test-results {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score-display {
+            margin: 30px 0;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .score-percentage {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFD93D;
+            margin-bottom: 20px;
+        }
+
+        .score-message {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .level-selection {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .level-card {
+                min-width: 280px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            }
+            
+            .training-image {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+            }
+
+            .modal-header, .modal-body {
+                padding: 20px;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+            }
+
+            .control-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="homePage" class="page home-page active">
+        <div class="container">
+            <div class="nav-bar">
+                <div class="logo">AI Learning Platform by Ibnu Syifa </div>
+                <div class="nav-buttons">
+                    <a href="#" class="nav-btn active" onclick="showPage('home')">Beranda</a>
+                </div>
+            </div>
+
+            <div class="hero-section">
+                <h1 class="hero-title">🤖 AI Image Recognition</h1>
+                <p class="hero-subtitle">Pelajari bagaimana Artificial Intelligence mengenali gambar dengan pembelajaran interaktif</p>
+                
+                <div class="level-selection">
+                    <div class="level-card" onclick="showPage('basic')">
+                        <span class="level-icon">🎯</span>
+                        <h2 class="level-title">Level Dasar</h2>
+                        <p class="level-description">Mulai dengan konsep dasar AI menggunakan emoji dan gambar sederhana. Cocok untuk pemula yang ingin memahami dasar-dasar image recognition.</p>
+                    </div>
+                    
+                    <div class="level-card" onclick="showPage('advanced')">
+                        <span class="level-icon">🚀</span>
+                        <h2 class="level-title">Level Mahir</h2>
+                        <p class="level-description">Tingkatkan kemampuan dengan foto nyata dan algoritma yang lebih kompleks. Untuk yang sudah memahami konsep dasar AI.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <h2 class="features-title">✨ Fitur Pembelajaran</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3 class="feature-title">AI Training</h3>
+                        <p>Latih AI dengan data pilihan Anda dan lihat bagaimana akurasi meningkat</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <h3 class="feature-title">Interaktif</h3>
+                        <p>Pembelajaran hands-on dengan simulasi AI yang responsif dan menyenangkan</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Analisis Real-time</h3>
+                        <p>Pantau progress dan statistik pembelajaran secara langsung</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h3 class="feature-title">Post Test</h3>
+                        <p>Uji pemahaman dengan kuis interaktif di setiap level</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Basic Level Page -->
+    <div id="basicPage" class="page basic-page">
+        <div class="container">
+            <div class="nav-bar">
+                <div class="logo">🎯 Level Dasar</div>
+                <div class="nav-buttons">
+                    <a href="#" class="nav-btn" onclick="showPage('home')">Beranda</a>
+                    <a href="#" class="nav-btn active" onclick="showPage('basic')">Dasar</a>
+                    <a href="#" class="nav-btn" onclick="showPage('advanced')">Mahir</a>
+                </div>
+            </div>
+
+            <div class="header">
+                <h1>🤖 AI Image Recognition - Level Dasar</h1>
+                <p>Pelajari konsep dasar AI dengan emoji dan gambar sederhana. Pilih gambar, latih AI, dan lihat bagaimana akurasi meningkat!</p>
+            </div>
+
+            <div class="main-content">
+                <div class="training-section">
+                    <h2 class="section-title">📚 Data Training</h2>
+                    
+                    <div class="category-selector">
+                        <button class="category-btn active" onclick="selectCategory('animals', 'basic')">🐾 Hewan</button>
+                        <button class="category-btn" onclick="selectCategory('food', 'basic')">🍕 Makanan</button>
+                        <button class="category-btn" onclick="selectCategory('transport', 'basic')">🚗 Transportasi</button>
+                        <button class="category-btn" onclick="selectCategory('nature', 'basic')">🌳 Alam</button>
+                    </div>
+
+                    <div class="training-counter">
+                        <span id="basicSelectedCount">0</span> / <span id="basicTotalImages">20</span> gambar dipilih
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="basicProgressFill"></div>
+                    </div>
+
+                    <div class="image-grid" id="basicImageGrid">
+                        <!-- Images will be populated by JavaScript -->
+                    </div>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-train" id="basicTrainBtn" onclick="trainAI('basic')" disabled>🧠 Latih AI</button>
+                        <button class="btn btn-reset" onclick="resetTraining('basic')">🔄 Reset</button>
+                        <button class="btn btn-restart" onclick="restartAll('basic')">🔄 Mulai Ulang</button>
+                    </div>
+                </div>
+
+                <div class="test-section">
+                    <h2 class="section-title">🎯 Test AI</h2>
+                    
+                    <div class="ai-brain">
+                        <div class="brain-icon" id="basicBrainIcon">🧠</div>
+                        <div class="brain-status" id="basicBrainStatus">AI belum dilatih</div>
+                        <div class="accuracy-display" id="basicAccuracyDisplay">0%</div>
+                    </div>
+
+                    <div class="test-image-area" id="basicTestArea">
+                        <div class="test-image" id="basicTestImage">❓</div>
+                    </div>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-test" id="basicTestBtn" onclick="generateTestImage('basic')" disabled>🎲 Test Random</button>
+                        <button class="btn btn-posttest" id="basicPostTestBtn" onclick="startPostTest('basic')" disabled>📝 Post Test</button>
+                    </div>
+
+                    <div class="prediction-results" id="basicPredictionResults" style="display: none;">
+                        <h3>Prediksi AI:</h3>
+                        <div id="basicPredictions"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="info-tabs">
+                    <button class="info-tab active" onclick="showInfo('concept', 'basic')">💡 Konsep</button>
+                    <button class="info-tab" onclick="showInfo('process', 'basic')">⚙️ Proses</button>
+                    <button class="info-tab" onclick="showInfo('stats', 'basic')">📊 Statistik</button>
+                </div>
+
+                <div class="info-content active" id="basicConcept">
+                    <h3>Apa itu Image Recognition?</h3>
+                    <p>Image Recognition adalah kemampuan AI untuk mengidentifikasi dan mengklasifikasi objek dalam gambar. AI belajar dari data training yang kita berikan, kemudian menggunakan pola yang dipelajari untuk mengenali gambar baru.</p>
+                    <br>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <p>1. Pilih kategori gambar yang ingin diajarkan ke AI</p>
+                    <p>2. Klik gambar-gambar untuk menambahkannya ke data training</p>
+                    <p>3. Latih AI dengan menekan tombol "Latih AI"</p>
+                    <p>4. Test AI dengan gambar random untuk melihat akurasi</p>
+                </div>
+
+                <div class="info-content" id="basicProcess">
+                    <h3>Bagaimana AI Belajar?</h3>
+                    <p>AI menggunakan algoritma machine learning untuk mengenali pola dalam data training. Semakin banyak dan beragam data yang diberikan, semakin akurat AI dalam mengenali gambar baru.</p>
+                    <br>
+                    <p><strong>Faktor yang mempengaruhi akurasi:</strong></p>
+                    <p>• Jumlah data training</p>
+                    <p>• Keberagaman data</p>
+                    <p>• Kualitas data</p>
+                    <p>• Kompleksitas model AI</p>
+                </div>
+
+                <div class="info-content" id="basicStats">
+                    <h3>Statistik Training</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="basicTotalTrainingData">0</div>
+                            <div class="stat-label">Total Data</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="basicCategoriesUsed">0</div>
+                            <div class="stat-label">Kategori</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="basicTestCount">0</div>
+                            <div class="stat-label">Test Dilakukan</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="basicAvgAccuracy">0%</div>
+                            <div class="stat-label">Rata-rata Akurasi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Level Page -->
+    <div id="advancedPage" class="page advanced-page">
+        <div class="container">
+            <div class="nav-bar">
+                <div class="logo">🚀 Level Mahir</div>
+                <div class="nav-buttons">
+                    <a href="#" class="nav-btn" onclick="showPage('home')">Beranda</a>
+                    <a href="#" class="nav-btn" onclick="showPage('basic')">Dasar</a>
+                    <a href="#" class="nav-btn active" onclick="showPage('advanced')">Mahir</a>
+                </div>
+            </div>
+
+            <div class="header">
+                <h1>🚀 AI Image Recognition - Level Mahir</h1>
+                <p>Tingkatkan kemampuan dengan foto nyata dan algoritma yang lebih kompleks. Pelajari deep learning dan neural networks!</p>
+            </div>
+
+            <div class="main-content">
+                <div class="training-section">
+                    <h2 class="section-title">🔬 Advanced Training</h2>
+                    
+                    <div class="category-selector">
+                        <button class="category-btn active" onclick="selectCategory('people', 'advanced')">👥 Orang</button>
+                        <button class="category-btn" onclick="selectCategory('buildings', 'advanced')">🏢 Bangunan</button>
+                        <button class="category-btn" onclick="selectCategory('vehicles', 'advanced')">🚙 Kendaraan</button>
+                        <button class="category-btn" onclick="selectCategory('objects', 'advanced')">📱 Objek</button>
+                    </div>
+
+                    <div class="training-counter">
+                        <span id="advancedSelectedCount">0</span> / <span id="advancedTotalImages">25</span> gambar dipilih
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="advancedProgressFill"></div>
+                    </div>
+
+                    <div class="image-grid" id="advancedImageGrid">
+                        <!-- Images will be populated by JavaScript -->
+                    </div>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-train" id="advancedTrainBtn" onclick="trainAI('advanced')" disabled>🧠 Deep Learning</button>
+                        <button class="btn btn-reset" onclick="resetTraining('advanced')">🔄 Reset</button>
+                        <button class="btn btn-restart" onclick="restartAll('advanced')">🔄 Mulai Ulang</button>
+                    </div>
+                </div>
+
+                <div class="test-section">
+                    <h2 class="section-title">🎯 Neural Network Test</h2>
+                    
+                    <div class="ai-brain">
+                        <div class="brain-icon" id="advancedBrainIcon">🧠</div>
+                        <div class="brain-status" id="advancedBrainStatus">Neural Network belum dilatih</div>
+                        <div class="accuracy-display" id="advancedAccuracyDisplay">0%</div>
+                    </div>
+
+                    <div class="test-image-area" id="advancedTestArea">
+                        <div class="test-image" id="advancedTestImage">❓</div>
+                    </div>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-test" id="advancedTestBtn" onclick="generateTestImage('advanced')" disabled>🎲 Test Neural Net</button>
+                        <button class="btn btn-posttest" id="advancedPostTestBtn" onclick="startPostTest('advanced')" disabled>📝 Advanced Test</button>
+                    </div>
+
+                    <div class="prediction-results" id="advancedPredictionResults" style="display: none;">
+                        <h3>Neural Network Prediction:</h3>
+                        <div id="advancedPredictions"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="info-tabs">
+                    <button class="info-tab active" onclick="showInfo('concept', 'advanced')">🧠 Deep Learning</button>
+                    <button class="info-tab" onclick="showInfo('process', 'advanced')">⚙️ Neural Networks</button>
+                    <button class="info-tab" onclick="showInfo('stats', 'advanced')">📊 Statistik</button>
+                </div>
+
+                <div class="info-content active" id="advancedConcept">
+                    <h3>Deep Learning & Neural Networks</h3>
+                    <p>Deep Learning menggunakan neural networks dengan banyak layer untuk memproses data yang kompleks. Setiap layer mempelajari fitur yang berbeda dari gambar, mulai dari edge detection hingga object recognition.</p>
+                    <br>
+                    <p><strong>Keunggulan Deep Learning:</strong></p>
+                    <p>• Dapat mengenali pola yang sangat kompleks</p>
+                    <p>• Otomatis mengekstrak fitur penting</p>
+                    <p>• Akurasi tinggi untuk data foto nyata</p>
+                    <p>• Dapat menangani variasi lighting dan angle</p>
+                </div>
+
+                <div class="info-content" id="advancedProcess">
+                    <h3>Cara Kerja Neural Networks</h3>
+                    <p>Neural Networks terinspirasi dari cara kerja otak manusia. Setiap neuron menerima input, memproses dengan weight dan bias, lalu menghasilkan output yang diteruskan ke layer berikutnya.</p>
+                    <br>
+                    <p><strong>Proses Training:</strong></p>
+                    <p>• Forward Propagation: Data melewati semua layer</p>
+                    <p>• Loss Calculation: Menghitung error prediksi</p>
+                    <p>• Backpropagation: Update weight berdasarkan error</p>
+                    <p>• Iterasi: Proses diulang hingga konvergen</p>
+                </div>
+
+                <div class="info-content" id="advancedStats">
+                    <h3>Advanced Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="advancedTotalTrainingData">0</div>
+                            <div class="stat-label">Training Samples</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="advancedCategoriesUsed">0</div>
+                            <div class="stat-label">Classes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="advancedTestCount">0</div>
+                            <div class="stat-label">Predictions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="advancedAvgAccuracy">0%</div>
+                            <div class="stat-label">Model Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Test Modal -->
+    <div id="postTestModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">📝 Post Test</h2>
+                <span class="close" onclick="closePostTest()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="question-counter">
+                    Pertanyaan <span id="currentQuestion">1</span> dari <span id="totalQuestions">5</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="testProgress"></div>
+                </div>
+                <div class="question-area">
+                    <h3 id="questionText">Loading...</h3>
+                    <div class="options" id="questionOptions">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="test-controls">
+                    <button class="btn btn-test" id="nextBtn" onclick="nextQuestion()" disabled>Selanjutnya</button>
+                </div>
+            </div>
+            <div class="test-results" id="testResults" style="display: none;">
+                <h3>🎉 Hasil Post Test</h3>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="finalScore">0</span>/<span id="maxScore">5</span>
+                    </div>
+                    <div class="score-percentage" id="scorePercentage">0%</div>
+                </div>
+                <div class="score-message" id="scoreMessage"></div>
+                <button class="btn btn-train" onclick="closePostTest()">Selesai</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentPage = 'home';
+        let gameStates = {
+            basic: {
+                selectedImages: [],
+                currentCategory: 'animals',
+                aiTrained: false,
+                trainingData: {},
+                testResults: [],
+                totalTests: 0
+            },
+            advanced: {
+                selectedImages: [],
+                currentCategory: 'people',
+                aiTrained: false,
+                trainingData: {},
+                testResults: [],
+                totalTests: 0
+            }
+        };
+
+        let postTestQuestions = [];
+        let currentQuestionIndex = 0;
+        let selectedAnswer = null;
+        let postTestScore = 0;
+        let currentTestLevel = '';
+
+        // Image categories for basic level
+        const basicImageCategories = {
+            animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🐦', '🐤', '🦆'],
+            food: ['🍎', '🍌', '🍊', '🍓', '🥝', '🍅', '🥕', '🌽', '🥒', '🥑', '🍞', '🥖', '🧀', '🥚', '🍖', '🍗', '🍕', '🍔', '🌭', '🥪'],
+            transport: ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐', '🛻', '🚚', '🚛', '🚜', '🏍️', '🛵', '🚲', '🛴', '🚁', '✈️'],
+            nature: ['🌳', '🌲', '🌴', '🌵', '🌿', '☘️', '🍀', '🎋', '🌾', '🌺', '🌻', '🌹', '🌷', '🌸', '🌼', '🌙', '⭐', '☀️', '⛅', '🌈']
+        };
+
+        // Image categories for advanced level (using descriptive text for photos)
+        const advancedImageCategories = {
+            people: ['👨‍💼', '👩‍⚕️', '👨‍🍳', '👩‍🎓', '👨‍💻', '👩‍🏫', '👨‍🎨', '👩‍🔬', '👨‍🚒', '👩‍✈️', '👨‍🌾', '👩‍🏭', '👨‍🔧', '👩‍💼', '👨‍⚖️', '👩‍🎤', '👨‍🏥', '👩‍🚀', '👨‍🎭', '👩‍🦳', '👨‍🦱', '👩‍🦰', '👨‍🦲', '👩‍🦳', '👨‍🦯'],
+            buildings: ['🏠', '🏢', '🏣', '🏤', '🏥', '🏦', '🏧', '🏨', '🏩', '🏪', '🏫', '🏬', '🏭', '🏮', '🏯', '🏰', '🗼', '🗽', '⛪', '🕌', '🛕', '🕍', '⛩️', '🕋', '⛲'],
+            vehicles: ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐', '🛻', '🚚', '🚛', '🚜', '🏍️', '🛵', '🚲', '🛴', '🛹', '🚁', '✈️', '🛩️', '🚀', '🛸', '⛵'],
+            objects: ['📱', '💻', '⌚', '📷', '📺', '🎮', '🕹️', '💡', '🔦', '🕯️', '🪔', '📚', '📖', '✏️', '🖊️', '📝', '📐', '📏', '📎', '🔗', '📌', '📍', '🗂️', '📁', '📋']
+        };
+
+        // Questions for basic level
+        const basicQuestions = [
+            {
+                question: "Apa yang dimaksud dengan 'data training' dalam AI Image Recognition?",
+                options: [
+                    "Data yang digunakan untuk menguji AI setelah selesai dilatih",
+                    "Kumpulan gambar yang digunakan untuk mengajarkan AI mengenali pola",
+                    "Program komputer yang menjalankan AI",
+                    "Hasil prediksi yang dibuat oleh AI"
+                ],
+                correct: 1
+            },
+            {
+                question: "Mengapa semakin banyak data training akan meningkatkan akurasi AI?",
+                options: [
+                    "Karena AI menjadi lebih cepat dalam memproses gambar",
+                    "Karena AI dapat mempelajari lebih banyak variasi dan pola dari data",
+                    "Karena AI menggunakan lebih sedikit memori komputer",
+                    "Karena AI menjadi lebih mudah digunakan"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa yang terjadi jika AI dilatih hanya dengan satu kategori gambar?",
+                options: [
+                    "AI akan sangat akurat untuk semua jenis gambar",
+                    "AI akan bekerja lebih cepat",
+                    "AI hanya bisa mengenali kategori tersebut dengan baik",
+                    "AI akan otomatis belajar kategori lain"
+                ],
+                correct: 2
+            },
+            {
+                question: "Dalam proses Image Recognition, apa yang dimaksud dengan 'confidence level'?",
+                options: [
+                    "Waktu yang dibutuhkan AI untuk memproses gambar",
+                    "Jumlah gambar yang digunakan untuk training",
+                    "Seberapa yakin AI terhadap prediksi yang dibuat",
+                    "Ukuran file gambar yang diproses"
+                ],
+                correct: 2
+            },
+            {
+                question: "Manakah faktor yang TIDAK mempengaruhi akurasi AI dalam mengenali gambar?",
+                options: [
+                    "Jumlah dan kualitas data training",
+                    "Keberagaman data dalam setiap kategori",
+                    "Warna latar belakang website",
+                    "Kompleksitas algoritma yang digunakan"
+                ],
+                correct: 2
+            }
+        ];
+
+        // Questions for advanced level
+        const advancedQuestions = [
+            {
+                question: "Apa perbedaan utama antara Machine Learning tradisional dan Deep Learning?",
+                options: [
+                    "Deep Learning menggunakan lebih sedikit data",
+                    "Deep Learning otomatis mengekstrak fitur, ML tradisional perlu feature engineering manual",
+                    "Machine Learning tradisional lebih akurat",
+                    "Deep Learning hanya bisa digunakan untuk gambar"
+                ],
+                correct: 1
+            },
+            {
+                question: "Dalam Neural Networks, apa fungsi dari activation function?",
+                options: [
+                    "Mengurangi ukuran data input",
+                    "Menyimpan hasil training",
+                    "Memperkenalkan non-linearity dan menentukan output neuron",
+                    "Menghitung jumlah layer dalam network"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa yang dimaksud dengan 'overfitting' dalam Deep Learning?",
+                options: [
+                    "Model terlalu sederhana untuk data yang kompleks",
+                    "Model menghafal data training tapi gagal generalisasi ke data baru",
+                    "Model membutuhkan terlalu banyak memori",
+                    "Model training terlalu cepat"
+                ],
+                correct: 1
+            },
+            {
+                question: "Teknik mana yang digunakan untuk mencegah overfitting?",
+                options: [
+                    "Menambah lebih banyak layer",
+                    "Mengurangi jumlah data training",
+                    "Dropout dan regularization",
+                    "Meningkatkan learning rate"
+                ],
+                correct: 2
+            },
+            {
+                question: "Dalam Convolutional Neural Networks (CNN), apa fungsi dari pooling layer?",
+                options: [
+                    "Menambah jumlah parameter model",
+                    "Mengurangi dimensi spatial dan computational cost",
+                    "Meningkatkan akurasi model",
+                    "Mengubah warna gambar"
+                ],
+                correct: 1
+            }
+        ];
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId + 'Page').classList.add('active');
+            currentPage = pageId;
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Initialize page if needed
+            if (pageId === 'basic') {
+                updateImageGrid('basic');
+                updateTrainingProgress('basic');
+                updateStats('basic');
+            } else if (pageId === 'advanced') {
+                updateImageGrid('advanced');
+                updateTrainingProgress('advanced');
+                updateStats('advanced');
+            }
+        }
+
+        function selectCategory(category, level) {
+            gameStates[level].currentCategory = category;
+            
+            // Update active button
+            const page = document.getElementById(level + 'Page');
+            page.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update image grid
+            updateImageGrid(level);
+        }
+
+        function updateImageGrid(level) {
+            const grid = document.getElementById(level + 'ImageGrid');
+            const categories = level === 'basic' ? basicImageCategories : advancedImageCategories;
+            const images = categories[gameStates[level].currentCategory];
+            
+            grid.innerHTML = '';
+            images.forEach((emoji, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'training-image';
+                
+                if (level === 'advanced') {
+                    imageDiv.classList.add('photo-image');
+                    // Create a more realistic photo-like appearance
+                    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    imageDiv.style.background = `linear-gradient(45deg, ${randomColor}, ${randomColor}aa)`;
+                    imageDiv.style.fontSize = '1rem';
+                    imageDiv.textContent = emoji;
+                } else {
+                    imageDiv.textContent = emoji;
+                }
+                
+                imageDiv.onclick = () => toggleImageSelection(imageDiv, emoji, gameStates[level].currentCategory, level);
+                
+                // Check if already selected
+                if (gameStates[level].selectedImages.some(img => img.emoji === emoji && img.category === gameStates[level].currentCategory)) {
+                    imageDiv.classList.add('selected');
+                }
+                
+                grid.appendChild(imageDiv);
+            });
+        }
+
+        function toggleImageSelection(element, emoji, category, level) {
+            const imageData = { emoji, category };
+            const existingIndex = gameStates[level].selectedImages.findIndex(img => img.emoji === emoji && img.category === category);
+            
+            if (existingIndex > -1) {
+                gameStates[level].selectedImages.splice(existingIndex, 1);
+                element.classList.remove('selected');
+            } else {
+                gameStates[level].selectedImages.push(imageData);
+                element.classList.add('selected');
+            }
+            
+            updateTrainingProgress(level);
+        }
+
+        function updateTrainingProgress(level) {
+            const selectedCount = gameStates[level].selectedImages.length;
+            const totalImages = level === 'basic' ? 20 : 25;
+            
+            document.getElementById(level + 'SelectedCount').textContent = selectedCount;
+            document.getElementById(level + 'ProgressFill').style.width = `${(selectedCount / totalImages) * 100}%`;
+            
+            // Enable train button if enough images selected
+            const trainBtn = document.getElementById(level + 'TrainBtn');
+            trainBtn.disabled = selectedCount < (level === 'basic' ? 5 : 8);
+        }
+
+        function trainAI(level) {
+            const minImages = level === 'basic' ? 5 : 8;
+            if (gameStates[level].selectedImages.length < minImages) return;
+            
+            // Simulate AI training process
+            const brainIcon = document.getElementById(level + 'BrainIcon');
+            const brainStatus = document.getElementById(level + 'BrainStatus');
+            const accuracyDisplay = document.getElementById(level + 'AccuracyDisplay');
+            
+            const trainingText = level === 'basic' ? 'Melatih AI...' : 'Training Neural Network...';
+            brainStatus.textContent = trainingText;
+            brainIcon.style.animation = 'pulse 0.5s infinite';
+            
+            // Process training data
+            gameStates[level].trainingData = {};
+            gameStates[level].selectedImages.forEach(img => {
+                if (!gameStates[level].trainingData[img.category]) {
+                    gameStates[level].trainingData[img.category] = [];
+                }
+                gameStates[level].trainingData[img.category].push(img.emoji);
+            });
+            
+            setTimeout(() => {
+                gameStates[level].aiTrained = true;
+                const baseAccuracy = level === 'basic' ? 60 : 70;
+                const accuracy = Math.min(95, baseAccuracy + (gameStates[level].selectedImages.length * 2));
+                
+                const readyText = level === 'basic' ? 'AI siap digunakan!' : 'Neural Network ready!';
+                brainStatus.textContent = readyText;
+                accuracyDisplay.textContent = `${accuracy}%`;
+                brainIcon.style.animation = 'pulse 2s infinite';
+                
+                document.getElementById(level + 'TestBtn').disabled = false;
+                document.getElementById(level + 'PostTestBtn').disabled = false;
+                updateStats(level);
+            }, level === 'basic' ? 2000 : 3000);
+        }
+
+        function generateTestImage(level) {
+            if (!gameStates[level].aiTrained) return;
+            
+            const testArea = document.getElementById(level + 'TestArea');
+            const testImage = document.getElementById(level + 'TestImage');
+            
+            testArea.classList.add('active');
+            
+            // Select random image from any category
+            const categories = level === 'basic' ? basicImageCategories : advancedImageCategories;
+            const allCategories = Object.keys(categories);
+            const randomCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+            const randomEmoji = categories[randomCategory][Math.floor(Math.random() * categories[randomCategory].length)];
+            
+            testImage.textContent = randomEmoji;
+            
+            // Simulate AI prediction
+            setTimeout(() => {
+                const predictions = generatePredictions(randomEmoji, randomCategory, level);
+                displayPredictions(predictions, randomCategory, level);
+                gameStates[level].totalTests++;
+                updateStats(level);
+            }, 1000);
+        }
+
+        function generatePredictions(emoji, actualCategory, level) {
+            const predictions = [];
+            const categories = Object.keys(gameStates[level].trainingData);
+            
+            categories.forEach(category => {
+                let confidence;
+                if (category === actualCategory && gameStates[level].trainingData[category].includes(emoji)) {
+                    // High confidence for correct category with trained data
+                    const baseConfidence = level === 'basic' ? 75 : 80;
+                    confidence = Math.random() * 15 + baseConfidence; // 75-90% or 80-95%
+                } else if (category === actualCategory) {
+                    // Medium confidence for correct category but untrained data
+                    const baseConfidence = level === 'basic' ? 40 : 50;
+                    confidence = Math.random() * 30 + baseConfidence; // 40-70% or 50-80%
+                } else {
+                    // Low confidence for wrong categories
+                    confidence = Math.random() * 25 + 5; // 5-30%
+                }
+                
+                predictions.push({
+                    category: category,
+                    confidence: Math.round(confidence),
+                    emoji: getRandomEmojiFromCategory(category, level)
+                });
+            });
+            
+            return predictions.sort((a, b) => b.confidence - a.confidence);
+        }
+
+        function getRandomEmojiFromCategory(category, level) {
+            if (level === 'basic') {
+                const categoryEmojis = {
+                    animals: '🐾',
+                    food: '🍎',
+                    transport: '🚗',
+                    nature: '🌳'
+                };
+                return categoryEmojis[category] || '❓';
+            } else {
+                const categoryEmojis = {
+                    people: '👥',
+                    buildings: '🏢',
+                    vehicles: '🚙',
+                    objects: '📱'
+                };
+                return categoryEmojis[category] || '❓';
+            }
+        }
+
+        function displayPredictions(predictions, actualCategory, level) {
+            const predictionResults = document.getElementById(level + 'PredictionResults');
+            const predictionsDiv = document.getElementById(level + 'Predictions');
+            
+            predictionsDiv.innerHTML = '';
+            
+            predictions.forEach((pred, index) => {
+                const predDiv = document.createElement('div');
+                predDiv.className = 'prediction-item';
+                
+                const isCorrect = pred.category === actualCategory;
+                const resultIcon = isCorrect ? '✅' : '❌';
+                
+                predDiv.innerHTML = `
+                    <span>${pred.emoji} ${pred.category.charAt(0).toUpperCase() + pred.category.slice(1)} ${resultIcon}</span>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${pred.confidence}%"></div>
+                    </div>
+                    <span>${pred.confidence}%</span>
+                `;
+                
+                predictionsDiv.appendChild(predDiv);
+            });
+            
+            predictionResults.style.display = 'block';
+            
+            // Record test result
+            const topPrediction = predictions[0];
+            const isCorrect = topPrediction.category === actualCategory;
+            gameStates[level].testResults.push({ correct: isCorrect, confidence: topPrediction.confidence });
+        }
+
+        function resetTraining(level) {
+            gameStates[level].selectedImages = [];
+            gameStates[level].aiTrained = false;
+            gameStates[level].trainingData = {};
+            gameStates[level].testResults = [];
+            gameStates[level].totalTests = 0;
+            
+            document.querySelectorAll(`#${level}Page .training-image`).forEach(img => img.classList.remove('selected'));
+            document.getElementById(level + 'TrainBtn').disabled = true;
+            document.getElementById(level + 'TestBtn').disabled = true;
+            document.getElementById(level + 'PostTestBtn').disabled = true;
+            
+            const statusText = level === 'basic' ? 'AI belum dilatih' : 'Neural Network belum dilatih';
+            document.getElementById(level + 'BrainStatus').textContent = statusText;
+            document.getElementById(level + 'AccuracyDisplay').textContent = '0%';
+            document.getElementById(level + 'PredictionResults').style.display = 'none';
+            document.getElementById(level + 'TestImage').textContent = '❓';
+            document.getElementById(level + 'TestArea').classList.remove('active');
+            
+            updateTrainingProgress(level);
+            updateStats(level);
+        }
+
+        function restartAll(level) {
+            if (confirm('Apakah Anda yakin ingin memulai ulang semua proses pembelajaran? Semua progress akan hilang.')) {
+                // Reset to initial state
+                gameStates[level] = {
+                    selectedImages: [],
+                    currentCategory: level === 'basic' ? 'animals' : 'people',
+                    aiTrained: false,
+                    trainingData: {},
+                    testResults: [],
+                    totalTests: 0
+                };
+                
+                // Reset UI
+                const page = document.getElementById(level + 'Page');
+                page.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                page.querySelector('.category-btn').classList.add('active');
+                
+                resetTraining(level);
+                updateImageGrid(level);
+                
+                alert('Semua data telah direset. Anda dapat memulai pembelajaran dari awal!');
+            }
+        }
+
+        function showInfo(tab, level) {
+            const page = document.getElementById(level + 'Page');
+            page.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
+            page.querySelectorAll('.info-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(level + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        }
+
+        function updateStats(level) {
+            document.getElementById(level + 'TotalTrainingData').textContent = gameStates[level].selectedImages.length;
+            document.getElementById(level + 'CategoriesUsed').textContent = Object.keys(gameStates[level].trainingData).length;
+            document.getElementById(level + 'TestCount').textContent = gameStates[level].totalTests;
+            
+            if (gameStates[level].testResults.length > 0) {
+                const correctTests = gameStates[level].testResults.filter(r => r.correct).length;
+                const avgAccuracy = Math.round((correctTests / gameStates[level].testResults.length) * 100);
+                document.getElementById(level + 'AvgAccuracy').textContent = `${avgAccuracy}%`;
+            } else {
+                document.getElementById(level + 'AvgAccuracy').textContent = '0%';
+            }
+        }
+
+        function startPostTest(level) {
+            if (!gameStates[level].aiTrained) return;
+            
+            currentTestLevel = level;
+            postTestQuestions = level === 'basic' ? [...basicQuestions] : [...advancedQuestions];
+            currentQuestionIndex = 0;
+            selectedAnswer = null;
+            postTestScore = 0;
+            
+            const modalTitle = level === 'basic' ? '📝 Post Test - Level Dasar' : '📝 Advanced Test - Level Mahir';
+            document.getElementById('modalTitle').textContent = modalTitle;
+            document.getElementById('totalQuestions').textContent = postTestQuestions.length;
+            document.getElementById('maxScore').textContent = postTestQuestions.length;
+            
+            document.getElementById('postTestModal').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = postTestQuestions[currentQuestionIndex];
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('testProgress').style.width = `${((currentQuestionIndex + 1) / postTestQuestions.length) * 100}%`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('questionOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectOption(index, optionDiv);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('nextBtn').disabled = true;
+            selectedAnswer = null;
+        }
+
+        function selectOption(index, element) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Select current option
+            element.classList.add('selected');
+            selectedAnswer = index;
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+            
+            const question = postTestQuestions[currentQuestionIndex];
+            const isCorrect = selectedAnswer === question.correct;
+            
+            if (isCorrect) {
+                postTestScore++;
+            }
+            
+            // Show correct/incorrect feedback
+            const options = document.querySelectorAll('.option');
+            options[question.correct].classList.add('correct');
+            if (!isCorrect) {
+                options[selectedAnswer].classList.add('incorrect');
+            }
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                
+                if (currentQuestionIndex < postTestQuestions.length) {
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500);
+        }
+
+        function showResults() {
+            document.querySelector('.modal-body').style.display = 'none';
+            document.getElementById('testResults').style.display = 'block';
+            
+            const percentage = Math.round((postTestScore / postTestQuestions.length) * 100);
+            
+            document.getElementById('finalScore').textContent = postTestScore;
+            document.getElementById('scorePercentage').textContent = `${percentage}%`;
+            
+            let message = '';
+            if (currentTestLevel === 'basic') {
+                if (percentage >= 80) {
+                    message = '🎉 Excellent! Kamu sangat memahami konsep dasar AI Image Recognition!';
+                } else if (percentage >= 60) {
+                    message = '👍 Good job! Kamu sudah memahami dasar-dasar AI dengan baik!';
+                } else if (percentage >= 40) {
+                    message = '📚 Keep learning! Coba pelajari lagi materi tentang AI Image Recognition.';
+                } else {
+                    message = '💪 Don\'t give up! Ulangi pembelajaran dan coba lagi!';
+                }
+            } else {
+                if (percentage >= 80) {
+                    message = '🚀 Outstanding! Kamu menguasai konsep Deep Learning dengan sangat baik!';
+                } else if (percentage >= 60) {
+                    message = '🧠 Great work! Pemahaman Neural Networks kamu sudah solid!';
+                } else if (percentage >= 40) {
+                    message = '⚡ Good effort! Pelajari lagi konsep Deep Learning untuk hasil yang lebih baik.';
+                } else {
+                    message = '🔥 Keep pushing! Deep Learning memang challenging, tapi kamu pasti bisa!';
+                }
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function closePostTest() {
+            document.getElementById('postTestModal').style.display = 'none';
+            document.querySelector('.modal-body').style.display = 'block';
+            document.getElementById('testResults').style.display = 'none';
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983ad238d25d0cce',t:'MTc1ODYzODY3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
