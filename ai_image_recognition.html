@@ -18,6 +18,90 @@
             overflow-x: hidden;
         }
 
+        /* Government Header */
+        .government-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 15px 0;
+            border-bottom: 3px solid #FFD93D;
+        }
+
+        .gov-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .tut-wuri-logo {
+            content:logotut.png;
+            width: 60px;
+            height: 60px;
+            background: #FFD93D;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #1e3c72;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .gov-text {
+            color: white;
+        }
+
+        .gov-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .gov-subtitle {
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 3px solid #FFD93D;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFD93D;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .developer-credit {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+
         /* Home Page Styles */
         .home-page {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1791,11 +1875,24 @@
     </style>
 </head>
 <body>
+    <!-- Government Header -->
+    <div class="government-header">
+        <div class="gov-container">
+            <div class="tut-wuri-logo">
+                🎓
+            </div>
+            <div class="gov-text">
+                <h1 class="gov-title">Kementerian Pendidikan Dasar dan Menengah</h1>
+                <p class="gov-subtitle">Republik Indonesia</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Home Page -->
     <div id="homePage" class="page home-page active">
         <div class="container">
             <div class="nav-bar">
-                <div class="logo">Kanal Belajar KA by Ibnu Syifa</div>
+                <div class="logo">🤖 Platform Pembelajaran KA by Ibnu Syifa</div>
                 <div class="nav-buttons">
                     <a href="#" class="nav-btn active" onclick="showPage('home')">Beranda</a>
                     <a href="#" class="nav-btn" onclick="showPage('intro')">Pengantar</a>
@@ -1803,8 +1900,8 @@
             </div>
 
             <div class="hero-section">
-                <h1 class="hero-title">🤖 AI Image Recognition</h1>
-                <p class="hero-subtitle">Pelajari bagaimana Artificial Intelligence mengenali gambar dengan pembelajaran interaktif</p>
+                <h1 class="hero-title">🤖 Pengenalan Gambar KA</h1>
+                <p class="hero-subtitle">Pelajari bagaimana Kecerdasan Artifisial mengenali gambar dengan pembelajaran interaktif</p>
                 
                 <div class="level-selection">
                     <div class="level-card" onclick="showPage('intro')">
@@ -1832,22 +1929,22 @@
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">🧠</div>
-                        <h3 class="feature-title">AI Training</h3>
-                        <p>Latih AI dengan data pilihan Anda dan lihat bagaimana akurasi meningkat</p>
+                        <h3 class="feature-title">Pelatihan KA</h3>
+                        <p>Latih KA dengan data pilihan Anda dan lihat bagaimana akurasi meningkat</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🎮</div>
                         <h3 class="feature-title">Interaktif</h3>
-                        <p>Pembelajaran hands-on dengan simulasi AI yang responsif dan menyenangkan</p>
+                        <p>Pembelajaran langsung dengan simulasi KA yang responsif dan menyenangkan</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📊</div>
-                        <h3 class="feature-title">Analisis Real-time</h3>
-                        <p>Pantau progress dan statistik pembelajaran secara langsung</p>
+                        <h3 class="feature-title">Analisis Waktu Nyata</h3>
+                        <p>Pantau kemajuan dan statistik pembelajaran secara langsung</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📝</div>
-                        <h3 class="feature-title">Post Test</h3>
+                        <h3 class="feature-title">Tes Akhir</h3>
                         <p>Uji pemahaman dengan kuis interaktif di setiap level</p>
                     </div>
                 </div>
@@ -1870,7 +1967,7 @@
 
             <div class="slide-container">
                 <div class="slide-header">
-                    <h1 class="slide-title">🤖 Pengantar Kecerdasan Buatan</h1>
+                    <h1 class="slide-title">🤖 Pengantar Kecerdasan Artifisial</h1>
                     <div class="slide-counter">
                         <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
                     </div>
@@ -1891,8 +1988,8 @@
                             </div>
                         </div>
                         <div class="slide-text">
-                            <h2>🌟 Apa itu Kecerdasan Buatan?</h2>
-                            <p>Kecerdasan Buatan (AI) adalah teknologi yang memungkinkan komputer untuk meniru kemampuan berpikir manusia seperti:</p>
+                            <h2>🌟 Apa itu Kecerdasan Artifisial?</h2>
+                            <p>Kecerdasan Artifisial (KA) adalah teknologi yang memungkinkan komputer untuk meniru kemampuan berpikir manusia seperti:</p>
                             <ul class="animated-list">
                                 <li>🧠 Belajar dari pengalaman</li>
                                 <li>🔍 Mengenali pola</li>
@@ -1900,7 +1997,7 @@
                                 <li>🗣️ Memahami bahasa</li>
                             </ul>
                             <div class="thinking-question">
-                                <p>💭 <strong>Pertanyaan Pemantik:</strong> Pernahkah kamu menggunakan AI dalam kehidupan sehari-hari?</p>
+                                <p>💭 <strong>Pertanyaan Pemantik:</strong> Pernahkah kamu menggunakan KA dalam kehidupan sehari-hari?</p>
                             </div>
                         </div>
                     </div>
@@ -1931,8 +2028,8 @@
                             </div>
                         </div>
                         <div class="slide-text">
-                            <h2>🌳 Cabang-cabang Kecerdasan Buatan</h2>
-                            <p>AI memiliki berbagai cabang yang fokus pada kemampuan berbeda:</p>
+                            <h2>🌳 Cabang-cabang Kecerdasan Artifisial</h2>
+                            <p>KA memiliki berbagai cabang yang fokus pada kemampuan berbeda:</p>
                             <div class="branch-descriptions">
                                 <div class="branch-desc">
                                     <span class="desc-icon">🧠</span>
@@ -2258,8 +2355,8 @@
             </div>
 
             <div class="header">
-                <h1>🤖 AI Image Recognition - Level Dasar</h1>
-                <p>Pelajari konsep dasar AI dengan emoji dan gambar sederhana. Pilih gambar, latih AI, dan lihat bagaimana akurasi meningkat!</p>
+                <h1>🤖 Pengenalan Gambar KA - Level Dasar</h1>
+                <p>Pelajari konsep dasar KA dengan emoji dan gambar sederhana. Pilih gambar, latih KA, dan lihat bagaimana akurasi meningkat!</p>
             </div>
 
             <div class="main-content">
@@ -2286,18 +2383,18 @@
                     </div>
 
                     <div class="control-buttons">
-                        <button class="btn btn-train" id="basicTrainBtn" onclick="trainAI('basic')" disabled>🧠 Latih AI</button>
+                        <button class="btn btn-train" id="basicTrainBtn" onclick="trainAI('basic')" disabled>🧠 Latih KA</button>
                         <button class="btn btn-reset" onclick="resetTraining('basic')">🔄 Reset</button>
                         <button class="btn btn-restart" onclick="restartAll('basic')">🔄 Mulai Ulang</button>
                     </div>
                 </div>
 
                 <div class="test-section">
-                    <h2 class="section-title">🎯 Test AI</h2>
+                    <h2 class="section-title">🎯 Tes KA</h2>
                     
                     <div class="ai-brain">
                         <div class="brain-icon" id="basicBrainIcon">🧠</div>
-                        <div class="brain-status" id="basicBrainStatus">AI belum dilatih</div>
+                        <div class="brain-status" id="basicBrainStatus">KA belum dilatih</div>
                         <div class="accuracy-display" id="basicAccuracyDisplay">0%</div>
                     </div>
 
@@ -2306,12 +2403,12 @@
                     </div>
 
                     <div class="control-buttons">
-                        <button class="btn btn-test" id="basicTestBtn" onclick="generateTestImage('basic')" disabled>🎲 Test Random</button>
-                        <button class="btn btn-posttest" id="basicPostTestBtn" onclick="startPostTest('basic')" disabled>📝 Post Test</button>
+                        <button class="btn btn-test" id="basicTestBtn" onclick="generateTestImage('basic')" disabled>🎲 Tes Acak</button>
+                        <button class="btn btn-posttest" id="basicPostTestBtn" onclick="startPostTest('basic')" disabled>📝 Tes Akhir</button>
                     </div>
 
                     <div class="prediction-results" id="basicPredictionResults" style="display: none;">
-                        <h3>Prediksi AI:</h3>
+                        <h3>Prediksi KA:</h3>
                         <div id="basicPredictions"></div>
                     </div>
                 </div>
@@ -2325,29 +2422,29 @@
                 </div>
 
                 <div class="info-content active" id="basicConcept">
-                    <h3>Apa itu Image Recognition?</h3>
-                    <p>Image Recognition adalah kemampuan AI untuk mengidentifikasi dan mengklasifikasi objek dalam gambar. AI belajar dari data training yang kita berikan, kemudian menggunakan pola yang dipelajari untuk mengenali gambar baru.</p>
+                    <h3>Apa itu Pengenalan Gambar?</h3>
+                    <p>Pengenalan Gambar adalah kemampuan KA untuk mengidentifikasi dan mengklasifikasi objek dalam gambar. KA belajar dari data pelatihan yang kita berikan, kemudian menggunakan pola yang dipelajari untuk mengenali gambar baru.</p>
                     <br>
                     <p><strong>Langkah-langkah:</strong></p>
-                    <p>1. Pilih kategori gambar yang ingin diajarkan ke AI</p>
-                    <p>2. Klik gambar-gambar untuk menambahkannya ke data training</p>
-                    <p>3. Latih AI dengan menekan tombol "Latih AI"</p>
-                    <p>4. Test AI dengan gambar random untuk melihat akurasi</p>
+                    <p>1. Pilih kategori gambar yang ingin diajarkan ke KA</p>
+                    <p>2. Klik gambar-gambar untuk menambahkannya ke data pelatihan</p>
+                    <p>3. Latih KA dengan menekan tombol "Latih KA"</p>
+                    <p>4. Tes KA dengan gambar acak untuk melihat akurasi</p>
                 </div>
 
                 <div class="info-content" id="basicProcess">
-                    <h3>Bagaimana AI Belajar?</h3>
-                    <p>AI menggunakan algoritma machine learning untuk mengenali pola dalam data training. Semakin banyak dan beragam data yang diberikan, semakin akurat AI dalam mengenali gambar baru.</p>
+                    <h3>Bagaimana KA Belajar?</h3>
+                    <p>KA menggunakan algoritma pembelajaran mesin untuk mengenali pola dalam data pelatihan. Semakin banyak dan beragam data yang diberikan, semakin akurat KA dalam mengenali gambar baru.</p>
                     <br>
                     <p><strong>Faktor yang mempengaruhi akurasi:</strong></p>
-                    <p>• Jumlah data training</p>
+                    <p>• Jumlah data pelatihan</p>
                     <p>• Keberagaman data</p>
                     <p>• Kualitas data</p>
-                    <p>• Kompleksitas model AI</p>
+                    <p>• Kompleksitas model KA</p>
                 </div>
 
                 <div class="info-content" id="basicStats">
-                    <h3>Statistik Training</h3>
+                    <h3>Statistik Pelatihan</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-number" id="basicTotalTrainingData">0</div>
@@ -2359,7 +2456,7 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-number" id="basicTestCount">0</div>
-                            <div class="stat-label">Test Dilakukan</div>
+                            <div class="stat-label">Tes Dilakukan</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-number" id="basicAvgAccuracy">0%</div>
@@ -3172,5 +3269,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983afdf88463fd83',t:'MTc1ODY0MDQ3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983b1e196607fda2',t:'MTc1ODY0MTc4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
