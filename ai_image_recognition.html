@@ -2608,7 +2608,7 @@
                     </div>
                 </div>
                 <div class="test-controls">
-                    <button class="btn btn-test" id="nextBtn" onclick="nextQuestion()" disabled>Selanjutnya</button>
+                    <button class="btn btn-test" id="nextQuestionBtn" onclick="nextQuestion()" disabled>Selanjutnya</button>
                 </div>
             </div>
             <div class="test-results" id="testResults" style="display: none;">
@@ -3135,7 +3135,7 @@
                 optionsContainer.appendChild(optionDiv);
             });
             
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextQuestionBtn').disabled = true;
             selectedAnswer = null;
         }
 
@@ -3146,7 +3146,7 @@
             // Select current option
             element.classList.add('selected');
             selectedAnswer = index;
-            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('nextQuestionBtn').disabled = false;
         }
 
         function nextQuestion() {
@@ -3241,13 +3241,13 @@
             
             // Update navigation buttons
             document.getElementById('prevBtn').disabled = currentSlideIndex === 1;
-            document.getElementById('nextBtn').disabled = currentSlideIndex === totalSlides;
+            document.getElementById('nextQuestionBtn').disabled = currentSlideIndex === totalSlides;
             
             // Update button text for last slide
             if (currentSlideIndex === totalSlides) {
-                document.getElementById('nextBtn').textContent = 'Mulai Praktik →';
+                document.getElementById('nextQuestionBtn').textContent = 'Mulai Praktik →';
             } else {
-                document.getElementById('nextBtn').textContent = 'Selanjutnya →';
+                document.getElementById('nextQuestionBtn').textContent = 'Selanjutnya →';
             }
         }
 
