@@ -42,6 +42,25 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
+        /* Introduction Page Styles */
+        .intro-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="intro" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="150" cy="150" r="80" fill="url(%23intro)"/><circle cx="850" cy="200" r="120" fill="url(%23intro)"/><circle cx="200" cy="800" r="100" fill="url(%23intro)"/><circle cx="800" cy="700" r="90" fill="url(%23intro)"/></svg>') no-repeat center center;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
         /* Advanced Page Styles */
         .advanced-page {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
@@ -728,6 +747,904 @@
             margin-bottom: 30px;
         }
 
+        /* Slide Styles */
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .slide-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: white;
+        }
+
+        .slide-counter {
+            font-size: 1.2rem;
+            color: #FFD93D;
+            font-weight: bold;
+        }
+
+        .slide-content {
+            position: relative;
+            min-height: 600px;
+            margin-bottom: 40px;
+        }
+
+        .slide {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: grid;
+        }
+
+        .slide-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .slide-text {
+            color: white;
+        }
+
+        .slide-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #FFD93D;
+        }
+
+        .slide-text p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Slide Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* AI Brain Animation */
+        .ai-brain-animation {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .brain-core {
+            font-size: 8rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: brainPulse 2s infinite;
+        }
+
+        .neural-connections {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .connection {
+            position: absolute;
+            width: 4px;
+            height: 60px;
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            border-radius: 2px;
+            animation: connectionPulse 2s infinite;
+            animation-delay: var(--delay);
+        }
+
+        .connection:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            transform: rotate(45deg);
+        }
+
+        .connection:nth-child(2) {
+            top: 20%;
+            right: 20%;
+            transform: rotate(-45deg);
+        }
+
+        .connection:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            transform: rotate(-45deg);
+        }
+
+        .connection:nth-child(4) {
+            bottom: 20%;
+            right: 20%;
+            transform: rotate(45deg);
+        }
+
+        @keyframes brainPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes connectionPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* AI Tree Animation */
+        .ai-tree {
+            text-align: center;
+            width: 400px;
+        }
+
+        .tree-root {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FFD93D;
+            margin-bottom: 40px;
+            animation: treeGrow 1s ease-out;
+        }
+
+        .tree-branches {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .branch {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            animation: branchGrow 0.8s ease-out;
+            animation-delay: var(--delay);
+            animation-fill-mode: both;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .branch:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .branch-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .branch-label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        @keyframes treeGrow {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes branchGrow {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Vision Demo */
+        .vision-demo {
+            width: 350px;
+            height: 350px;
+            position: relative;
+        }
+
+        .camera-view {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #4ECDC4;
+        }
+
+        .camera-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            color: #4ECDC4;
+        }
+
+        .scanning-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #4ECDC4, transparent);
+            animation: scan 3s infinite;
+        }
+
+        .detected-objects {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .detection-box {
+            position: absolute;
+            font-size: 3rem;
+            border: 2px solid #4ECDC4;
+            border-radius: 10px;
+            padding: 10px;
+            background: rgba(78, 205, 196, 0.2);
+            animation: detectObject 1s ease-out;
+            animation-delay: var(--delay);
+            animation-fill-mode: both;
+        }
+
+        .detection-box:nth-child(3) {
+            top: 30%;
+            left: 20%;
+        }
+
+        .detection-box:nth-child(4) {
+            top: 50%;
+            right: 20%;
+        }
+
+        .detection-box:nth-child(5) {
+            bottom: 20%;
+            left: 40%;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: calc(100% - 3px); }
+        }
+
+        @keyframes detectObject {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Classification Demo */
+        .classification-demo {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .input-image {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .image-placeholder {
+            font-size: 4rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #FFD93D;
+            font-weight: bold;
+        }
+
+        .ai-processor {
+            text-align: center;
+        }
+
+        .processor-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            animation: processorThink 2s infinite;
+        }
+
+        .processing-dots {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .processing-dots span {
+            font-size: 1.5rem;
+            color: #4ECDC4;
+            animation: dotBlink 1.5s infinite;
+            animation-delay: var(--delay);
+        }
+
+        .output-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .label {
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            animation: labelAppear 1s ease-out;
+            animation-delay: 2s;
+            animation-fill-mode: both;
+        }
+
+        .high-confidence {
+            background: rgba(78, 205, 196, 0.3);
+            border: 2px solid #4ECDC4;
+            color: white;
+        }
+
+        .low-confidence {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes processorThink {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes dotBlink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes labelAppear {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animated Lists */
+        .animated-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .animated-list li {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #4ECDC4;
+            animation: listItemSlide 0.6s ease-out;
+            animation-delay: calc(var(--i, 0) * 0.2s);
+            animation-fill-mode: both;
+        }
+
+        .animated-list li:nth-child(1) { --i: 1; }
+        .animated-list li:nth-child(2) { --i: 2; }
+        .animated-list li:nth-child(3) { --i: 3; }
+        .animated-list li:nth-child(4) { --i: 4; }
+
+        @keyframes listItemSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Thinking Questions */
+        .thinking-question {
+            background: rgba(255, 215, 61, 0.2);
+            border: 2px solid #FFD93D;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            animation: questionGlow 3s infinite;
+        }
+
+        .thinking-question p {
+            margin: 0;
+            font-style: italic;
+        }
+
+        .final-question {
+            background: rgba(78, 205, 196, 0.2);
+            border-color: #4ECDC4;
+        }
+
+        @keyframes questionGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 61, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 215, 61, 0.6); }
+        }
+
+        /* Use Case Grids */
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 350px;
+        }
+
+        .use-case {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: useCaseFloat 2s ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        .use-case-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .use-case-label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        @keyframes useCaseFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Branch Descriptions */
+        .branch-descriptions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .branch-desc {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .desc-icon {
+            font-size: 2rem;
+        }
+
+        /* Capability Grid */
+        .capability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .capability {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cap-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .step-number {
+            background: #4ECDC4;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Real Examples */
+        .real-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .example {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #4ECDC4;
+            line-height: 1.6;
+        }
+
+        /* Social Media Demo */
+        .social-media-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-mockup {
+            width: 200px;
+            height: 350px;
+            background: #333;
+            border-radius: 25px;
+            padding: 20px;
+            border: 3px solid #666;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .photo {
+            width: 100%;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .photo-content {
+            font-size: 3rem;
+        }
+
+        .auto-tags {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(78, 205, 196, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Social Examples */
+        .social-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .social-example {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .social-desc {
+            line-height: 1.6;
+        }
+
+        /* Learning Process */
+        .learning-process {
+            width: 100%;
+        }
+
+        .data-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .data-input, .ai-learning, .ai-model {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-width: 120px;
+        }
+
+        .data-icon, .learning-icon, .model-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .data-label, .model-label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .learning-progress {
+            margin-top: 10px;
+        }
+
+        .learning-animation {
+            animation: learningProgress 3s infinite;
+        }
+
+        @keyframes learningProgress {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            100% { width: 0%; }
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: #FFD93D;
+            font-weight: bold;
+        }
+
+        /* Learning Steps */
+        .learning-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .learning-step {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            line-height: 1.6;
+        }
+
+        /* Practice Ready */
+        .practice-ready {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ready-animation {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .rocket {
+            font-size: 6rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rocketLaunch 3s infinite;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .stars span {
+            position: absolute;
+            font-size: 2rem;
+            animation: starTwinkle 2s infinite;
+            animation-delay: var(--delay);
+        }
+
+        .stars span:nth-child(1) {
+            top: 20%;
+            left: 20%;
+        }
+
+        .stars span:nth-child(2) {
+            top: 30%;
+            right: 20%;
+        }
+
+        .stars span:nth-child(3) {
+            bottom: 30%;
+            left: 30%;
+        }
+
+        .stars span:nth-child(4) {
+            bottom: 20%;
+            right: 30%;
+        }
+
+        @keyframes rocketLaunch {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2) rotate(10deg); }
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Next Steps */
+        .next-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .next-step {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .next-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .next-content {
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        /* Slide Controls */
+        .slide-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .slide-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .slide-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .slide-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-indicators {
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #FFD93D;
+            transform: scale(1.2);
+        }
+
+        .indicator:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -777,6 +1694,99 @@
             .control-buttons {
                 justify-content: center;
             }
+
+            /* Slide responsive styles */
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .slide {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .slide-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .slide-text p {
+                font-size: 1rem;
+            }
+
+            .slide-visual {
+                min-height: 250px;
+            }
+
+            .ai-brain-animation {
+                width: 200px;
+                height: 200px;
+            }
+
+            .brain-core {
+                font-size: 5rem;
+            }
+
+            .ai-tree {
+                width: 300px;
+            }
+
+            .tree-branches {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .vision-demo {
+                width: 250px;
+                height: 250px;
+            }
+
+            .classification-demo {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .use-case-grid {
+                grid-template-columns: 1fr;
+                width: 250px;
+            }
+
+            .data-flow {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .phone-mockup {
+                width: 150px;
+                height: 250px;
+            }
+
+            .ready-animation {
+                width: 200px;
+                height: 200px;
+            }
+
+            .rocket {
+                font-size: 4rem;
+            }
+
+            .slide-controls {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .slide-indicators {
+                order: -1;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -785,9 +1795,10 @@
     <div id="homePage" class="page home-page active">
         <div class="container">
             <div class="nav-bar">
-                <div class="logo">AI Learning Platform by Ibnu Syifa </div>
+                <div class="logo">Kanal Belajar KA by Ibnu Syifa</div>
                 <div class="nav-buttons">
                     <a href="#" class="nav-btn active" onclick="showPage('home')">Beranda</a>
+                    <a href="#" class="nav-btn" onclick="showPage('intro')">Pengantar</a>
                 </div>
             </div>
 
@@ -796,6 +1807,12 @@
                 <p class="hero-subtitle">Pelajari bagaimana Artificial Intelligence mengenali gambar dengan pembelajaran interaktif</p>
                 
                 <div class="level-selection">
+                    <div class="level-card" onclick="showPage('intro')">
+                        <span class="level-icon">📚</span>
+                        <h2 class="level-title">Materi Pengantar</h2>
+                        <p class="level-description">Pelajari konsep dasar Kecerdasan Buatan dan klasifikasi gambar melalui slide interaktif yang menarik dan mudah dipahami.</p>
+                    </div>
+                    
                     <div class="level-card" onclick="showPage('basic')">
                         <span class="level-icon">🎯</span>
                         <h2 class="level-title">Level Dasar</h2>
@@ -838,6 +1855,395 @@
         </div>
     </div>
 
+    <!-- Introduction Page -->
+    <div id="introPage" class="page intro-page">
+        <div class="container">
+            <div class="nav-bar">
+                <div class="logo">📚 Materi Pengantar</div>
+                <div class="nav-buttons">
+                    <a href="#" class="nav-btn" onclick="showPage('home')">Beranda</a>
+                    <a href="#" class="nav-btn active" onclick="showPage('intro')">Pengantar</a>
+                    <a href="#" class="nav-btn" onclick="showPage('basic')">Dasar</a>
+                    <a href="#" class="nav-btn" onclick="showPage('advanced')">Mahir</a>
+                </div>
+            </div>
+
+            <div class="slide-container">
+                <div class="slide-header">
+                    <h1 class="slide-title">🤖 Pengantar Kecerdasan Buatan</h1>
+                    <div class="slide-counter">
+                        <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+                    </div>
+                </div>
+
+                <div class="slide-content">
+                    <!-- Slide 1: Pengenalan AI -->
+                    <div class="slide active" id="slide1">
+                        <div class="slide-visual">
+                            <div class="ai-brain-animation">
+                                <div class="brain-core">🧠</div>
+                                <div class="neural-connections">
+                                    <div class="connection" style="--delay: 0s"></div>
+                                    <div class="connection" style="--delay: 0.5s"></div>
+                                    <div class="connection" style="--delay: 1s"></div>
+                                    <div class="connection" style="--delay: 1.5s"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>🌟 Apa itu Kecerdasan Buatan?</h2>
+                            <p>Kecerdasan Buatan (AI) adalah teknologi yang memungkinkan komputer untuk meniru kemampuan berpikir manusia seperti:</p>
+                            <ul class="animated-list">
+                                <li>🧠 Belajar dari pengalaman</li>
+                                <li>🔍 Mengenali pola</li>
+                                <li>🎯 Membuat keputusan</li>
+                                <li>🗣️ Memahami bahasa</li>
+                            </ul>
+                            <div class="thinking-question">
+                                <p>💭 <strong>Pertanyaan Pemantik:</strong> Pernahkah kamu menggunakan AI dalam kehidupan sehari-hari?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Cabang-cabang AI -->
+                    <div class="slide" id="slide2">
+                        <div class="slide-visual">
+                            <div class="ai-tree">
+                                <div class="tree-root">🤖 AI</div>
+                                <div class="tree-branches">
+                                    <div class="branch" style="--delay: 0s">
+                                        <div class="branch-icon">🧠</div>
+                                        <div class="branch-label">Machine Learning</div>
+                                    </div>
+                                    <div class="branch" style="--delay: 0.3s">
+                                        <div class="branch-icon">👁️</div>
+                                        <div class="branch-label">Computer Vision</div>
+                                    </div>
+                                    <div class="branch" style="--delay: 0.6s">
+                                        <div class="branch-icon">🗣️</div>
+                                        <div class="branch-label">Natural Language</div>
+                                    </div>
+                                    <div class="branch" style="--delay: 0.9s">
+                                        <div class="branch-icon">🤖</div>
+                                        <div class="branch-label">Robotics</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>🌳 Cabang-cabang Kecerdasan Buatan</h2>
+                            <p>AI memiliki berbagai cabang yang fokus pada kemampuan berbeda:</p>
+                            <div class="branch-descriptions">
+                                <div class="branch-desc">
+                                    <span class="desc-icon">🧠</span>
+                                    <strong>Machine Learning:</strong> Belajar dari data
+                                </div>
+                                <div class="branch-desc">
+                                    <span class="desc-icon">👁️</span>
+                                    <strong>Computer Vision:</strong> Memahami gambar & video
+                                </div>
+                                <div class="branch-desc">
+                                    <span class="desc-icon">🗣️</span>
+                                    <strong>Natural Language:</strong> Memahami bahasa manusia
+                                </div>
+                                <div class="branch-desc">
+                                    <span class="desc-icon">🤖</span>
+                                    <strong>Robotics:</strong> Menggerakkan mesin fisik
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Focus pada Computer Vision -->
+                    <div class="slide" id="slide3">
+                        <div class="slide-visual">
+                            <div class="vision-demo">
+                                <div class="camera-view">
+                                    <div class="camera-icon">📷</div>
+                                    <div class="scanning-line"></div>
+                                    <div class="detected-objects">
+                                        <div class="detection-box" style="--delay: 0.5s">🐕</div>
+                                        <div class="detection-box" style="--delay: 1s">🚗</div>
+                                        <div class="detection-box" style="--delay: 1.5s">🌳</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>👁️ Computer Vision: Mata Digital</h2>
+                            <p>Computer Vision adalah cabang AI yang memungkinkan komputer "melihat" dan memahami gambar seperti mata manusia.</p>
+                            <div class="capability-grid">
+                                <div class="capability">
+                                    <span class="cap-icon">🔍</span>
+                                    <span>Deteksi Objek</span>
+                                </div>
+                                <div class="capability">
+                                    <span class="cap-icon">👤</span>
+                                    <span>Pengenalan Wajah</span>
+                                </div>
+                                <div class="capability">
+                                    <span class="cap-icon">📝</span>
+                                    <span>Baca Teks</span>
+                                </div>
+                                <div class="capability">
+                                    <span class="cap-icon">🎨</span>
+                                    <span>Analisis Gambar</span>
+                                </div>
+                            </div>
+                            <div class="thinking-question">
+                                <p>💭 <strong>Coba Pikirkan:</strong> Bagaimana komputer bisa "melihat" tanpa mata?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Image Classification -->
+                    <div class="slide" id="slide4">
+                        <div class="slide-visual">
+                            <div class="classification-demo">
+                                <div class="input-image">
+                                    <div class="image-placeholder">🐱</div>
+                                    <div class="arrow">→</div>
+                                </div>
+                                <div class="ai-processor">
+                                    <div class="processor-icon">🧠</div>
+                                    <div class="processing-dots">
+                                        <span style="--delay: 0s">•</span>
+                                        <span style="--delay: 0.2s">•</span>
+                                        <span style="--delay: 0.4s">•</span>
+                                    </div>
+                                </div>
+                                <div class="output-labels">
+                                    <div class="label high-confidence">🐱 Kucing: 95%</div>
+                                    <div class="label low-confidence">🐕 Anjing: 3%</div>
+                                    <div class="label low-confidence">🐰 Kelinci: 2%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>🏷️ Klasifikasi Gambar</h2>
+                            <p>Klasifikasi gambar adalah kemampuan AI untuk mengenali dan memberi label pada objek dalam gambar.</p>
+                            <div class="process-steps">
+                                <div class="step">
+                                    <span class="step-number">1</span>
+                                    <span class="step-text">Input gambar ke sistem AI</span>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">2</span>
+                                    <span class="step-text">AI menganalisis fitur gambar</span>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">3</span>
+                                    <span class="step-text">Memberikan prediksi dengan tingkat kepercayaan</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5: Contoh Penggunaan 1 -->
+                    <div class="slide" id="slide5">
+                        <div class="slide-visual">
+                            <div class="use-case-grid">
+                                <div class="use-case" style="--delay: 0s">
+                                    <div class="use-case-icon">📱</div>
+                                    <div class="use-case-label">Foto Smartphone</div>
+                                </div>
+                                <div class="use-case" style="--delay: 0.3s">
+                                    <div class="use-case-icon">🏥</div>
+                                    <div class="use-case-label">Diagnosa Medis</div>
+                                </div>
+                                <div class="use-case" style="--delay: 0.6s">
+                                    <div class="use-case-icon">🚗</div>
+                                    <div class="use-case-label">Mobil Otonom</div>
+                                </div>
+                                <div class="use-case" style="--delay: 0.9s">
+                                    <div class="use-case-icon">🛒</div>
+                                    <div class="use-case-label">E-commerce</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>🌍 AI Klasifikasi Gambar di Kehidupan Nyata</h2>
+                            <p>Teknologi ini sudah ada di sekitar kita:</p>
+                            <div class="real-examples">
+                                <div class="example">
+                                    <strong>📱 Smartphone:</strong> Mengenali wajah untuk unlock, mengorganisir foto berdasarkan objek
+                                </div>
+                                <div class="example">
+                                    <strong>🏥 Kesehatan:</strong> Membantu dokter mendiagnosa penyakit dari foto rontgen atau CT scan
+                                </div>
+                                <div class="example">
+                                    <strong>🚗 Transportasi:</strong> Mobil self-driving mengenali rambu lalu lintas dan pejalan kaki
+                                </div>
+                                <div class="example">
+                                    <strong>🛒 Belanja Online:</strong> Pencarian produk dengan foto, rekomendasi berdasarkan gambar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6: Contoh Penggunaan 2 -->
+                    <div class="slide" id="slide6">
+                        <div class="slide-visual">
+                            <div class="social-media-demo">
+                                <div class="phone-mockup">
+                                    <div class="screen">
+                                        <div class="photo">
+                                            <span class="photo-content">📸</span>
+                                            <div class="auto-tags">
+                                                <span class="tag">#makanan</span>
+                                                <span class="tag">#pizza</span>
+                                                <span class="tag">#restoran</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>📱 AI di Media Sosial & Aplikasi</h2>
+                            <p>Setiap hari kita berinteraksi dengan AI klasifikasi gambar:</p>
+                            <div class="social-examples">
+                                <div class="social-example">
+                                    <span class="social-icon">📷</span>
+                                    <div class="social-desc">
+                                        <strong>Instagram & Facebook:</strong> Otomatis mendeteksi wajah teman untuk tag, filter AR yang mengenali wajah
+                                    </div>
+                                </div>
+                                <div class="social-example">
+                                    <span class="social-icon">🛍️</span>
+                                    <div class="social-desc">
+                                        <strong>Pinterest & Shopping:</strong> Mencari produk serupa dengan foto, visual search
+                                    </div>
+                                </div>
+                                <div class="social-example">
+                                    <span class="social-icon">🎵</span>
+                                    <div class="social-desc">
+                                        <strong>TikTok & Snapchat:</strong> Filter wajah, efek AR, deteksi gerakan
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thinking-question">
+                                <p>💭 <strong>Refleksi:</strong> Aplikasi mana yang paling sering kamu gunakan yang menggunakan AI?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 7: Bagaimana AI Belajar -->
+                    <div class="slide" id="slide7">
+                        <div class="slide-visual">
+                            <div class="learning-process">
+                                <div class="data-flow">
+                                    <div class="data-input">
+                                        <div class="data-icon">📊</div>
+                                        <div class="data-label">Data Training</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="ai-learning">
+                                        <div class="learning-icon">🧠</div>
+                                        <div class="learning-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill learning-animation"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="ai-model">
+                                        <div class="model-icon">🎯</div>
+                                        <div class="model-label">Model Terlatih</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>📚 Bagaimana AI Belajar Mengenali Gambar?</h2>
+                            <p>Proses pembelajaran AI mirip dengan cara manusia belajar:</p>
+                            <div class="learning-steps">
+                                <div class="learning-step">
+                                    <span class="step-icon">👀</span>
+                                    <div class="step-content">
+                                        <strong>Melihat Banyak Contoh:</strong> AI dilatih dengan ribuan gambar berlabel
+                                    </div>
+                                </div>
+                                <div class="learning-step">
+                                    <span class="step-icon">🧩</span>
+                                    <div class="step-content">
+                                        <strong>Mencari Pola:</strong> AI mencari kesamaan dalam setiap kategori gambar
+                                    </div>
+                                </div>
+                                <div class="learning-step">
+                                    <span class="step-icon">🎯</span>
+                                    <div class="step-content">
+                                        <strong>Membuat Prediksi:</strong> AI menggunakan pola yang dipelajari untuk gambar baru
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thinking-question">
+                                <p>💭 <strong>Analogi:</strong> Bagaimana cara kamu belajar mengenali wajah teman baru?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 8: Siap Praktik -->
+                    <div class="slide" id="slide8">
+                        <div class="slide-visual">
+                            <div class="practice-ready">
+                                <div class="ready-animation">
+                                    <div class="rocket">🚀</div>
+                                    <div class="stars">
+                                        <span style="--delay: 0s">⭐</span>
+                                        <span style="--delay: 0.3s">✨</span>
+                                        <span style="--delay: 0.6s">⭐</span>
+                                        <span style="--delay: 0.9s">✨</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-text">
+                            <h2>🎉 Siap untuk Praktik Langsung?</h2>
+                            <p>Sekarang kamu sudah memahami dasar-dasar AI klasifikasi gambar! Saatnya mencoba sendiri:</p>
+                            <div class="next-steps">
+                                <div class="next-step">
+                                    <span class="next-icon">🎯</span>
+                                    <div class="next-content">
+                                        <strong>Level Dasar:</strong> Mulai dengan emoji dan konsep sederhana
+                                    </div>
+                                </div>
+                                <div class="next-step">
+                                    <span class="next-icon">🚀</span>
+                                    <div class="next-content">
+                                        <strong>Level Mahir:</strong> Lanjut ke foto nyata dan algoritma kompleks
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-train" onclick="showPage('basic')">🎯 Mulai Level Dasar</button>
+                                <button class="btn btn-test" onclick="showPage('advanced')">🚀 Langsung ke Level Mahir</button>
+                            </div>
+                            <div class="thinking-question final-question">
+                                <p>💭 <strong>Tantangan:</strong> Setelah belajar, coba pikirkan ide aplikasi AI klasifikasi gambar yang bisa membantu kehidupan sehari-hari!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-controls">
+                    <button class="slide-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Sebelumnya</button>
+                    <div class="slide-indicators">
+                        <span class="indicator active" onclick="goToSlide(1)"></span>
+                        <span class="indicator" onclick="goToSlide(2)"></span>
+                        <span class="indicator" onclick="goToSlide(3)"></span>
+                        <span class="indicator" onclick="goToSlide(4)"></span>
+                        <span class="indicator" onclick="goToSlide(5)"></span>
+                        <span class="indicator" onclick="goToSlide(6)"></span>
+                        <span class="indicator" onclick="goToSlide(7)"></span>
+                        <span class="indicator" onclick="goToSlide(8)"></span>
+                    </div>
+                    <button class="slide-btn" id="nextBtn" onclick="changeSlide(1)">Selanjutnya →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Basic Level Page -->
     <div id="basicPage" class="page basic-page">
         <div class="container">
@@ -845,6 +2251,7 @@
                 <div class="logo">🎯 Level Dasar</div>
                 <div class="nav-buttons">
                     <a href="#" class="nav-btn" onclick="showPage('home')">Beranda</a>
+                    <a href="#" class="nav-btn" onclick="showPage('intro')">Pengantar</a>
                     <a href="#" class="nav-btn active" onclick="showPage('basic')">Dasar</a>
                     <a href="#" class="nav-btn" onclick="showPage('advanced')">Mahir</a>
                 </div>
@@ -971,6 +2378,7 @@
                 <div class="logo">🚀 Level Mahir</div>
                 <div class="nav-buttons">
                     <a href="#" class="nav-btn" onclick="showPage('home')">Beranda</a>
+                    <a href="#" class="nav-btn" onclick="showPage('intro')">Pengantar</a>
                     <a href="#" class="nav-btn" onclick="showPage('basic')">Dasar</a>
                     <a href="#" class="nav-btn active" onclick="showPage('advanced')">Mahir</a>
                 </div>
@@ -1131,6 +2539,8 @@
     <script>
         // Global variables
         let currentPage = 'home';
+        let currentSlideIndex = 1;
+        let totalSlides = 8;
         let gameStates = {
             basic: {
                 selectedImages: [],
@@ -1297,7 +2707,13 @@
             });
             
             // Initialize page if needed
-            if (pageId === 'basic') {
+            if (pageId === 'intro') {
+                // Reset slide to first slide when entering intro page
+                currentSlideIndex = 1;
+                if (document.getElementById('slide1')) {
+                    goToSlide(1);
+                }
+            } else if (pageId === 'basic') {
                 updateImageGrid('basic');
                 updateTrainingProgress('basic');
                 updateStats('basic');
@@ -1713,10 +3129,48 @@
             document.getElementById('testResults').style.display = 'none';
         }
 
+        // Slide navigation functions
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 1 && newIndex <= totalSlides) {
+                goToSlide(newIndex);
+            }
+        }
+
+        function goToSlide(slideNumber) {
+            // Hide current slide
+            document.getElementById(`slide${currentSlideIndex}`).classList.remove('active');
+            document.querySelectorAll('.indicator')[currentSlideIndex - 1].classList.remove('active');
+            
+            // Show new slide
+            currentSlideIndex = slideNumber;
+            document.getElementById(`slide${currentSlideIndex}`).classList.add('active');
+            document.querySelectorAll('.indicator')[currentSlideIndex - 1].classList.add('active');
+            
+            // Update slide counter
+            document.getElementById('currentSlide').textContent = currentSlideIndex;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlideIndex === 1;
+            document.getElementById('nextBtn').disabled = currentSlideIndex === totalSlides;
+            
+            // Update button text for last slide
+            if (currentSlideIndex === totalSlides) {
+                document.getElementById('nextBtn').textContent = 'Mulai Praktik →';
+            } else {
+                document.getElementById('nextBtn').textContent = 'Selanjutnya →';
+            }
+        }
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             showPage('home');
+            
+            // Initialize slide navigation
+            if (document.getElementById('slide1')) {
+                goToSlide(1);
+            }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983ad238d25d0cce',t:'MTc1ODYzODY3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983afdf88463fd83',t:'MTc1ODY0MDQ3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
