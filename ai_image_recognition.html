@@ -19,6 +19,46 @@
             overflow-x: hidden;
         }
 
+        /* --- Pengaturan SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed; /* Membuatnya tetap di atas semua elemen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* Latar belakang putih */
+            display: flex; /* Untuk memposisikan gambar di tengah */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Memastikan ini adalah elemen paling atas */
+            opacity: 1; /* Awalnya terlihat penuh */
+            transition: opacity 1s ease-out; /* Durasi efek fade-out (1 detik) */
+        }
+
+        #splash-screen img {
+            max-width: 90%; /* Sesuaikan ukuran gambar agar responsif */
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        /* --- Pengaturan KONTEN UTAMA --- */
+        #main-content {
+            padding: 20px;
+        }
+
+        /* Kelas untuk menyembunyikan/memperlihatkan */
+        .hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        /* Kelas yang akan ditambahkan setelah fade-out selesai */
+        .visible-content {
+            display: block !important;
+            opacity: 1;
+            transition: opacity 1s ease-in; /* Efek fade-in untuk konten utama */
+        }
+        
         /* Government Header */
         .government-header {
             background: linear-gradient(135deg, #fafafa 0%, #fafafa 100%);
@@ -1874,6 +1914,11 @@
     </style>
 </head>
 <body>
+    <!-- Splash Screen -->
+     <div id="splash-screen" class="visible">
+        <img src="../SplashScreenRevisi.png" alt="Gambar Pembuka">
+    </div>
+    
     <!-- Government Header -->
     <div class="government-header">
         <div class="gov-container">
@@ -3250,8 +3295,7 @@
                 document.getElementById('nextQuestionBtn').textContent = 'Selanjutnya →';
             }
         }
-
-        // Initialize the application
+        // Initialize the application - Splash Screen
         document.addEventListener('DOMContentLoaded', function() {
             showPage('home');
             
@@ -3260,6 +3304,34 @@
                 goToSlide(1);
             }
         });
+        document.addEventListener("DOMContentLoaded", function() {
+            const splashScreen = document.getElementById('splash-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            // Waktu tampil Splash Screen sebelum Fade Out (3 detik)
+            const displayDuration = 3000; 
+            
+            // Durasi efek Fade Out (1 detik) - harus sama dengan nilai 'transition' di CSS
+            const fadeDuration = 1000; 
+
+            // Timer untuk memulai FADE OUT setelah displayDuration (3 detik)
+            setTimeout(() => {
+                // 1. Mulai transisi fade out (opacity 1 -> 0)
+                splashScreen.style.opacity = '0';
+                
+                // 2. Timer untuk menyembunyikan elemen setelah transisi selesai
+                setTimeout(() => {
+                    // Sembunyikan splash screen sepenuhnya
+                    splashScreen.style.display = 'none';
+                    
+                    // Tampilkan konten utama dengan efek fade-in
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('visible-content');
+
+                }, fadeDuration); // Tunggu 1 detik agar transisi CSS selesai
+
+            }, displayDuration); // Tunggu 3 detik sebelum aksi dimulai
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983b1e196607fda2',t:'MTc1ODY0MTc4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
