@@ -2,13 +2,58 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembelajaran Sistem Komputer - Kelas 10</title>
+            <link rel="icon" href="../logotut.png" type="image/x-icon">
+    <title>Sistem Komputer Fase E</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            box-sizing: border-box;
+        }
         
+        /* --- Pengaturan SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed; /* Membuatnya tetap di atas semua elemen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* Latar belakang putih */
+            display: flex; /* Untuk memposisikan gambar di tengah */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Memastikan ini adalah elemen paling atas */
+            opacity: 1; /* Awalnya terlihat penuh */
+            transition: opacity 1s ease-out; /* Durasi efek fade-out (1 detik) */
+        }
+
+        #splash-screen img {
+            max-width: 90%; /* Sesuaikan ukuran gambar agar responsif */
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        /* --- Pengaturan KONTEN UTAMA --- */
+        #main-content {
+            padding: 20px;
+        }
+
+        /* Kelas untuk menyembunyikan/memperlihatkan */
+        .hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        /* Kelas yang akan ditambahkan setelah fade-out selesai */
+        .visible-content {
+            display: block !important;
+            opacity: 1;
+            transition: opacity 1s ease-in; /* Efek fade-in untuk konten utama */
+        }
+
         .slide-enter {
             transform: translateX(100%);
             opacity: 0;
@@ -67,28 +112,117 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+
+        .data-flow {
+            animation: dataFlow 3s ease-in-out infinite;
+        }
+
+        @keyframes dataFlow {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        .typing-animation {
+            border-right: 2px solid #3b82f6;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #3b82f6; }
+        }
+
+        .memory-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .binary-digit {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .binary-digit:hover {
+            transform: scale(1.1);
+        }
+                /* Government Header */
+        .government-header {
+            background: linear-gradient(135deg, #fafafa 0%, #fafafa 100%);
+            padding: 15px 0;
+            border-bottom: 3px solid #FFD93D;
+        }
+
+        .gov-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .tut-wuri-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #1e3c72;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .gov-text {
+            color: black;
+        }
+
+        .gov-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .gov-subtitle {
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+
+    <!-- Splash Screen -->
+     <div id="splash-screen" class="visible">
+        <img src="../SplashScreenRevisi.png" alt="Gambar Pembuka">
+    </div>
+
     <!-- Header -->
-    <header class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-6">
-                <div class="flex items-center">
-                    <div class="bg-blue-600 text-white p-3 rounded-lg mr-4">
-                        💻
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Sistem Komputer</h1>
-                        <p class="text-gray-600">Pembelajaran Interaktif Kelas 10</p>
-                    </div>
-                </div>
-                <button onclick="goHome()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    🏠 Beranda
-                </button>
+    <!-- Government Header -->
+    <div class="government-header">
+        <div class="gov-container">
+            <div class="tut-wuri-logo">
+                <img src="../logotut.png" width="55" height="55">
+            </div>
+            <div class="gov-text">
+                <!--<h1 class="gov-title">Kementerian Pendidikan Dasar dan Menengah</h1>-->
+                <p class="gov-subtitle">KEMENTERIAN</p>
+                <p class="gov-subtitle">PENDIDIKAN DASAR</p>
+                <p class="gov-subtitle">DAN MENENGAH</p>
             </div>
         </div>
-    </header>
+    </div>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -101,37 +235,37 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Menu 1: Materi Pengantar -->
-                <div class="game-card bg-white rounded-xl shadow-lg p-8 text-center cursor-pointer" onclick="showPage('materi-pengantar')">
-                    <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-4xl">📚</span>
+                <div class="game-card bg-gradient-to-br from-green-400 to-green-600 rounded-full shadow-2xl p-12 text-center cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="navigateToPage('materi-pengantar')">
+                    <div class="bg-white w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span class="text-5xl">📚</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Materi Pengantar</h3>
-                    <p class="text-gray-600 mb-6">Pelajari konsep dasar sistem komputer melalui slide interaktif yang mudah dipahami</p>
-                    <div class="bg-green-600 text-white px-6 py-3 rounded-lg inline-block">
+                    <h3 class="text-2xl font-bold text-white mb-4">Materi Pengantar</h3>
+                    <p class="text-green-100 mb-6">Pelajari konsep dasar sistem komputer melalui slide interaktif yang mudah dipahami</p>
+                    <div class="bg-white text-green-600 px-8 py-4 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
                         Mulai Belajar →
                     </div>
                 </div>
 
                 <!-- Menu 2: Komponen Komputer -->
-                <div class="game-card bg-white rounded-xl shadow-lg p-8 text-center cursor-pointer" onclick="showPage('komponen-komputer')">
-                    <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-4xl">🔧</span>
+                <div class="game-card bg-gradient-to-br from-purple-400 to-purple-600 rounded-full shadow-2xl p-12 text-center cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="navigateToPage('komponen-komputer')">
+                    <div class="bg-white w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span class="text-5xl">🔧</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Komponen Komputer</h3>
-                    <p class="text-gray-600 mb-6">Mainkan game drag & drop untuk mengenal perangkat komputer terbaru</p>
-                    <div class="bg-purple-600 text-white px-6 py-3 rounded-lg inline-block">
+                    <h3 class="text-2xl font-bold text-white mb-4">Komponen Komputer</h3>
+                    <p class="text-purple-100 mb-6">Mainkan game drag & drop untuk mengenal perangkat komputer terbaru</p>
+                    <div class="bg-white text-purple-600 px-8 py-4 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
                         Main Game →
                     </div>
                 </div>
 
                 <!-- Menu 3: Bagaimana Komputer Bekerja -->
-                <div class="game-card bg-white rounded-xl shadow-lg p-8 text-center cursor-pointer" onclick="showPage('cara-kerja')">
-                    <div class="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-4xl">⚡</span>
+                <div class="game-card bg-gradient-to-br from-orange-400 to-orange-600 rounded-full shadow-2xl p-12 text-center cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="navigateToPage('cara-kerja')">
+                    <div class="bg-white w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span class="text-5xl">⚡</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Cara Kerja Komputer</h3>
-                    <p class="text-gray-600 mb-6">Pahami proses kerja komputer melalui simulasi interaktif yang menarik</p>
-                    <div class="bg-orange-600 text-white px-6 py-3 rounded-lg inline-block">
+                    <h3 class="text-2xl font-bold text-white mb-4">Cara Kerja Komputer</h3>
+                    <p class="text-orange-100 mb-6">Pahami proses kerja komputer melalui simulasi interaktif yang menarik</p>
+                    <div class="bg-white text-orange-600 px-8 py-4 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
                         Jelajahi →
                     </div>
                 </div>
@@ -144,7 +278,7 @@
                 <div class="flex justify-between items-center mb-8">
                     <h2 class="text-3xl font-bold text-gray-900">Materi Pengantar Sistem Komputer</h2>
                     <div class="flex items-center space-x-4">
-                        <span id="slide-counter" class="text-gray-600">1 / 5</span>
+                        <span id="slide-counter" class="text-gray-600">1 / 8</span>
                         <button onclick="prevSlide()" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg">← Sebelumnya</button>
                         <button onclick="nextSlide()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Selanjutnya →</button>
                     </div>
@@ -153,60 +287,153 @@
                 <div id="slide-container" class="min-h-96">
                     <!-- Slide 1 -->
                     <div class="slide slide-active" data-slide="1">
-                        <div class="text-center">
-                            <div class="text-6xl mb-6">🖥️</div>
-                            <h3 class="text-2xl font-bold mb-4">Apa itu Sistem Komputer?</h3>
-                            <p class="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                                Sistem komputer adalah kombinasi dari perangkat keras (hardware), perangkat lunak (software), dan pengguna (brainware) yang bekerja sama untuk memproses data menjadi informasi yang berguna.
-                            </p>
+                        <div class="grid lg:grid-cols-2 gap-6 h-full">
+                            <div class="bg-gradient-to-br from-blue-400 to-purple-600 text-white p-8 rounded-3xl shadow-2xl">
+                                <div class="text-center mb-6">
+                                    <div class="text-6xl mb-4">🖥️</div>
+                                    <h3 class="text-3xl font-bold mb-4">Apa itu Sistem Komputer?</h3>
+                                </div>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6">
+                                    <p class="text-lg leading-relaxed text-center">
+                                        Sistem komputer adalah kombinasi dari perangkat keras (hardware), perangkat lunak (software), dan pengguna (brainware) yang bekerja sama untuk memproses data menjadi informasi yang berguna.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl border-l-4 border-blue-500 transform hover:scale-105 transition-all">
+                                    <div class="flex items-center">
+                                        <div class="text-3xl mr-4">⚡</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-blue-800">Kecepatan Tinggi</h4>
+                                            <p class="text-gray-700">Memproses jutaan instruksi per detik</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-2xl border-l-4 border-green-500 transform hover:scale-105 transition-all">
+                                    <div class="flex items-center">
+                                        <div class="text-3xl mr-4">🎯</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-green-800">Akurasi Sempurna</h4>
+                                            <p class="text-gray-700">Hasil perhitungan yang presisi dan konsisten</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-2xl border-l-4 border-purple-500 transform hover:scale-105 transition-all">
+                                    <div class="flex items-center">
+                                        <div class="text-3xl mr-4">🔄</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-purple-800">Otomatisasi</h4>
+                                            <p class="text-gray-700">Menjalankan tugas berulang tanpa lelah</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-2xl border-l-4 border-orange-500 transform hover:scale-105 transition-all">
+                                    <div class="flex items-center">
+                                        <div class="text-3xl mr-4">💾</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-orange-800">Penyimpanan Besar</h4>
+                                            <p class="text-gray-700">Menyimpan data dalam jumlah sangat besar</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Slide 2 -->
                     <div class="slide slide-enter" data-slide="2">
-                        <h3 class="text-2xl font-bold mb-6">Komponen Utama Sistem Komputer</h3>
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="bg-blue-50 p-6 rounded-lg text-center">
-                                <div class="text-4xl mb-4">🔧</div>
-                                <h4 class="font-bold mb-2">Hardware</h4>
-                                <p class="text-gray-700">Perangkat fisik seperti CPU, RAM, motherboard, dan storage</p>
+                        <div class="space-y-6">
+                            <h3 class="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Komponen Utama Sistem Komputer</h3>
+                            
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl text-center shadow-lg transform hover:scale-105 transition-all border border-blue-200">
+                                    <div class="bg-blue-500 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                        <span class="text-3xl">🔧</span>
+                                    </div>
+                                    <h4 class="font-bold mb-3 text-xl text-blue-800">Hardware</h4>
+                                    <p class="text-gray-700 mb-4">Perangkat fisik seperti CPU, RAM, motherboard, dan storage</p>
+                                    <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold">Komponen Fisik</div>
+                                    <div class="mt-4 space-y-2">
+                                        <div class="bg-blue-100 px-3 py-1 rounded-full text-xs">CPU • RAM • SSD</div>
+                                        <div class="bg-blue-100 px-3 py-1 rounded-full text-xs">Motherboard • GPU</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl text-center shadow-lg transform hover:scale-105 transition-all border border-green-200">
+                                    <div class="bg-green-500 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                        <span class="text-3xl">💿</span>
+                                    </div>
+                                    <h4 class="font-bold mb-3 text-xl text-green-800">Software</h4>
+                                    <p class="text-gray-700 mb-4">Program dan aplikasi yang menjalankan instruksi</p>
+                                    <div class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold">Program Digital</div>
+                                    <div class="mt-4 space-y-2">
+                                        <div class="bg-green-100 px-3 py-1 rounded-full text-xs">OS • Applications</div>
+                                        <div class="bg-green-100 px-3 py-1 rounded-full text-xs">Drivers • Utilities</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl text-center shadow-lg transform hover:scale-105 transition-all border border-purple-200">
+                                    <div class="bg-purple-500 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                        <span class="text-3xl">👤</span>
+                                    </div>
+                                    <h4 class="font-bold mb-3 text-xl text-purple-800">Brainware</h4>
+                                    <p class="text-gray-700 mb-4">Pengguna yang mengoperasikan sistem komputer</p>
+                                    <div class="bg-purple-500 text-white px-4 py-2 rounded-full text-sm font-bold">Manusia</div>
+                                    <div class="mt-4 space-y-2">
+                                        <div class="bg-purple-100 px-3 py-1 rounded-full text-xs">User • Programmer</div>
+                                        <div class="bg-purple-100 px-3 py-1 rounded-full text-xs">Admin • Analyst</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="bg-green-50 p-6 rounded-lg text-center">
-                                <div class="text-4xl mb-4">💿</div>
-                                <h4 class="font-bold mb-2">Software</h4>
-                                <p class="text-gray-700">Program dan aplikasi yang menjalankan instruksi</p>
-                            </div>
-                            <div class="bg-purple-50 p-6 rounded-lg text-center">
-                                <div class="text-4xl mb-4">👤</div>
-                                <h4 class="font-bold mb-2">Brainware</h4>
-                                <p class="text-gray-700">Pengguna yang mengoperasikan sistem komputer</p>
+                            
+                            <div class="bg-gradient-to-r from-indigo-100 to-purple-100 p-6 rounded-2xl border border-indigo-200">
+                                <div class="text-center">
+                                    <h4 class="font-bold text-lg mb-3 text-indigo-800">🔗 Sinergi Komponen</h4>
+                                    <p class="text-gray-700">Ketiga komponen ini bekerja sama dalam siklus: <span class="font-bold text-blue-600">Hardware</span> menyediakan platform, <span class="font-bold text-green-600">Software</span> memberikan instruksi, dan <span class="font-bold text-purple-600">Brainware</span> mengoperasikan sistem.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Slide 3 -->
+                    <!-- Slide 3 - Hardware Detail dengan tempat embed 3D -->
                     <div class="slide slide-enter" data-slide="3">
-                        <h3 class="text-2xl font-bold mb-6">Evolusi Komputer Modern</h3>
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
-                                <div class="text-3xl">🏛️</div>
-                                <div>
-                                    <h4 class="font-bold">Generasi 1 (1940-1956)</h4>
-                                    <p class="text-gray-700">Menggunakan tabung vakum, ukuran sangat besar</p>
+                        <h3 class="text-2xl font-bold mb-6 text-center">Detail Hardware Komputer</h3>
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border-l-4 border-blue-500">
+                                    <h4 class="font-bold text-lg mb-2 flex items-center">
+                                        <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">🧠</span>
+                                        CPU (Central Processing Unit)
+                                    </h4>
+                                    <p class="text-gray-700">Otak komputer yang memproses semua instruksi dan kalkulasi</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl border-l-4 border-green-500">
+                                    <h4 class="font-bold text-lg mb-2 flex items-center">
+                                        <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">📊</span>
+                                        RAM (Random Access Memory)
+                                    </h4>
+                                    <p class="text-gray-700">Memori sementara untuk menyimpan data yang sedang diproses</p>
+                                </div>
+                                <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl border-l-4 border-purple-500">
+                                    <h4 class="font-bold text-lg mb-2 flex items-center">
+                                        <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">💾</span>
+                                        Storage (HDD/SSD)
+                                    </h4>
+                                    <p class="text-gray-700">Penyimpanan permanen untuk data dan program</p>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
-                                <div class="text-3xl">🔌</div>
-                                <div>
-                                    <h4 class="font-bold">Generasi 2 (1956-1963)</h4>
-                                    <p class="text-gray-700">Menggunakan transistor, lebih kecil dan efisien</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4 bg-blue-50 p-4 rounded-lg">
-                                <div class="text-3xl">💻</div>
-                                <div>
-                                    <h4 class="font-bold">Era Modern (2000-sekarang)</h4>
-                                    <p class="text-gray-700">Prosesor multi-core, AI, quantum computing</p>
+                            <div class="bg-gray-100 rounded-2xl p-6 text-center border-2 border-dashed border-gray-300">
+                                <div class="text-4xl mb-4">🔗</div>
+                                <h4 class="font-bold text-lg mb-4">Embed Model 3D Hardware</h4>
+                                <div class="bg-white rounded-lg p-8 min-h-64 flex items-center justify-center border">
+                                    <div class="text-center text-gray-500">
+                                        <div class="text-6xl mb-4">📦</div>
+                                        <p class="font-medium">Tempat untuk embed model 3D</p>
+                                        <p class="text-sm mt-2">Sisipkan iframe atau embed code<br/>model 3D hardware komputer di sini</p>
+                                        <div class="mt-4 bg-blue-50 p-3 rounded-lg text-xs">
+                                            Contoh: Sketchfab, Thingiverse, atau model 3D online lainnya
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -214,55 +441,267 @@
 
                     <!-- Slide 4 -->
                     <div class="slide slide-enter" data-slide="4">
-                        <h3 class="text-2xl font-bold mb-6">Teknologi Terkini dalam Sistem Komputer</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg">
-                                <h4 class="font-bold mb-3 flex items-center">
-                                    <span class="mr-2">🧠</span>
-                                    Artificial Intelligence (AI)
-                                </h4>
-                                <p class="text-gray-700">Sistem yang dapat belajar dan membuat keputusan seperti manusia</p>
+                        <div class="space-y-6">
+                            <h3 class="text-3xl font-bold text-center bg-gradient-to-r from-indigo-600 to-teal-600 bg-clip-text text-transparent">Jenis-jenis Software</h3>
+                            
+                            <div class="grid lg:grid-cols-3 gap-6">
+                                <!-- System Software -->
+                                <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 rounded-2xl shadow-lg border border-indigo-200 transform hover:scale-105 transition-all">
+                                    <div class="text-center mb-4">
+                                        <div class="bg-indigo-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                                            <span class="text-2xl">⚙️</span>
+                                        </div>
+                                        <h4 class="font-bold text-xl text-indigo-800">System Software</h4>
+                                        <p class="text-sm text-gray-600 mt-2">Mengelola dan mengontrol hardware</p>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-indigo-700">🖥️ Operating System</div>
+                                            <div class="text-xs text-gray-600">Windows, macOS, Linux, Android</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-indigo-700">🔌 Device Drivers</div>
+                                            <div class="text-xs text-gray-600">GPU, Printer, Audio drivers</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-indigo-700">🛠️ System Utilities</div>
+                                            <div class="text-xs text-gray-600">Antivirus, Disk cleanup, Registry</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Application Software -->
+                                <div class="bg-gradient-to-br from-teal-50 to-teal-100 p-6 rounded-2xl shadow-lg border border-teal-200 transform hover:scale-105 transition-all">
+                                    <div class="text-center mb-4">
+                                        <div class="bg-teal-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                                            <span class="text-2xl">📱</span>
+                                        </div>
+                                        <h4 class="font-bold text-xl text-teal-800">Application Software</h4>
+                                        <p class="text-sm text-gray-600 mt-2">Program untuk pengguna akhir</p>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-teal-700">📄 Office Suite</div>
+                                            <div class="text-xs text-gray-600">Word, Excel, PowerPoint, Canva</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-teal-700">🌐 Web Browsers</div>
+                                            <div class="text-xs text-gray-600">Chrome, Firefox, Safari, Edge</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-teal-700">🎮 Entertainment</div>
+                                            <div class="text-xs text-gray-600">Games, Spotify, Netflix, YouTube</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Programming Software -->
+                                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl shadow-lg border border-orange-200 transform hover:scale-105 transition-all">
+                                    <div class="text-center mb-4">
+                                        <div class="bg-orange-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                                            <span class="text-2xl">💻</span>
+                                        </div>
+                                        <h4 class="font-bold text-xl text-orange-800">Programming Software</h4>
+                                        <p class="text-sm text-gray-600 mt-2">Tools untuk developer</p>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-orange-700">🔧 IDE & Editors</div>
+                                            <div class="text-xs text-gray-600">VS Code, IntelliJ, Sublime</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-orange-700">⚡ Compilers</div>
+                                            <div class="text-xs text-gray-600">GCC, Java JDK, Python</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                                            <div class="font-bold text-sm text-orange-700">🐛 Debuggers</div>
+                                            <div class="text-xs text-gray-600">GDB, Chrome DevTools</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg">
-                                <h4 class="font-bold mb-3 flex items-center">
-                                    <span class="mr-2">☁️</span>
-                                    Cloud Computing
-                                </h4>
-                                <p class="text-gray-700">Komputasi berbasis internet untuk akses data dan aplikasi</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg">
-                                <h4 class="font-bold mb-3 flex items-center">
-                                    <span class="mr-2">⚛️</span>
-                                    Quantum Computing
-                                </h4>
-                                <p class="text-gray-700">Komputasi super cepat menggunakan prinsip fisika kuantum</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg">
-                                <h4 class="font-bold mb-3 flex items-center">
-                                    <span class="mr-2">🌐</span>
-                                    Internet of Things (IoT)
-                                </h4>
-                                <p class="text-gray-700">Koneksi perangkat sehari-hari ke internet</p>
+                            
+                            <!-- Software Interaction Flow -->
+                            <div class="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-2xl border border-gray-200">
+                                <h4 class="font-bold text-lg text-center mb-4 text-gray-800">🔄 Alur Kerja Software</h4>
+                                <div class="flex items-center justify-center space-x-4 text-sm">
+                                    <div class="bg-indigo-100 px-4 py-2 rounded-full font-bold text-indigo-800">System Software</div>
+                                    <div class="text-2xl">→</div>
+                                    <div class="bg-teal-100 px-4 py-2 rounded-full font-bold text-teal-800">Application Software</div>
+                                    <div class="text-2xl">→</div>
+                                    <div class="bg-orange-100 px-4 py-2 rounded-full font-bold text-orange-800">User Interface</div>
+                                </div>
+                                <p class="text-center text-gray-600 mt-3 text-sm">System software menyediakan platform, application software memberikan fungsi, dan programming software membantu pengembangan</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Slide 5 -->
                     <div class="slide slide-enter" data-slide="5">
-                        <div class="text-center">
-                            <div class="text-6xl mb-6">🎯</div>
-                            <h3 class="text-2xl font-bold mb-4">Ringkasan Materi</h3>
-                            <div class="bg-blue-50 p-6 rounded-lg max-w-4xl mx-auto">
-                                <ul class="text-left space-y-3 text-gray-700">
-                                    <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Sistem komputer terdiri dari hardware, software, dan brainware</li>
-                                    <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Komputer telah berkembang dari generasi ke generasi</li>
-                                    <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Teknologi modern meliputi AI, Cloud, Quantum, dan IoT</li>
-                                    <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Sistem komputer terus berkembang untuk memudahkan hidup manusia</li>
-                                </ul>
+                        <h3 class="text-2xl font-bold mb-6 text-center">Evolusi Komputer Modern</h3>
+                        <div class="relative">
+                            <div class="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                            <div class="space-y-8 ml-16">
+                                <div class="flex items-center space-x-4 bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-2xl shadow-lg relative">
+                                    <div class="absolute -left-20 bg-gray-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                                        <span class="text-xl">🏛️</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Generasi 1 (1940-1956)</h4>
+                                        <p class="text-gray-700">Tabung vakum • Ukuran ruangan • Konsumsi listrik tinggi</p>
+                                        <div class="bg-gray-200 px-3 py-1 rounded-full text-sm mt-2 inline-block">ENIAC, UNIVAC</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4 bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl shadow-lg relative">
+                                    <div class="absolute -left-20 bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                                        <span class="text-xl">🔌</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Generasi 2 (1956-1963)</h4>
+                                        <p class="text-gray-700">Transistor • Lebih kecil dan efisien • Bahasa pemrograman</p>
+                                        <div class="bg-blue-200 px-3 py-1 rounded-full text-sm mt-2 inline-block">IBM 1401, CDC 1604</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4 bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-2xl shadow-lg relative">
+                                    <div class="absolute -left-20 bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                                        <span class="text-xl">💻</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Era Modern (2000-sekarang)</h4>
+                                        <p class="text-gray-700">Multi-core • AI • Quantum • Mobile computing</p>
+                                        <div class="bg-purple-200 px-3 py-1 rounded-full text-sm mt-2 inline-block">Smartphone, Laptop, Cloud</div>
+                                    </div>
+                                </div>
                             </div>
-                            <button onclick="showPage('home')" class="mt-6 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg">
-                                Kembali ke Menu Utama
-                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6 -->
+                    <div class="slide slide-enter" data-slide="6">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Teknologi Terkini dalam Sistem Komputer</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-blue-500 text-white w-16 h-16 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                        <span class="text-2xl">🧠</span>
+                                    </div>
+                                    <h4 class="font-bold text-xl">Artificial Intelligence</h4>
+                                </div>
+                                <p class="text-gray-700 mb-4">Sistem yang dapat belajar dan membuat keputusan seperti manusia</p>
+                                <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm inline-block">Machine Learning, Deep Learning</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                        <span class="text-2xl">☁️</span>
+                                    </div>
+                                    <h4 class="font-bold text-xl">Cloud Computing</h4>
+                                </div>
+                                <p class="text-gray-700 mb-4">Komputasi berbasis internet untuk akses data dan aplikasi</p>
+                                <div class="bg-green-500 text-white px-4 py-2 rounded-full text-sm inline-block">AWS, Google Cloud, Azure</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                        <span class="text-2xl">⚛️</span>
+                                    </div>
+                                    <h4 class="font-bold text-xl">Quantum Computing</h4>
+                                </div>
+                                <p class="text-gray-700 mb-4">Komputasi super cepat menggunakan prinsip fisika kuantum</p>
+                                <div class="bg-purple-500 text-white px-4 py-2 rounded-full text-sm inline-block">IBM Q, Google Sycamore</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-orange-500 text-white w-16 h-16 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                        <span class="text-2xl">🌐</span>
+                                    </div>
+                                    <h4 class="font-bold text-xl">Internet of Things</h4>
+                                </div>
+                                <p class="text-gray-700 mb-4">Koneksi perangkat sehari-hari ke internet</p>
+                                <div class="bg-orange-500 text-white px-4 py-2 rounded-full text-sm inline-block">Smart Home, Wearables</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 7 -->
+                    <div class="slide slide-enter" data-slide="7">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Sistem Operasi Modern</h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-8 rounded-2xl shadow-2xl text-center">
+                                <div class="text-4xl mb-4">🪟</div>
+                                <h4 class="font-bold text-xl mb-3">Windows</h4>
+                                <p class="mb-4">OS paling populer untuk desktop dan laptop</p>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3">
+                                    <div class="text-sm">Market Share: ~75%</div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-700 to-gray-900 text-white p-8 rounded-2xl shadow-2xl text-center">
+                                <div class="text-4xl mb-4">🍎</div>
+                                <h4 class="font-bold text-xl mb-3">macOS</h4>
+                                <p class="mb-4">OS eksklusif untuk komputer Apple Mac</p>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3">
+                                    <div class="text-sm">Market Share: ~15%</div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white p-8 rounded-2xl shadow-2xl text-center">
+                                <div class="text-4xl mb-4">🐧</div>
+                                <h4 class="font-bold text-xl mb-3">Linux</h4>
+                                <p class="mb-4">OS open source untuk server dan developer</p>
+                                <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3">
+                                    <div class="text-sm">Market Share: ~3%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl border border-indigo-200">
+                            <h4 class="font-bold text-lg mb-4 text-center">📱 Mobile Operating Systems</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                                    <div class="text-2xl mb-2">🤖</div>
+                                    <div class="font-bold">Android</div>
+                                    <div class="text-sm text-gray-600">Google • Market Share: ~71%</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                                    <div class="text-2xl mb-2">📱</div>
+                                    <div class="font-bold">iOS</div>
+                                    <div class="text-sm text-gray-600">Apple • Market Share: ~28%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 8 -->
+                    <div class="slide slide-enter" data-slide="8">
+                        <div class="text-center">
+                            <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-8 rounded-3xl mb-6 shadow-2xl">
+                                <div class="text-6xl mb-4">🎯</div>
+                                <h3 class="text-3xl font-bold mb-4">Ringkasan Materi</h3>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                                <div class="bg-blue-50 p-6 rounded-2xl shadow-lg">
+                                    <h4 class="font-bold text-lg mb-4 text-blue-800">Konsep Dasar</h4>
+                                    <ul class="text-left space-y-3 text-gray-700">
+                                        <li class="flex items-center"><span class="text-green-600 mr-3 text-xl">✓</span> Hardware, Software, Brainware</li>
+                                        <li class="flex items-center"><span class="text-green-600 mr-3 text-xl">✓</span> Evolusi dari generasi ke generasi</li>
+                                        <li class="flex items-center"><span class="text-green-600 mr-3 text-xl">✓</span> Sistem operasi modern</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-purple-50 p-6 rounded-2xl shadow-lg">
+                                    <h4 class="font-bold text-lg mb-4 text-purple-800">Teknologi Terkini</h4>
+                                    <ul class="text-left space-y-3 text-gray-700">
+                                        <li class="flex items-center"><span class="text-green-600 mr-3 text-xl">✓</span> AI dan Machine Learning</li>
+                                        <li class="flex items-center"><span class="text-green-600 mr-3 text-xl">✓</span> Cloud Computing</li>
+                                        <li class="flex items-center"><span class="text-green-600 mr-3 text-xl">✓</span> Quantum & IoT</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-x-4">
+                                <button onclick="showPage('komponen-komputer')" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                                    Lanjut ke Game →
+                                </button>
+                                <button onclick="showPage('home')" class="bg-gray-600 hover:bg-gray-700 text-white px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                                    Kembali ke Menu
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -347,11 +786,11 @@
                         </div>
                         
                         <div class="text-center mt-6">
-                            <button onclick="resetDragGame()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg mr-4">
-                                Reset Game
+                            <button onclick="resetDragGame()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full mr-4 shadow-lg transform hover:scale-105 transition-all">
+                                🔄 Reset Game
                             </button>
-                            <button onclick="showPage('home')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
-                                Kembali ke Menu
+                            <button onclick="showPage('cara-kerja')" class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                                Lanjut: Cara Kerja →
                             </button>
                         </div>
                     </div>
@@ -368,83 +807,467 @@
         <div id="cara-kerja" class="page-content hidden">
             <div class="bg-white rounded-xl shadow-lg p-8">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Simulasi: Bagaimana Komputer Bekerja</h2>
-                    <p class="text-gray-600">Ikuti proses kerja komputer dari input hingga output!</p>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">🔄 Simulasi Interaktif: Cara Kerja Komputer</h2>
+                    <p class="text-gray-600">Pilih simulasi yang ingin Anda jelajahi!</p>
                 </div>
 
-                <div class="space-y-8">
-                    <!-- Input Section -->
-                    <div class="bg-blue-50 p-6 rounded-lg">
-                        <h3 class="text-xl font-bold mb-4 flex items-center">
-                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">1</span>
-                            INPUT - Masukkan Data
-                        </h3>
-                        <div class="flex items-center space-x-4">
-                            <input type="text" id="user-input" placeholder="Ketik sesuatu..." class="flex-1 p-3 border rounded-lg">
-                            <button onclick="processInput()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
-                                Proses Data
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Processing Section -->
-                    <div class="bg-yellow-50 p-6 rounded-lg">
-                        <h3 class="text-xl font-bold mb-4 flex items-center">
-                            <span class="bg-yellow-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">2</span>
-                            PROCESSING - CPU Memproses
-                        </h3>
-                        <div id="processing-area" class="min-h-24 bg-white p-4 rounded-lg border-2 border-dashed border-yellow-300">
-                            <div class="text-center text-gray-500">
-                                CPU siap memproses data...
+                <!-- Simulation Selection Menu -->
+                <div id="simulation-menu" class="grid md:grid-cols-2 gap-6 mb-8">
+                    <!-- Simulation 1: Step-by-Step Animation -->
+                    <div class="simulation-card bg-gradient-to-br from-blue-400 to-blue-600 text-white p-8 rounded-3xl shadow-2xl cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="showSimulation('step-by-step')">
+                        <div class="text-center">
+                            <div class="bg-white/20 backdrop-blur-sm w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                                <span class="text-4xl">🎮</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Step-by-Step Animation</h3>
+                            <p class="text-blue-100 mb-6 leading-relaxed">Lihat setiap tahap pemrosesan dengan animasi visual yang menarik. Data bergerak dari Input → CPU → Memory → Output</p>
+                            <div class="bg-white text-blue-600 px-6 py-3 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
+                                🚀 Mulai Simulasi
                             </div>
                         </div>
                     </div>
 
-                    <!-- Storage Section -->
-                    <div class="bg-purple-50 p-6 rounded-lg">
-                        <h3 class="text-xl font-bold mb-4 flex items-center">
-                            <span class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">3</span>
-                            STORAGE - Penyimpanan Data
-                        </h3>
-                        <div id="storage-area" class="bg-white p-4 rounded-lg border">
-                            <div class="text-gray-500">Data tersimpan akan muncul di sini...</div>
-                            <div id="stored-data" class="mt-2 space-y-2"></div>
-                        </div>
-                    </div>
-
-                    <!-- Output Section -->
-                    <div class="bg-green-50 p-6 rounded-lg">
-                        <h3 class="text-xl font-bold mb-4 flex items-center">
-                            <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">4</span>
-                            OUTPUT - Hasil Akhir
-                        </h3>
-                        <div id="output-area" class="bg-white p-4 rounded-lg border min-h-24">
-                            <div class="text-center text-gray-500">
-                                Hasil pemrosesan akan ditampilkan di sini...
+                    <!-- Simulation 2: Virtual Computer -->
+                    <div class="simulation-card bg-gradient-to-br from-green-400 to-green-600 text-white p-8 rounded-3xl shadow-2xl cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="showSimulation('virtual-computer')">
+                        <div class="text-center">
+                            <div class="bg-white/20 backdrop-blur-sm w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                                <span class="text-4xl">🖥️</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Virtual Computer</h3>
+                            <p class="text-green-100 mb-6 leading-relaxed">Operasikan komputer virtual dengan layar, keyboard, dan mouse. Lihat real-time CPU, RAM, dan storage usage</p>
+                            <div class="bg-white text-green-600 px-6 py-3 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
+                                💻 Buka Komputer
                             </div>
                         </div>
                     </div>
 
-                    <!-- Control Panel -->
-                    <div class="bg-gray-50 p-6 rounded-lg text-center">
-                        <h3 class="text-xl font-bold mb-4">Panel Kontrol Simulasi</h3>
-                        <div class="space-x-4">
-                            <button onclick="simulateCalculation()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg">
-                                🧮 Simulasi Kalkulator
-                            </button>
-                            <button onclick="simulateTextProcessing()" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg">
-                                📝 Simulasi Text Processing
-                            </button>
-                            <button onclick="clearSimulation()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">
-                                🗑️ Reset Simulasi
-                            </button>
-                        </div>
-                        <div class="mt-6">
-                            <button onclick="showPage('home')" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg">
-                                Kembali ke Menu Utama
-                            </button>
+                    <!-- Simulation 3: Interactive Process Flow -->
+                    <div class="simulation-card bg-gradient-to-br from-purple-400 to-purple-600 text-white p-8 rounded-3xl shadow-2xl cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="showSimulation('process-flow')">
+                        <div class="text-center">
+                            <div class="bg-white/20 backdrop-blur-sm w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                                <span class="text-4xl">🔄</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Interactive Process Flow</h3>
+                            <p class="text-purple-100 mb-6 leading-relaxed">Klik setiap komponen untuk melihat detail cara kerjanya. Diagram alur yang interaktif dan informatif</p>
+                            <div class="bg-white text-purple-600 px-6 py-3 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
+                                🎯 Jelajahi Alur
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Simulation 4: Mini Games Collection -->
+                    <div class="simulation-card bg-gradient-to-br from-orange-400 to-orange-600 text-white p-8 rounded-3xl shadow-2xl cursor-pointer transform hover:scale-105 transition-all duration-300" onclick="showSimulation('mini-games')">
+                        <div class="text-center">
+                            <div class="bg-white/20 backdrop-blur-sm w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                                <span class="text-4xl">🎲</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Mini Games Collection</h3>
+                            <p class="text-orange-100 mb-6 leading-relaxed">Mainkan 4 mini games: CPU Calculator, Memory Match, Data Sort, dan Binary Converter</p>
+                            <div class="bg-white text-orange-600 px-6 py-3 rounded-full inline-block font-bold shadow-lg hover:shadow-xl transition-shadow">
+                                🎮 Main Games
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation 1: Step-by-Step Animation -->
+                <div id="step-by-step-sim" class="simulation-content hidden">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-blue-800">🎮 Step-by-Step Animation</h3>
+                            <button onclick="backToMenu()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">← Kembali</button>
+                        </div>
+                        
+                        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                            <!-- Input Stage -->
+                            <div id="input-stage" class="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-transparent">
+                                <div class="text-4xl mb-3">⌨️</div>
+                                <h4 class="font-bold text-lg mb-2">INPUT</h4>
+                                <p class="text-sm text-gray-600 mb-4">Data masuk ke sistem</p>
+                                <div id="input-data" class="bg-gray-100 p-3 rounded-lg min-h-12 flex items-center justify-center">
+                                    <span class="text-gray-500">Menunggu input...</span>
+                                </div>
+                            </div>
+
+                            <!-- Processing Stage -->
+                            <div id="processing-stage" class="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-transparent">
+                                <div class="text-4xl mb-3">🧠</div>
+                                <h4 class="font-bold text-lg mb-2">PROCESSING</h4>
+                                <p class="text-sm text-gray-600 mb-4">CPU memproses data</p>
+                                <div id="processing-data" class="bg-gray-100 p-3 rounded-lg min-h-12 flex items-center justify-center">
+                                    <span class="text-gray-500">Siap memproses...</span>
+                                </div>
+                            </div>
+
+                            <!-- Memory Stage -->
+                            <div id="memory-stage" class="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-transparent">
+                                <div class="text-4xl mb-3">💾</div>
+                                <h4 class="font-bold text-lg mb-2">MEMORY</h4>
+                                <p class="text-sm text-gray-600 mb-4">Data disimpan sementara</p>
+                                <div id="memory-data" class="bg-gray-100 p-3 rounded-lg min-h-12 flex items-center justify-center">
+                                    <span class="text-gray-500">Memori kosong...</span>
+                                </div>
+                            </div>
+
+                            <!-- Output Stage -->
+                            <div id="output-stage" class="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-transparent">
+                                <div class="text-4xl mb-3">🖥️</div>
+                                <h4 class="font-bold text-lg mb-2">OUTPUT</h4>
+                                <p class="text-sm text-gray-600 mb-4">Hasil ditampilkan</p>
+                                <div id="output-data" class="bg-gray-100 p-3 rounded-lg min-h-12 flex items-center justify-center">
+                                    <span class="text-gray-500">Menunggu hasil...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Flow Animation -->
+                        <div id="data-flow-container" class="relative mb-8 h-4">
+                            <div id="data-packet" class="absolute top-0 left-0 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold opacity-0 transition-all duration-1000">
+                                📦 Data
+                            </div>
+                        </div>
+
+                        <!-- Control Panel -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                            <h4 class="font-bold text-lg mb-4">🎛️ Panel Kontrol</h4>
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <input type="text" id="step-input" placeholder="Masukkan data untuk diproses..." class="w-full p-3 border rounded-lg">
+                                <select id="process-type" class="w-full p-3 border rounded-lg">
+                                    <option value="text">Pemrosesan Teks</option>
+                                    <option value="math">Kalkulasi Matematika</option>
+                                    <option value="sort">Pengurutan Data</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-wrap gap-4 justify-center">
+                                <button onclick="startStepAnimation()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                                    🚀 Mulai Animasi
+                                </button>
+                                <button onclick="resetStepAnimation()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                                    🔄 Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation 2: Virtual Computer -->
+                <div id="virtual-computer-sim" class="simulation-content hidden">
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-green-800">🖥️ Virtual Computer</h3>
+                            <button onclick="backToMenu()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">← Kembali</button>
+                        </div>
+
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <!-- Virtual Screen -->
+                            <div class="lg:col-span-2 bg-black rounded-2xl p-6 shadow-2xl">
+                                <div class="bg-blue-900 text-white p-4 rounded-lg mb-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-bold">💻 Virtual OS Desktop</span>
+                                        <span id="virtual-time" class="text-sm"></span>
+                                    </div>
+                                </div>
+                                
+                                <div id="virtual-screen" class="bg-gradient-to-br from-blue-600 to-purple-700 rounded-lg p-6 min-h-80 text-white">
+                                    <div class="text-center">
+                                        <div class="text-6xl mb-4">🖥️</div>
+                                        <h4 class="text-2xl font-bold mb-4">Selamat Datang di Virtual Computer</h4>
+                                        <p class="mb-6">Gunakan keyboard virtual di bawah untuk berinteraksi</p>
+                                        <div id="screen-output" class="bg-black/30 backdrop-blur-sm rounded-lg p-4 min-h-32 text-left">
+                                            <div class="typing-animation">Ketik sesuatu untuk melihat komputer bekerja...</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Virtual Keyboard -->
+                                <div class="mt-4 bg-gray-800 rounded-lg p-4">
+                                    <!-- Number Row -->
+                                    <div class="grid grid-cols-12 gap-1 mb-2">
+                                        <button onclick="virtualType('`')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded text-sm">`</button>
+                                        <button onclick="virtualType('1')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">1</button>
+                                        <button onclick="virtualType('2')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">2</button>
+                                        <button onclick="virtualType('3')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">3</button>
+                                        <button onclick="virtualType('4')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">4</button>
+                                        <button onclick="virtualType('5')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">5</button>
+                                        <button onclick="virtualType('6')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">6</button>
+                                        <button onclick="virtualType('7')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">7</button>
+                                        <button onclick="virtualType('8')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">8</button>
+                                        <button onclick="virtualType('9')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">9</button>
+                                        <button onclick="virtualType('0')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">0</button>
+                                        <button onclick="virtualType('-')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">-</button>
+                                    </div>
+                                    
+                                    <!-- Top Letter Row -->
+                                    <div class="grid grid-cols-12 gap-1 mb-2">
+                                        <button onclick="virtualType('Q')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">Q</button>
+                                        <button onclick="virtualType('W')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">W</button>
+                                        <button onclick="virtualType('E')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">E</button>
+                                        <button onclick="virtualType('R')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">R</button>
+                                        <button onclick="virtualType('T')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">T</button>
+                                        <button onclick="virtualType('Y')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">Y</button>
+                                        <button onclick="virtualType('U')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">U</button>
+                                        <button onclick="virtualType('I')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">I</button>
+                                        <button onclick="virtualType('O')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">O</button>
+                                        <button onclick="virtualType('P')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">P</button>
+                                        <button onclick="virtualType('[')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">[</button>
+                                        <button onclick="virtualType(']')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">]</button>
+                                    </div>
+                                    
+                                    <!-- Middle Letter Row -->
+                                    <div class="grid grid-cols-12 gap-1 mb-2">
+                                        <button onclick="virtualType('A')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">A</button>
+                                        <button onclick="virtualType('S')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">S</button>
+                                        <button onclick="virtualType('D')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">D</button>
+                                        <button onclick="virtualType('F')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">F</button>
+                                        <button onclick="virtualType('G')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">G</button>
+                                        <button onclick="virtualType('H')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">H</button>
+                                        <button onclick="virtualType('J')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">J</button>
+                                        <button onclick="virtualType('K')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">K</button>
+                                        <button onclick="virtualType('L')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">L</button>
+                                        <button onclick="virtualType(';')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">;</button>
+                                        <button onclick="virtualType('\\'')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">'</button>
+                                        <button onclick="virtualEnter()" class="bg-green-700 hover:bg-green-600 text-white p-2 rounded text-sm">ENTER</button>
+                                    </div>
+                                    
+                                    <!-- Bottom Letter Row -->
+                                    <div class="grid grid-cols-11 gap-1 mb-2">
+                                        <button onclick="virtualType('Z')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">Z</button>
+                                        <button onclick="virtualType('X')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">X</button>
+                                        <button onclick="virtualType('C')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">C</button>
+                                        <button onclick="virtualType('V')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">V</button>
+                                        <button onclick="virtualType('B')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">B</button>
+                                        <button onclick="virtualType('N')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">N</button>
+                                        <button onclick="virtualType('M')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">M</button>
+                                        <button onclick="virtualType(',')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">,</button>
+                                        <button onclick="virtualType('.')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">.</button>
+                                        <button onclick="virtualType('/')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">/</button>
+                                        <button onclick="virtualBackspace()" class="bg-red-700 hover:bg-red-600 text-white p-2 rounded text-sm">⌫</button>
+                                    </div>
+                                    
+                                    <!-- Space Bar and Special Keys -->
+                                    <div class="grid grid-cols-7 gap-1">
+                                        <button onclick="virtualType('+')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">+</button>
+                                        <button onclick="virtualType('-')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">-</button>
+                                        <button onclick="virtualType('*')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">*</button>
+                                        <button onclick="virtualType(' ')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded col-span-2">SPACE</button>
+                                        <button onclick="virtualType('=')" class="bg-gray-700 hover:bg-gray-600 text-white p-2 rounded">=</button>
+                                        <button onclick="clearVirtualScreen()" class="bg-orange-700 hover:bg-orange-600 text-white p-2 rounded text-sm">CLEAR</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- System Monitor -->
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h4 class="font-bold text-lg mb-4">📊 System Monitor</h4>
+                                    
+                                    <!-- CPU Usage -->
+                                    <div class="mb-4">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-sm font-bold">🧠 CPU Usage</span>
+                                            <span id="cpu-usage" class="text-sm">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-3">
+                                            <div id="cpu-bar" class="bg-blue-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- RAM Usage -->
+                                    <div class="mb-4">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-sm font-bold">📊 RAM Usage</span>
+                                            <span id="ram-usage" class="text-sm">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-3">
+                                            <div id="ram-bar" class="bg-green-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Storage Usage -->
+                                    <div class="mb-4">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-sm font-bold">💾 Storage</span>
+                                            <span id="storage-usage" class="text-sm">0%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-3">
+                                            <div id="storage-bar" class="bg-purple-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Process List -->
+                                <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h4 class="font-bold text-lg mb-4">⚙️ Running Processes</h4>
+                                    <div id="process-list" class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span>System Idle</span>
+                                            <span class="text-gray-500">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h4 class="font-bold text-lg mb-4">🚀 Quick Actions</h4>
+                                    <div class="space-y-2">
+                                        <button onclick="runCalculator()" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded text-sm">🧮 Calculator</button>
+                                        <button onclick="runTextEditor()" class="w-full bg-green-600 hover:bg-green-700 text-white p-2 rounded text-sm">📝 Text Editor</button>
+                                        <button onclick="runFileManager()" class="w-full bg-purple-600 hover:bg-purple-700 text-white p-2 rounded text-sm">📁 File Manager</button>
+                                        <button onclick="clearVirtualScreen()" class="w-full bg-gray-600 hover:bg-gray-700 text-white p-2 rounded text-sm">🗑️ Clear Screen</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation 3: Interactive Process Flow -->
+                <div id="process-flow-sim" class="simulation-content hidden">
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-purple-800">🔄 Interactive Process Flow</h3>
+                            <button onclick="backToMenu()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">← Kembali</button>
+                        </div>
+
+                        <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                            <!-- Input Component -->
+                            <div class="flow-component bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="showComponentDetail('input')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">⌨️</div>
+                                    <h4 class="font-bold text-lg">INPUT DEVICES</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Klik untuk detail</p>
+                                </div>
+                            </div>
+
+                            <!-- CPU Component -->
+                            <div class="flow-component bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="showComponentDetail('cpu')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">🧠</div>
+                                    <h4 class="font-bold text-lg">CPU</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Klik untuk detail</p>
+                                </div>
+                            </div>
+
+                            <!-- Memory Component -->
+                            <div class="flow-component bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="showComponentDetail('memory')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">💾</div>
+                                    <h4 class="font-bold text-lg">MEMORY</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Klik untuk detail</p>
+                                </div>
+                            </div>
+
+                            <!-- Output Component -->
+                            <div class="flow-component bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="showComponentDetail('output')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">🖥️</div>
+                                    <h4 class="font-bold text-lg">OUTPUT DEVICES</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Klik untuk detail</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Component Detail Panel -->
+                        <div id="component-detail" class="bg-white p-8 rounded-xl shadow-lg mb-6 hidden">
+                            <div id="detail-content">
+                                <!-- Content will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Process Flow Diagram -->
+                        <div class="bg-white p-8 rounded-xl shadow-lg">
+                            <h4 class="font-bold text-lg mb-6 text-center">📊 Alur Proses Komputer</h4>
+                            <div class="flex items-center justify-center space-x-4 mb-6">
+                                <div class="bg-blue-100 p-4 rounded-full">
+                                    <span class="text-2xl">📥</span>
+                                </div>
+                                <div class="text-2xl text-gray-400">→</div>
+                                <div class="bg-yellow-100 p-4 rounded-full">
+                                    <span class="text-2xl">⚙️</span>
+                                </div>
+                                <div class="text-2xl text-gray-400">→</div>
+                                <div class="bg-purple-100 p-4 rounded-full">
+                                    <span class="text-2xl">💿</span>
+                                </div>
+                                <div class="text-2xl text-gray-400">→</div>
+                                <div class="bg-green-100 p-4 rounded-full">
+                                    <span class="text-2xl">📤</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button onclick="startFlowDemo()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                                    ▶️ Demo Alur Lengkap
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation 4: Mini Games Collection -->
+                <div id="mini-games-sim" class="simulation-content hidden">
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl mb-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-orange-800">🎲 Mini Games Collection</h3>
+                            <button onclick="backToMenu()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">← Kembali</button>
+                        </div>
+
+                        <!-- Game Selection -->
+                        <div id="game-selection" class="grid md:grid-cols-2 gap-6 mb-8">
+                            <!-- CPU Calculator Game -->
+                            <div class="game-option bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="startGame('calculator')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">🧮</div>
+                                    <h4 class="font-bold text-lg">CPU Calculator</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Hitung seperti CPU dengan operasi step-by-step</p>
+                                    <div class="bg-blue-500 text-white px-4 py-2 rounded-full mt-4 inline-block">Main Sekarang</div>
+                                </div>
+                            </div>
+
+                            <!-- Memory Match Game -->
+                            <div class="game-option bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="startGame('memory')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">🧠</div>
+                                    <h4 class="font-bold text-lg">Memory Match</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Cocokkan kartu seperti cara kerja RAM</p>
+                                    <div class="bg-green-500 text-white px-4 py-2 rounded-full mt-4 inline-block">Main Sekarang</div>
+                                </div>
+                            </div>
+
+                            <!-- Data Sort Game -->
+                            <div class="game-option bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="startGame('sort')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">📊</div>
+                                    <h4 class="font-bold text-lg">Data Sort</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Urutkan data seperti algoritma komputer</p>
+                                    <div class="bg-purple-500 text-white px-4 py-2 rounded-full mt-4 inline-block">Main Sekarang</div>
+                                </div>
+                            </div>
+
+                            <!-- Binary Converter Game -->
+                            <div class="game-option bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-all" onclick="startGame('binary')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">💻</div>
+                                    <h4 class="font-bold text-lg">Binary Converter</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Konversi angka ke binary seperti komputer</p>
+                                    <div class="bg-orange-500 text-white px-4 py-2 rounded-full mt-4 inline-block">Main Sekarang</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Area -->
+                        <div id="game-area" class="bg-white p-8 rounded-xl shadow-lg hidden">
+                            <div id="game-content">
+                                <!-- Game content will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to Home Button -->
+                <div class="text-center mt-8">
+                    <button onclick="showPage('home')" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full shadow-lg transform hover:scale-105 transition-all">
+                        🏠 Kembali ke Menu Utama
+                    </button>
                 </div>
             </div>
         </div>
@@ -453,19 +1276,87 @@
     <script>
         // Global variables
         let currentSlide = 1;
-        let totalSlides = 5;
+        let totalSlides = 8;
         let score = 0;
-        let processedData = [];
+        let virtualScreenContent = '';
+        let systemUsage = { cpu: 0, ram: 0, storage: 0 };
+        let gameScores = { calculator: 0, memory: 0, sort: 0, binary: 0 };
 
-        // Page navigation
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => page.classList.add('hidden'));
-            document.getElementById(pageId === 'home' ? 'home-page' : pageId).classList.remove('hidden');
+        // Fixed navigation function
+        function navigateToPage(pageId) {
+            console.log('🚀 Navigating to:', pageId);
+            
+            // Hide all pages
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('materi-pengantar').classList.add('hidden');
+            document.getElementById('komponen-komputer').classList.add('hidden');
+            document.getElementById('cara-kerja').classList.add('hidden');
+            
+            // Show target page
+            if (pageId === 'home') {
+                document.getElementById('home-page').classList.remove('hidden');
+            } else if (pageId === 'materi-pengantar') {
+                document.getElementById('materi-pengantar').classList.remove('hidden');
+                currentSlide = 1;
+                resetSlides();
+                updateSlideCounter();
+            } else if (pageId === 'komponen-komputer') {
+                document.getElementById('komponen-komputer').classList.remove('hidden');
+                setTimeout(initializeDragAndDrop, 100);
+            } else if (pageId === 'cara-kerja') {
+                document.getElementById('cara-kerja').classList.remove('hidden');
+            }
+            
+            console.log('✅ Navigation completed to:', pageId);
+        }
+
+        // Make functions globally available
+        window.navigateToPage = navigateToPage;
+        window.showPage = navigateToPage;
+
+        // Reset slides function
+        function resetSlides() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, index) => {
+                if (index === 0) {
+                    slide.classList.remove('slide-enter', 'slide-exit');
+                    slide.classList.add('slide-active');
+                } else {
+                    slide.classList.remove('slide-active', 'slide-exit');
+                    slide.classList.add('slide-enter');
+                }
+            });
         }
 
         function goHome() {
             showPage('home');
+        }
+
+        // Simulation navigation
+        function showSimulation(simType) {
+            // Hide menu
+            document.getElementById('simulation-menu').classList.add('hidden');
+            
+            // Hide all simulations
+            const simulations = document.querySelectorAll('.simulation-content');
+            simulations.forEach(sim => sim.classList.add('hidden'));
+            
+            // Show selected simulation
+            document.getElementById(simType + '-sim').classList.remove('hidden');
+            
+            // Initialize simulation
+            if (simType === 'virtual-computer') {
+                initVirtualComputer();
+            }
+        }
+
+        function backToMenu() {
+            // Show menu
+            document.getElementById('simulation-menu').classList.remove('hidden');
+            
+            // Hide all simulations
+            const simulations = document.querySelectorAll('.simulation-content');
+            simulations.forEach(sim => sim.classList.add('hidden'));
         }
 
         // Slide functionality
@@ -622,138 +1513,768 @@
             });
         }
 
-        // Computer simulation functions
-        function processInput() {
-            const input = document.getElementById('user-input').value;
+        // Step-by-Step Animation Functions
+        function startStepAnimation() {
+            const input = document.getElementById('step-input').value;
+            const processType = document.getElementById('process-type').value;
+            
             if (!input.trim()) {
                 alert('Silakan masukkan data terlebih dahulu!');
                 return;
             }
 
-            // Show processing animation
-            const processingArea = document.getElementById('processing-area');
-            processingArea.innerHTML = `
-                <div class="text-center">
-                    <div class="pulse-animation text-2xl mb-2">⚙️</div>
-                    <div>CPU sedang memproses: "${input}"</div>
-                    <div class="text-sm text-gray-600 mt-2">Menganalisis data, mengkonversi, dan memproses...</div>
-                </div>
-            `;
-
-            // Simulate processing delay
+            resetStepAnimation();
+            
+            // Step 1: Input
             setTimeout(() => {
-                // Store data
-                const timestamp = new Date().toLocaleTimeString();
-                processedData.push({input, timestamp});
-                updateStorageArea();
+                document.getElementById('input-stage').style.borderColor = '#3b82f6';
+                document.getElementById('input-data').innerHTML = `<span class="font-bold text-blue-600">${input}</span>`;
+                animateDataFlow(0);
+            }, 500);
 
-                // Show output
-                const outputArea = document.getElementById('output-area');
-                outputArea.innerHTML = `
-                    <div class="text-center">
-                        <div class="text-2xl mb-2">📤</div>
-                        <div class="font-bold">Hasil Pemrosesan:</div>
-                        <div class="bg-green-100 p-3 rounded mt-2">
-                            Input: "${input}"<br>
-                            Panjang: ${input.length} karakter<br>
-                            Diproses pada: ${timestamp}
-                        </div>
-                    </div>
-                `;
-
-                // Clear input
-                document.getElementById('user-input').value = '';
+            // Step 2: Processing
+            setTimeout(() => {
+                document.getElementById('input-stage').style.borderColor = 'transparent';
+                document.getElementById('processing-stage').style.borderColor = '#eab308';
+                document.getElementById('processing-data').innerHTML = `<div class="pulse-animation">🔄 Memproses "${input}"</div>`;
+                animateDataFlow(1);
             }, 2000);
+
+            // Step 3: Memory
+            setTimeout(() => {
+                document.getElementById('processing-stage').style.borderColor = 'transparent';
+                document.getElementById('memory-stage').style.borderColor = '#8b5cf6';
+                const processedData = processData(input, processType);
+                document.getElementById('memory-data').innerHTML = `<span class="font-bold text-purple-600">Tersimpan: ${processedData}</span>`;
+                animateDataFlow(2);
+            }, 4000);
+
+            // Step 4: Output
+            setTimeout(() => {
+                document.getElementById('memory-stage').style.borderColor = 'transparent';
+                document.getElementById('output-stage').style.borderColor = '#16a34a';
+                const result = processData(input, processType);
+                document.getElementById('output-data').innerHTML = `<span class="font-bold text-green-600">Hasil: ${result}</span>`;
+                animateDataFlow(3);
+            }, 6000);
+
+            // Reset borders
+            setTimeout(() => {
+                document.getElementById('output-stage').style.borderColor = 'transparent';
+            }, 8000);
         }
 
-        function updateStorageArea() {
-            const storedDataEl = document.getElementById('stored-data');
-            storedDataEl.innerHTML = processedData.map((data, index) => `
-                <div class="bg-purple-100 p-2 rounded text-sm">
-                    ${index + 1}. "${data.input}" - ${data.timestamp}
-                </div>
-            `).join('');
-        }
-
-        function simulateCalculation() {
-            document.getElementById('user-input').value = '15 + 25';
+        function animateDataFlow(stage) {
+            const dataPacket = document.getElementById('data-packet');
+            const positions = ['0%', '25%', '50%', '75%'];
+            
+            dataPacket.style.opacity = '1';
+            dataPacket.style.left = positions[stage];
             
             setTimeout(() => {
-                const processingArea = document.getElementById('processing-area');
-                processingArea.innerHTML = `
-                    <div class="text-center">
-                        <div class="pulse-animation text-2xl mb-2">🧮</div>
-                        <div>CPU menghitung: 15 + 25</div>
-                        <div class="text-sm text-gray-600 mt-2">ALU (Arithmetic Logic Unit) bekerja...</div>
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    const outputArea = document.getElementById('output-area');
-                    outputArea.innerHTML = `
-                        <div class="text-center">
-                            <div class="text-2xl mb-2">🎯</div>
-                            <div class="font-bold">Hasil Kalkulasi:</div>
-                            <div class="bg-green-100 p-3 rounded mt-2 text-2xl font-bold">
-                                15 + 25 = 40
-                            </div>
-                        </div>
-                    `;
-                }, 1500);
-            }, 500);
+                dataPacket.style.opacity = '0';
+            }, 1500);
         }
 
-        function simulateTextProcessing() {
-            document.getElementById('user-input').value = 'Sistem Komputer';
+        function processData(input, type) {
+            switch(type) {
+                case 'text':
+                    return `"${input}" (${input.length} karakter)`;
+                case 'math':
+                    try {
+                        const result = eval(input.replace(/[^0-9+\-*/().]/g, ''));
+                        return isNaN(result) ? 'Error' : result;
+                    } catch {
+                        return 'Error';
+                    }
+                case 'sort':
+                    const numbers = input.match(/\d+/g);
+                    return numbers ? numbers.sort((a, b) => a - b).join(', ') : input.split('').sort().join('');
+                default:
+                    return input;
+            }
+        }
+
+        function resetStepAnimation() {
+            const stages = ['input', 'processing', 'memory', 'output'];
+            stages.forEach(stage => {
+                document.getElementById(stage + '-stage').style.borderColor = 'transparent';
+                document.getElementById(stage + '-data').innerHTML = `<span class="text-gray-500">${getStageDefaultText(stage)}</span>`;
+            });
+            document.getElementById('data-packet').style.opacity = '0';
+        }
+
+        function getStageDefaultText(stage) {
+            const texts = {
+                'input': 'Menunggu input...',
+                'processing': 'Siap memproses...',
+                'memory': 'Memori kosong...',
+                'output': 'Menunggu hasil...'
+            };
+            return texts[stage];
+        }
+
+        // Virtual Computer Functions
+        function initVirtualComputer() {
+            updateVirtualTime();
+            setInterval(updateVirtualTime, 1000);
+            setInterval(updateSystemUsage, 2000);
+        }
+
+        function updateVirtualTime() {
+            const now = new Date();
+            document.getElementById('virtual-time').textContent = now.toLocaleTimeString();
+        }
+
+        function virtualType(char) {
+            virtualScreenContent += char;
+            updateVirtualScreen();
+            simulateSystemUsage();
+        }
+
+        function virtualBackspace() {
+            virtualScreenContent = virtualScreenContent.slice(0, -1);
+            updateVirtualScreen();
+        }
+
+        function virtualEnter() {
+            virtualScreenContent += '\n> ';
+            updateVirtualScreen();
+            processVirtualCommand();
+        }
+
+        function updateVirtualScreen() {
+            const output = document.getElementById('screen-output');
+            output.innerHTML = `<div class="typing-animation">${virtualScreenContent.replace(/\n/g, '<br>')}</div>`;
+        }
+
+        function processVirtualCommand() {
+            const lines = virtualScreenContent.split('\n');
+            const lastCommand = lines[lines.length - 2] || '';
             
-            setTimeout(() => {
-                const processingArea = document.getElementById('processing-area');
-                processingArea.innerHTML = `
-                    <div class="text-center">
-                        <div class="pulse-animation text-2xl mb-2">📝</div>
-                        <div>CPU memproses teks: "Sistem Komputer"</div>
-                        <div class="text-sm text-gray-600 mt-2">Menganalisis karakter, encoding, formatting...</div>
-                    </div>
-                `;
+            if (lastCommand.includes('hello')) {
+                virtualScreenContent += 'Hello! Selamat datang di Virtual Computer!\n> ';
+            } else if (lastCommand.includes('time')) {
+                virtualScreenContent += `Waktu saat ini: ${new Date().toLocaleTimeString()}\n> `;
+            } else if (lastCommand.includes('clear')) {
+                virtualScreenContent = '> ';
+            }
+            updateVirtualScreen();
+        }
 
-                setTimeout(() => {
-                    const outputArea = document.getElementById('output-area');
-                    outputArea.innerHTML = `
-                        <div class="text-center">
-                            <div class="text-2xl mb-2">📋</div>
-                            <div class="font-bold">Hasil Analisis Teks:</div>
-                            <div class="bg-green-100 p-3 rounded mt-2">
-                                <div>Teks: "Sistem Komputer"</div>
-                                <div>Jumlah karakter: 15</div>
-                                <div>Jumlah kata: 2</div>
-                                <div>Huruf kapital: S, K</div>
+        function simulateSystemUsage() {
+            systemUsage.cpu = Math.min(100, systemUsage.cpu + Math.random() * 10);
+            systemUsage.ram = Math.min(100, systemUsage.ram + Math.random() * 5);
+            systemUsage.storage = Math.min(100, systemUsage.storage + Math.random() * 2);
+            updateSystemUsage();
+        }
+
+        function updateSystemUsage() {
+            document.getElementById('cpu-usage').textContent = Math.round(systemUsage.cpu) + '%';
+            document.getElementById('cpu-bar').style.width = systemUsage.cpu + '%';
+            
+            document.getElementById('ram-usage').textContent = Math.round(systemUsage.ram) + '%';
+            document.getElementById('ram-bar').style.width = systemUsage.ram + '%';
+            
+            document.getElementById('storage-usage').textContent = Math.round(systemUsage.storage) + '%';
+            document.getElementById('storage-bar').style.width = systemUsage.storage + '%';
+            
+            // Gradually decrease usage
+            systemUsage.cpu = Math.max(0, systemUsage.cpu - 2);
+            systemUsage.ram = Math.max(0, systemUsage.ram - 1);
+        }
+
+        function runCalculator() {
+            const output = document.getElementById('screen-output');
+            output.innerHTML = `
+                <div class="bg-gray-800 p-4 rounded">
+                    <div class="text-center text-green-400 mb-2">🧮 CALCULATOR</div>
+                    <div class="text-white">Ketik operasi matematika (contoh: 15+25)</div>
+                </div>
+            `;
+            simulateSystemUsage();
+        }
+
+        function runTextEditor() {
+            const output = document.getElementById('screen-output');
+            output.innerHTML = `
+                <div class="bg-blue-800 p-4 rounded">
+                    <div class="text-center text-blue-200 mb-2">📝 TEXT EDITOR</div>
+                    <div class="text-white">Mulai mengetik dokumen Anda...</div>
+                </div>
+            `;
+            simulateSystemUsage();
+        }
+
+        function runFileManager() {
+            const output = document.getElementById('screen-output');
+            output.innerHTML = `
+                <div class="bg-purple-800 p-4 rounded">
+                    <div class="text-center text-purple-200 mb-2">📁 FILE MANAGER</div>
+                    <div class="text-white">
+                        📁 Documents<br>
+                        📁 Pictures<br>
+                        📁 Downloads<br>
+                        📄 readme.txt
+                    </div>
+                </div>
+            `;
+            simulateSystemUsage();
+        }
+
+        function clearVirtualScreen() {
+            virtualScreenContent = '';
+            const output = document.getElementById('screen-output');
+            output.innerHTML = '<div class="typing-animation">Ketik sesuatu untuk melihat komputer bekerja...</div>';
+        }
+
+        // Process Flow Functions
+        function showComponentDetail(component) {
+            const details = {
+                'input': {
+                    title: '⌨️ INPUT DEVICES',
+                    content: `
+                        <h5 class="font-bold text-lg mb-4">Perangkat Input</h5>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🖱️ Mouse</h6>
+                                <p class="text-sm">Mengontrol pointer dan klik</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h6 class="font-bold">⌨️ Keyboard</h6>
+                                <p class="text-sm">Input teks dan perintah</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🎤 Microphone</h6>
+                                <p class="text-sm">Input suara dan audio</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h6 class="font-bold">📷 Camera</h6>
+                                <p class="text-sm">Input gambar dan video</p>
                             </div>
                         </div>
-                    `;
-                }, 1500);
-            }, 500);
+                    `
+                },
+                'cpu': {
+                    title: '🧠 CENTRAL PROCESSING UNIT',
+                    content: `
+                        <h5 class="font-bold text-lg mb-4">Komponen CPU</h5>
+                        <div class="space-y-4">
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🔢 ALU (Arithmetic Logic Unit)</h6>
+                                <p class="text-sm">Melakukan operasi matematika dan logika</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🎛️ Control Unit</h6>
+                                <p class="text-sm">Mengontrol alur instruksi dan data</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h6 class="font-bold">📊 Registers</h6>
+                                <p class="text-sm">Penyimpanan data sementara super cepat</p>
+                            </div>
+                        </div>
+                    `
+                },
+                'memory': {
+                    title: '💾 MEMORY SYSTEM',
+                    content: `
+                        <h5 class="font-bold text-lg mb-4">Jenis-jenis Memory</h5>
+                        <div class="space-y-4">
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h6 class="font-bold">⚡ RAM (Random Access Memory)</h6>
+                                <p class="text-sm">Memori sementara untuk data aktif</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h6 class="font-bold">💿 Storage (HDD/SSD)</h6>
+                                <p class="text-sm">Penyimpanan permanen untuk data</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🚀 Cache Memory</h6>
+                                <p class="text-sm">Memori super cepat di dalam CPU</p>
+                            </div>
+                        </div>
+                    `
+                },
+                'output': {
+                    title: '🖥️ OUTPUT DEVICES',
+                    content: `
+                        <h5 class="font-bold text-lg mb-4">Perangkat Output</h5>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🖥️ Monitor</h6>
+                                <p class="text-sm">Menampilkan informasi visual</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🔊 Speaker</h6>
+                                <p class="text-sm">Output suara dan audio</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h6 class="font-bold">🖨️ Printer</h6>
+                                <p class="text-sm">Mencetak dokumen fisik</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h6 class="font-bold">💡 LED Indicators</h6>
+                                <p class="text-sm">Indikator status sistem</p>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+
+            const detail = details[component];
+            document.getElementById('detail-content').innerHTML = `
+                <h4 class="text-xl font-bold mb-4">${detail.title}</h4>
+                ${detail.content}
+                <button onclick="hideComponentDetail()" class="mt-4 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">Tutup</button>
+            `;
+            document.getElementById('component-detail').classList.remove('hidden');
         }
 
-        function clearSimulation() {
-            document.getElementById('user-input').value = '';
-            document.getElementById('processing-area').innerHTML = `
-                <div class="text-center text-gray-500">
-                    CPU siap memproses data...
-                </div>
-            `;
-            document.getElementById('output-area').innerHTML = `
-                <div class="text-center text-gray-500">
-                    Hasil pemrosesan akan ditampilkan di sini...
-                </div>
-            `;
-            document.getElementById('stored-data').innerHTML = '';
-            processedData = [];
+        function hideComponentDetail() {
+            document.getElementById('component-detail').classList.add('hidden');
         }
 
-        // Initialize everything when page loads
+        function startFlowDemo() {
+            alert('🎬 Demo akan menunjukkan alur lengkap dari Input → Processing → Memory → Output dengan animasi visual!');
+            // Implementation for flow demo animation
+        }
+
+        // Mini Games Functions
+        function startGame(gameType) {
+            document.getElementById('game-selection').classList.add('hidden');
+            document.getElementById('game-area').classList.remove('hidden');
+            
+            switch(gameType) {
+                case 'calculator':
+                    initCalculatorGame();
+                    break;
+                case 'memory':
+                    initMemoryGame();
+                    break;
+                case 'sort':
+                    initSortGame();
+                    break;
+                case 'binary':
+                    initBinaryGame();
+                    break;
+            }
+        }
+
+        function initCalculatorGame() {
+            document.getElementById('game-content').innerHTML = `
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-bold mb-2">🧮 CPU Calculator Game</h4>
+                    <p class="text-gray-600">Hitung seperti CPU dengan langkah-langkah yang benar!</p>
+                    <div class="mt-4">
+                        <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
+                            Skor: <span id="calc-score">0</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl mb-6">
+                    <div id="calc-problem" class="text-center text-2xl font-bold mb-4">15 + 23 = ?</div>
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <button onclick="selectAnswer(35)" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg text-xl">35</button>
+                        <button onclick="selectAnswer(38)" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg text-xl">38</button>
+                        <button onclick="selectAnswer(42)" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg text-xl">42</button>
+                    </div>
+                    <div id="calc-feedback" class="text-center font-bold"></div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="backToGameSelection()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full">← Kembali ke Games</button>
+                    <button onclick="nextCalcProblem()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full ml-4">Soal Berikutnya</button>
+                </div>
+            `;
+        }
+
+        function initMemoryGame() {
+            const cards = ['🔲', '📊', '🎮', '💾', '🔌', '⚡', '🌀', '📦'];
+            const gameCards = [...cards, ...cards].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('game-content').innerHTML = `
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-bold mb-2">🧠 Memory Match Game</h4>
+                    <p class="text-gray-600">Cocokkan kartu seperti cara kerja RAM!</p>
+                    <div class="mt-4">
+                        <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                            Pasangan: <span id="memory-score">0</span> / 8
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    ${gameCards.map((card, index) => `
+                        <div class="memory-card bg-gray-300 p-6 rounded-lg text-center text-2xl cursor-pointer" 
+                             onclick="flipCard(${index})" data-card="${card}" data-index="${index}">
+                            ❓
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="backToGameSelection()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full">← Kembali ke Games</button>
+                    <button onclick="resetMemoryGame()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full ml-4">🔄 Reset Game</button>
+                </div>
+            `;
+        }
+
+        function initSortGame() {
+            const numbers = Array.from({length: 8}, () => Math.floor(Math.random() * 100));
+            
+            document.getElementById('game-content').innerHTML = `
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-bold mb-2">📊 Data Sort Game</h4>
+                    <p class="text-gray-600">Urutkan angka dari kecil ke besar seperti algoritma komputer!</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl mb-6">
+                    <h5 class="font-bold mb-4">Angka yang harus diurutkan:</h5>
+                    <div id="sort-numbers" class="flex flex-wrap gap-2 justify-center mb-6">
+                        ${numbers.map((num, index) => `
+                            <div class="sort-number bg-purple-500 text-white px-4 py-2 rounded-lg cursor-pointer" 
+                                 onclick="selectNumber(${index})" data-number="${num}">
+                                ${num}
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <h5 class="font-bold mb-4">Urutan yang benar:</h5>
+                    <div id="sort-result" class="flex flex-wrap gap-2 justify-center min-h-12 border-2 border-dashed border-gray-300 p-4 rounded-lg">
+                        <span class="text-gray-500">Klik angka sesuai urutan dari kecil ke besar</span>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="backToGameSelection()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full">← Kembali ke Games</button>
+                    <button onclick="checkSortResult()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full ml-4">✓ Periksa Hasil</button>
+                </div>
+            `;
+        }
+
+        function initBinaryGame() {
+            const decimal = Math.floor(Math.random() * 16);
+            
+            document.getElementById('game-content').innerHTML = `
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-bold mb-2">💻 Binary Converter Game</h4>
+                    <p class="text-gray-600">Konversi angka desimal ke binary seperti komputer!</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl mb-6">
+                    <div class="text-center mb-6">
+                        <h5 class="font-bold text-lg mb-2">Konversi angka ini ke binary:</h5>
+                        <div id="binary-decimal" class="text-4xl font-bold text-orange-600">${decimal}</div>
+                    </div>
+                    
+                    <div class="text-center mb-4">
+                        <input type="text" id="binary-input" placeholder="Masukkan binary (contoh: 1010)" 
+                               class="p-3 border rounded-lg text-center text-xl w-64">
+                    </div>
+                    
+                    <div id="binary-feedback" class="text-center font-bold mb-4"></div>
+                    
+                    <div class="text-center">
+                        <button onclick="checkBinaryAnswer()" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-full">
+                            ✓ Periksa Jawaban
+                        </button>
+                        <button onclick="generateBinaryProblem()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full ml-4">
+                            🔄 Soal Baru
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="backToGameSelection()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-full">← Kembali ke Games</button>
+                </div>
+            `;
+            
+            currentDecimal = decimal;
+        }
+
+        function backToGameSelection() {
+            document.getElementById('game-selection').classList.remove('hidden');
+            document.getElementById('game-area').classList.add('hidden');
+        }
+
+        // Calculator Game Functions
+        let currentCalcAnswer = 0;
+        let calcScore = 0;
+
+        function selectAnswer(answer) {
+            if (answer === currentCalcAnswer) {
+                document.getElementById('calc-feedback').innerHTML = '<span class="text-green-600">✓ Benar!</span>';
+                calcScore++;
+                document.getElementById('calc-score').textContent = calcScore;
+            } else {
+                document.getElementById('calc-feedback').innerHTML = '<span class="text-red-600">✗ Salah! Jawaban yang benar: ' + currentCalcAnswer + '</span>';
+            }
+        }
+
+        function nextCalcProblem() {
+            const a = Math.floor(Math.random() * 50) + 1;
+            const b = Math.floor(Math.random() * 50) + 1;
+            currentCalcAnswer = a + b;
+            
+            const wrong1 = currentCalcAnswer + Math.floor(Math.random() * 10) + 1;
+            const wrong2 = currentCalcAnswer - Math.floor(Math.random() * 10) - 1;
+            
+            const answers = [currentCalcAnswer, wrong1, wrong2].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('calc-problem').textContent = `${a} + ${b} = ?`;
+            document.getElementById('calc-feedback').innerHTML = '';
+            
+            const buttons = document.querySelectorAll('#game-content button[onclick^="selectAnswer"]');
+            buttons.forEach((btn, index) => {
+                btn.textContent = answers[index];
+                btn.onclick = () => selectAnswer(answers[index]);
+            });
+        }
+
+        // Memory Game Functions
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function flipCard(index) {
+            const card = document.querySelector(`[data-index="${index}"]`);
+            const cardValue = card.dataset.card;
+            
+            if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+                card.textContent = cardValue;
+                card.classList.add('flipped');
+                card.style.backgroundColor = '#10b981';
+                flippedCards.push({index, value: cardValue, element: card});
+                
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 1000);
+                }
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.value === card2.value) {
+                matchedPairs++;
+                document.getElementById('memory-score').textContent = matchedPairs;
+                if (matchedPairs === 8) {
+                    alert('🎉 Selamat! Anda berhasil mencocokkan semua kartu!');
+                }
+            } else {
+                card1.element.textContent = '❓';
+                card1.element.classList.remove('flipped');
+                card1.element.style.backgroundColor = '#d1d5db';
+                
+                card2.element.textContent = '❓';
+                card2.element.classList.remove('flipped');
+                card2.element.style.backgroundColor = '#d1d5db';
+            }
+            
+            flippedCards = [];
+        }
+
+        function resetMemoryGame() {
+            matchedPairs = 0;
+            flippedCards = [];
+            document.getElementById('memory-score').textContent = '0';
+            
+            const cards = document.querySelectorAll('.memory-card');
+            cards.forEach(card => {
+                card.textContent = '❓';
+                card.classList.remove('flipped');
+                card.style.backgroundColor = '#d1d5db';
+            });
+        }
+
+        // Sort Game Functions
+        let selectedNumbers = [];
+        let originalNumbers = [];
+
+        function selectNumber(index) {
+            const numbers = document.querySelectorAll('.sort-number');
+            const clickedNumber = numbers[index];
+            const numberValue = parseInt(clickedNumber.dataset.number);
+            
+            if (!selectedNumbers.includes(numberValue)) {
+                selectedNumbers.push(numberValue);
+                clickedNumber.style.opacity = '0.5';
+                clickedNumber.style.pointerEvents = 'none';
+                
+                updateSortResult();
+            }
+        }
+
+        function updateSortResult() {
+            const resultDiv = document.getElementById('sort-result');
+            if (selectedNumbers.length === 0) {
+                resultDiv.innerHTML = '<span class="text-gray-500">Klik angka sesuai urutan dari kecil ke besar</span>';
+            } else {
+                resultDiv.innerHTML = selectedNumbers.map(num => 
+                    `<div class="bg-purple-500 text-white px-4 py-2 rounded-lg">${num}</div>`
+                ).join('');
+            }
+        }
+
+        function checkSortResult() {
+            const correctOrder = [...selectedNumbers].sort((a, b) => a - b);
+            const isCorrect = JSON.stringify(selectedNumbers) === JSON.stringify(correctOrder);
+            
+            if (isCorrect) {
+                alert('🎉 Benar! Anda berhasil mengurutkan angka dengan tepat!');
+            } else {
+                alert('❌ Belum benar. Urutan yang benar: ' + correctOrder.join(', '));
+            }
+        }
+
+        // Binary Game Functions
+        let currentDecimal = 0;
+
+        function generateBinaryProblem() {
+            currentDecimal = Math.floor(Math.random() * 16);
+            document.getElementById('binary-decimal').textContent = currentDecimal;
+            document.getElementById('binary-input').value = '';
+            document.getElementById('binary-feedback').innerHTML = '';
+        }
+
+        function checkBinaryAnswer() {
+            const userAnswer = document.getElementById('binary-input').value;
+            const correctAnswer = currentDecimal.toString(2);
+            
+            if (userAnswer === correctAnswer) {
+                document.getElementById('binary-feedback').innerHTML = '<span class="text-green-600">✓ Benar!</span>';
+            } else {
+                document.getElementById('binary-feedback').innerHTML = `<span class="text-red-600">✗ Salah! Jawaban yang benar: ${correctAnswer}</span>`;
+            }
+        }
+
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            initializeDragAndDrop();
+            console.log('🎯 DOM loaded successfully');
+            
+            // Test navigation function
+            if (typeof navigateToPage === 'function') {
+                console.log('✅ navigateToPage function is available');
+            } else {
+                console.error('❌ navigateToPage function not found');
+            }
         });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983fa390c61afd41',t:'MTc1ODY4OTE5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+        // Quiz Functions
+        let quizScore = 0;
+        let quizAnswered = [];
+
+        function selectQuizAnswer(questionIndex, isCorrect) {
+            if (quizAnswered.includes(questionIndex)) return;
+            
+            quizAnswered.push(questionIndex);
+            const feedbackEl = document.getElementById(`quiz-feedback-${questionIndex}`);
+            
+            if (isCorrect) {
+                feedbackEl.innerHTML = '<span class="text-green-600">✅ Benar!</span>';
+                quizScore++;
+                userProgress.totalScore += 10;
+            } else {
+                feedbackEl.innerHTML = '<span class="text-red-600">❌ Salah! Jawaban yang benar: Central Processing Unit</span>';
+            }
+            
+            document.getElementById('quiz-score').textContent = quizScore;
+            
+            // Disable all options for this question
+            const questionEl = document.querySelector(`#quiz-feedback-${questionIndex}`).parentElement;
+            const options = questionEl.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.disabled = true;
+                option.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+            
+            updateProgress();
+        }
+
+        // Bookmark Functions
+        let bookmarks = [];
+
+        function bookmarkContent(contentId) {
+            const bookmark = {
+                id: contentId,
+                title: getContentTitle(contentId),
+                timestamp: new Date().toLocaleString(),
+                page: getCurrentPage()
+            };
+            
+            if (!bookmarks.find(b => b.id === contentId)) {
+                bookmarks.push(bookmark);
+                showNotification('🔖 Konten berhasil di-bookmark!');
+            } else {
+                showNotification('📌 Konten sudah ada di bookmark');
+            }
+        }
+
+        function getContentTitle(contentId) {
+            const titles = {
+                'step-animation': 'Animasi Step-by-Step',
+                'virtual-computer': 'Komputer Virtual',
+                'process-flow': 'Alur Proses Interaktif',
+                'mini-games': 'Koleksi Mini Games'
+            };
+            return titles[contentId] || 'Konten';
+        }
+
+        function getCurrentPage() {
+            const visiblePage = document.querySelector('.page-content:not(.hidden)');
+            return visiblePage ? visiblePage.id : 'home';
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-blue-100 border border-blue-400 text-blue-800 px-4 py-3 rounded-lg shadow-lg z-50';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize the application - Splash Screen
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+            
+            // Initialize slide navigation
+            if (document.getElementById('slide1')) {
+                goToSlide(1);
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const splashScreen = document.getElementById('splash-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            // Waktu tampil Splash Screen sebelum Fade Out (3 detik)
+            const displayDuration = 3000; 
+            
+            // Durasi efek Fade Out (1 detik) - harus sama dengan nilai 'transition' di CSS
+            const fadeDuration = 1000; 
+
+            // Timer untuk memulai FADE OUT setelah displayDuration (3 detik)
+            setTimeout(() => {
+                // 1. Mulai transisi fade out (opacity 1 -> 0)
+                splashScreen.style.opacity = '0';
+                
+                // 2. Timer untuk menyembunyikan elemen setelah transisi selesai
+                setTimeout(() => {
+                    // Sembunyikan splash screen sepenuhnya
+                    splashScreen.style.display = 'none';
+                    
+                    // Tampilkan konten utama dengan efek fade-in
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('visible-content');
+
+                }, fadeDuration); // Tunggu 1 detik agar transisi CSS selesai
+
+            }, displayDuration); // Tunggu 3 detik sebelum aksi dimulai
+        });
+        
+        </script>
+    </body>
 </html>
