@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Hub - Halaman Utama</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: var(--theme-text);
+        }
+
+        .container {
+            max-width: 75%;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-logo {
+            max-width: 80px;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .header-section h1 {
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            color: var(--theme-primary);
+            text-shadow: 0 2px 15px var(--theme-primary-light);
+        }
+
+        .header-section h1.title-large {
+            font-size: 2.2rem;
+        }
+
+        .header-section h1.title-medium {
+            font-size: 1.8rem;
+        }
+
+        .header-section h1.title-small {
+            font-size: 1.4rem;
+        }
+
+        .header-section p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        .header-section p.subtitle-large {
+            font-size: 1.1rem;
+        }
+
+        .header-section p.subtitle-medium {
+            font-size: 1rem;
+        }
+
+        .header-section p.subtitle-small {
+            font-size: 0.9rem;
+        }
+
+        .header-section .description-large {
+            font-size: 1rem;
+        }
+
+        .header-section .description-medium {
+            font-size: 0.9rem;
+        }
+
+        .header-section .description-small {
+            font-size: 0.8rem;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .category-section {
+            margin-bottom: 15px;
+        }
+
+        .category-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--theme-primary);
+            margin-bottom: 12px;
+            padding: 8px 16px;
+            background: var(--theme-primary-light);
+            border-left: 4px solid var(--theme-primary);
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-button {
+            display: block;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--theme-primary-light);
+            border-radius: 10px;
+            color: var(--theme-text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-button:hover {
+            transform: translateY(-2px);
+            background: var(--theme-primary-light);
+            border-color: var(--theme-primary);
+            box-shadow: 0 8px 25px var(--theme-primary-light);
+        }
+
+        .link-button:active {
+            transform: translateY(-1px);
+        }
+
+        .link-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 181, 246, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .link-button:hover::before {
+            left: 100%;
+        }
+
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--theme-primary-light);
+            border: 2px solid var(--theme-primary);
+            border-radius: 50%;
+            padding: 12px;
+            color: var(--theme-text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+        }
+
+        .admin-link:hover {
+            background: var(--theme-primary);
+            border-color: var(--theme-primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Login Pop-up Styles */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .login-popup {
+            background: rgba(26, 26, 46, 0.95);
+            border: 2px solid rgba(100, 181, 246, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            width: 90%;
+            max-width: 350px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .login-header h3 {
+            margin: 0;
+            color: #64b5f6;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--theme-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--theme-primary-light);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--theme-text);
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--theme-primary);
+            background: var(--theme-primary-light);
+        }
+
+        .form-group select option {
+            background: var(--theme-bg-start);
+            color: #2c3e50;
+            padding: 8px;
+        }
+
+        .login-btn, .btn-primary, .btn-secondary, .btn-danger {
+            padding: 10px 20px;
+            border: 2px solid;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-btn, .btn-primary {
+            background: var(--theme-primary-light);
+            border-color: var(--theme-primary);
+            color: var(--theme-text);
+            width: 100%;
+        }
+
+        .login-btn:hover, .btn-primary:hover {
+            background: var(--theme-primary);
+            border-color: var(--theme-primary-dark);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(158, 158, 158, 0.2);
+            border-color: rgba(158, 158, 158, 0.5);
+            color: var(--theme-text);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(158, 158, 158, 0.3);
+            border-color: rgba(158, 158, 158, 0.8);
+        }
+
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.2);
+            border-color: rgba(244, 67, 54, 0.5);
+            color: var(--theme-text);
+        }
+
+        .btn-danger:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: rgba(244, 67, 54, 0.8);
+            color: white;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #4caf50;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Theme Variables */
+        :root {
+            --theme-primary: #7986cb;
+            --theme-primary-dark: #5c6bc0;
+            --theme-primary-light: rgba(121, 134, 203, 0.15);
+            --theme-text: #2c3e50;
+        }
+
+        .theme-lavender {
+            --theme-primary: #b39ddb;
+            --theme-primary-dark: #9575cd;
+            --theme-primary-light: rgba(179, 157, 219, 0.15);
+            --theme-text: #4a4a4a;
+            background: #faf9fc;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(179, 157, 219, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(179, 157, 219, 0.06) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(179, 157, 219, 0.02) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(179, 157, 219, 0.02) 25%, transparent 25%);
+            background-size: 200px 200px, 300px 300px, 40px 40px, 40px 40px;
+        }
+
+        .theme-sage {
+            --theme-primary: #a5d6a7;
+            --theme-primary-dark: #81c784;
+            --theme-primary-light: rgba(165, 214, 167, 0.15);
+            --theme-text: #2e7d32;
+            background: #f8fdf8;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(165, 214, 167, 0.04) 0px, rgba(165, 214, 167, 0.04) 2px, transparent 2px, transparent 12px),
+                repeating-linear-gradient(-45deg, rgba(165, 214, 167, 0.02) 0px, rgba(165, 214, 167, 0.02) 2px, transparent 2px, transparent 12px),
+                radial-gradient(circle at 30% 70%, rgba(165, 214, 167, 0.06) 0%, transparent 60%);
+            background-size: 20px 20px, 20px 20px, 400px 400px;
+        }
+
+        .theme-peach {
+            --theme-primary: #ffab91;
+            --theme-primary-dark: #ff8a65;
+            --theme-primary-light: rgba(255, 171, 145, 0.15);
+            --theme-text: #d84315;
+            background: #fff8f5;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 171, 145, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 171, 145, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 171, 145, 0.04) 0%, transparent 50%),
+                linear-gradient(30deg, rgba(255, 171, 145, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(255, 171, 145, 0.02) 87.5%);
+            background-size: 250px 250px, 180px 180px, 120px 120px, 60px 60px;
+        }
+
+        .theme-dusty-blue {
+            --theme-primary: #90a4ae;
+            --theme-primary-dark: #78909c;
+            --theme-primary-light: rgba(144, 164, 174, 0.15);
+            --theme-text: #37474f;
+            background: #f5f7f8;
+            background-image: 
+                linear-gradient(90deg, rgba(144, 164, 174, 0.04) 50%, transparent 50%),
+                linear-gradient(rgba(144, 164, 174, 0.02) 50%, transparent 50%),
+                radial-gradient(circle at 25% 25%, rgba(144, 164, 174, 0.06) 0%, transparent 40%);
+            background-size: 30px 30px, 30px 30px, 200px 200px;
+        }
+
+        .theme-soft-pink {
+            --theme-primary: #f48fb1;
+            --theme-primary-dark: #ec407a;
+            --theme-primary-light: rgba(244, 143, 177, 0.15);
+            --theme-text: #ad1457;
+            background: #fdf2f8;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(244, 143, 177, 0.06) 0%, transparent 70%),
+                repeating-conic-gradient(from 0deg at 50% 50%, rgba(244, 143, 177, 0.02) 0deg, rgba(244, 143, 177, 0.02) 60deg, transparent 60deg, transparent 120deg),
+                linear-gradient(135deg, rgba(244, 143, 177, 0.02) 25%, transparent 25%, transparent 75%, rgba(244, 143, 177, 0.02) 75%);
+            background-size: 300px 300px, 80px 80px, 50px 50px;
+        }
+
+        .theme-mint {
+            --theme-primary: #80cbc4;
+            --theme-primary-dark: #4db6ac;
+            --theme-primary-light: rgba(128, 203, 196, 0.15);
+            --theme-text: #00695c;
+            background: #f0fffe;
+            background-image: 
+                repeating-linear-gradient(60deg, rgba(128, 203, 196, 0.03) 0px, rgba(128, 203, 196, 0.03) 1px, transparent 1px, transparent 21px),
+                repeating-linear-gradient(120deg, rgba(128, 203, 196, 0.03) 0px, rgba(128, 203, 196, 0.03) 1px, transparent 1px, transparent 21px),
+                repeating-linear-gradient(180deg, rgba(128, 203, 196, 0.03) 0px, rgba(128, 203, 196, 0.03) 1px, transparent 1px, transparent 21px);
+            background-size: 42px 42px, 42px 42px, 42px 42px;
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            z-index: 1500;
+            overflow-y: auto;
+            color: #ffffff;
+        }
+
+        .admin-header {
+            background: rgba(26, 26, 46, 0.95);
+            border-bottom: 2px solid rgba(100, 181, 246, 0.3);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1600;
+        }
+
+        .admin-header h2 {
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .admin-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .admin-preview {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 160px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            padding: 15px 20px;
+            background: var(--theme-primary-light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--theme-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(180deg, var(--theme-bg-start) 0%, var(--theme-bg-mid) 50%, var(--theme-bg-end) 100%);
+        }
+
+        .preview-container {
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .preview-header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-header-logo {
+            max-width: 50px;
+            max-height: 50px;
+            width: auto;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .preview-header-section h1 {
+            margin: 0 0 8px 0;
+            font-weight: 700;
+            color: var(--theme-primary);
+        }
+
+        .preview-header-section h1.preview-title-large {
+            font-size: 1.5rem;
+        }
+
+        .preview-header-section h1.preview-title-medium {
+            font-size: 1.2rem;
+        }
+
+        .preview-header-section h1.preview-title-small {
+            font-size: 1rem;
+        }
+
+        .preview-header-section p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        .preview-header-section p.preview-subtitle-large {
+            font-size: 0.9rem;
+        }
+
+        .preview-header-section p.preview-subtitle-medium {
+            font-size: 0.8rem;
+        }
+
+        .preview-header-section p.preview-subtitle-small {
+            font-size: 0.7rem;
+        }
+
+        .preview-header-section .preview-description-large {
+            font-size: 0.8rem;
+        }
+
+        .preview-header-section .preview-description-medium {
+            font-size: 0.7rem;
+        }
+
+        .preview-header-section .preview-description-small {
+            font-size: 0.6rem;
+        }
+
+        .preview-links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .preview-category-section {
+            margin-bottom: 12px;
+        }
+
+        .preview-category-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--theme-primary);
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 6px 12px;
+            background: var(--theme-primary-light);
+            border-left: 3px solid var(--theme-primary);
+            border-radius: 4px;
+        }
+
+        .preview-category-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .preview-link-button {
+            display: block;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--theme-primary-light);
+            border-radius: 8px;
+            color: var(--theme-text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .preview-link-button:hover {
+            background: var(--theme-primary-light);
+            border-color: var(--theme-primary);
+        }
+
+        .admin-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-section h3 {
+            margin: 0 0 15px 0;
+            color: #ffffff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--theme-primary-light);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .link-card:hover {
+            border-color: var(--theme-primary);
+            background: var(--theme-primary-light);
+            transform: translateX(4px);
+        }
+
+        .link-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+            z-index: 1000;
+        }
+
+        .link-card.drag-over {
+            border-color: var(--theme-primary);
+            background: var(--theme-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .link-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .link-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .link-card-title {
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .link-card-category {
+            background: var(--theme-primary-light);
+            color: var(--theme-primary);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .link-card-url {
+            color: var(--theme-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .link-card-url:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .link-card-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .link-card-actions button {
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            min-width: 60px;
+        }
+
+        .admin-footer {
+            background: rgba(26, 26, 46, 0.95);
+            border-top: 2px solid rgba(100, 181, 246, 0.3);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            bottom: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+            }
+            
+            .admin-preview {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .header-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .link-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .admin-link {
+                bottom: 15px;
+                right: 15px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header-section" id="headerSection">
+            <!-- Header content will be loaded dynamically -->
+        </div>
+
+        <!-- Links Container -->
+        <div class="links-container" id="linksContainer">
+            <!-- Links akan dimuat dari localStorage -->
+        </div>
+        <H3 align="center"> Kurikulum SMAIT Al Haraki </H3>
+    </div>
+
+    <!-- Admin Link -->
+    <button class="admin-link" id="adminBtn" title="Login Admin">
+        🔐
+    </button>
+
+    <!-- Login Pop-up -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-popup">
+            <div class="login-header">
+                <h3>🔐 Admin Login</h3>
+                <button class="close-btn" id="closeLogin">×</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <div id="loginError" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2>⚙️ Admin Panel</h2>
+            <button class="close-btn" id="closeAdmin">×</button>
+        </div>
+        
+        <div class="admin-content">
+            <div class="admin-main">
+                <!-- Theme Selection -->
+                <div class="admin-section">
+                    <h3>🎨 Pilih Tema</h3>
+                    <form id="themeForm">
+                        <div class="form-group">
+                            <label for="themeSelect">Tema Warna:</label>
+                            <select id="themeSelect">
+                                <option value="lavender">💜 Lavender (Default)</option>
+                                <option value="sage">🌿 Sage Green</option>
+                                <option value="peach">🍑 Soft Peach</option>
+                                <option value="dusty-blue">🌫️ Dusty Blue</option>
+                                <option value="soft-pink">🌸 Soft Pink</option>
+                                <option value="mint">🌱 Mint</option>
+                            </select>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn-primary">Terapkan Tema</button>
+                        </div>
+                        <div id="themeMessage"></div>
+                    </form>
+                </div>
+
+                <!-- Header Customization -->
+                <div class="admin-section">
+                    <h3>📝 Kustomisasi Header</h3>
+                    <form id="headerForm">
+                        <div class="form-group">
+                            <label for="headerLogo">Logo (PNG):</label>
+                            <input type="file" id="headerLogo" accept=".png,image/png">
+                            <small style="color: #b0bec5; font-size: 0.8rem;">Upload logo PNG untuk ditampilkan di atas judul</small>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="headerTitle">Judul Utama:</label>
+                                <input type="text" id="headerTitle" value="🌙 Link Hub" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="titleSize">Ukuran Judul:</label>
+                                <select id="titleSize">
+                                    <option value="large">Besar</option>
+                                    <option value="medium">Sedang</option>
+                                    <option value="small">Kecil</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="headerSubtitle">Sub Judul:</label>
+                                <input type="text" id="headerSubtitle" value="Koleksi link dalam tema yang elegan dan nyaman di mata" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subtitleSize">Ukuran Sub Judul:</label>
+                                <select id="subtitleSize">
+                                    <option value="large">Besar</option>
+                                    <option value="medium" selected>Sedang</option>
+                                    <option value="small">Kecil</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="headerDescription">Deskripsi:</label>
+                                <input type="text" id="headerDescription" value="Akses cepat ke semua website favorit Anda">
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionSize">Ukuran Deskripsi:</label>
+                                <select id="descriptionSize">
+                                    <option value="large">Besar</option>
+                                    <option value="medium" selected>Sedang</option>
+                                    <option value="small">Kecil</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn-primary">Update Header</button>
+                            <button type="button" class="btn-secondary" id="resetHeaderBtn">Reset Default</button>
+                        </div>
+                        <div id="headerMessage"></div>
+                    </form>
+                    
+                    <div id="currentLogo" style="margin-top: 15px; text-align: center;">
+                        <!-- Current logo will be displayed here -->
+                    </div>
+                </div>
+
+                <!-- Category Management -->
+                <div class="admin-section">
+                    <h3>🏷️ Kelola Kategori</h3>
+                    <form id="categoryForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="categoryName">Nama Kategori:</label>
+                                <input type="text" id="categoryName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryIcon">Icon:</label>
+                                <select id="categoryIcon">
+                                    <option value="">Tanpa Icon</option>
+                                    <option value="🔍">🔍 Pencarian</option>
+                                    <option value="📱">📱 Media Sosial</option>
+                                    <option value="💼">💼 Produktivitas</option>
+                                    <option value="🎮">🎮 Hiburan</option>
+                                    <option value="📚">📚 Belajar</option>
+                                    <option value="🛒">🛒 Belanja</option>
+                                    <option value="🏥">🏥 Kesehatan</option>
+                                    <option value="🍔">🍔 Makanan</option>
+                                    <option value="✈️">✈️ Travel</option>
+                                    <option value="💰">💰 Keuangan</option>
+                                    <option value="🎵">🎵 Musik</option>
+                                    <option value="📺">📺 Video</option>
+                                    <option value="🏠">🏠 Rumah</option>
+                                    <option value="🚗">🚗 Transportasi</option>
+                                    <option value="⚽">⚽ Olahraga</option>
+                                    <option value="📰">📰 Berita</option>
+                                    <option value="🎨">🎨 Desain</option>
+                                    <option value="💻">💻 Teknologi</option>
+                                    <option value="📧">📧 Email</option>
+                                    <option value="☁️">☁️ Cloud</option>
+                                    <option value="📌">📌 Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn-primary">Tambah Kategori</button>
+                        </div>
+                        <div id="categoryMessage"></div>
+                    </form>
+                    
+                    <div class="links-grid" id="categoriesGrid" style="margin-top: 20px;">
+                        <!-- Categories akan dimuat di sini -->
+                    </div>
+                </div>
+
+                <!-- Add Link Form -->
+                <div class="admin-section">
+                    <h3 id="formTitle">➕ Tambah Link Baru</h3>
+                    <form id="linkForm">
+                        <input type="hidden" id="editId">
+                        <div class="form-group">
+                            <label for="linkTitle">Judul:</label>
+                            <input type="text" id="linkTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkUrl">URL:</label>
+                            <input type="url" id="linkUrl" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkCategory">Kategori:</label>
+                            <select id="linkCategory">
+                                <!-- Categories akan dimuat dari localStorage -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkVisible">Status:</label>
+                            <select id="linkVisible">
+                                <option value="true">👁️ Tampilkan Link</option>
+                                <option value="false">🙈 Sembunyikan Link</option>
+                            </select>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn-primary" id="submitBtn">Tambah Link</button>
+                            <button type="button" class="btn-secondary" id="cancelBtn" style="display: none;">Batal</button>
+                        </div>
+                        <div id="formMessage"></div>
+                    </form>
+                </div>
+
+                <!-- Links Management -->
+                <div class="admin-section">
+                    <h3>📋 Kelola Link</h3>
+                    <div class="links-grid" id="linksGrid">
+                        <!-- Links akan dimuat di sini -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="admin-preview">
+                <div class="preview-header">
+                    📱 Preview Halaman Beranda
+                </div>
+                <div class="preview-content">
+                    <div class="preview-container">
+                        <div class="preview-header-section" id="previewHeaderSection">
+                            <!-- Preview header content will be loaded dynamically -->
+                        </div>
+                        <div class="preview-links-container" id="previewLinksContainer">
+                            <!-- Preview links akan dimuat di sini -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-footer">
+            <button class="btn-danger" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // Efek partikel sederhana untuk background
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 2px;
+                height: 2px;
+                background: rgba(100, 181, 246, 0.3);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: -1;
+                left: ${Math.random() * 100}vw;
+                top: 100vh;
+                animation: float 8s linear infinite;
+            `;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Tambahkan CSS untuk animasi partikel
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                to {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Buat partikel secara berkala
+        setInterval(createParticle, 3000);
+
+        // Initialize categories
+        function initializeCategories() {
+            const savedCategories = localStorage.getItem('linkHubCategories');
+            if (!savedCategories) {
+                const defaultCategories = [
+                    { name: 'Pencarian', icon: '🔍' },
+                    { name: 'Media Sosial', icon: '📱' },
+                    { name: 'Produktivitas', icon: '💼' },
+                    { name: 'Hiburan', icon: '🎮' },
+                    { name: 'Belajar', icon: '📚' },
+                    { name: 'Lainnya', icon: '📌' }
+                ];
+                localStorage.setItem('linkHubCategories', JSON.stringify(defaultCategories));
+            }
+        }
+
+        // Initialize header settings
+        function initializeHeader() {
+            const savedHeader = localStorage.getItem('linkHubHeader');
+            if (!savedHeader) {
+                const defaultHeader = {
+                    title: '🌙 Link Hub',
+                    subtitle: 'Koleksi link dalam tema yang elegan dan nyaman di mata',
+                    description: 'Akses cepat ke semua website favorit Anda',
+                    titleSize: 'large',
+                    subtitleSize: 'medium',
+                    descriptionSize: 'medium',
+                    logo: null
+                };
+                localStorage.setItem('linkHubHeader', JSON.stringify(defaultHeader));
+            }
+        }
+
+        // Load header settings
+        function loadHeaderSettings() {
+            const savedHeader = localStorage.getItem('linkHubHeader');
+            return savedHeader ? JSON.parse(savedHeader) : {
+                title: '🌙 Link Hub',
+                subtitle: 'Koleksi link dalam tema yang elegan dan nyaman di mata',
+                description: 'Akses cepat ke semua website favorit Anda',
+                titleSize: 'large',
+                subtitleSize: 'medium',
+                descriptionSize: 'medium',
+                logo: null
+            };
+        }
+
+        // Load categories
+        function loadCategories() {
+            const savedCategories = localStorage.getItem('linkHubCategories');
+            return savedCategories ? JSON.parse(savedCategories) : [];
+        }
+
+        // Load links dari localStorage
+        function loadLinks() {
+            const savedLinks = localStorage.getItem('linkHubData');
+            let linksData = [];
+
+            if (savedLinks) {
+                linksData = JSON.parse(savedLinks);
+            } else {
+                // Data default jika belum ada
+                linksData = [
+                    { id: 1, title: 'Google Search', url: 'https://www.google.com', category: 'Pencarian', visible: true },
+                    { id: 2, title: 'YouTube', url: 'https://www.youtube.com', category: 'Hiburan', visible: true },
+                    { id: 3, title: 'Netflix', url: 'https://www.netflix.com', category: 'Hiburan', visible: true },
+                    { id: 4, title: 'GitHub', url: 'https://www.github.com', category: 'Belajar', visible: true },
+                    { id: 5, title: 'Stack Overflow', url: 'https://www.stackoverflow.com', category: 'Belajar', visible: true },
+                    { id: 6, title: 'Gmail', url: 'https://mail.google.com', category: 'Produktivitas', visible: true }
+                ];
+                localStorage.setItem('linkHubData', JSON.stringify(linksData));
+            }
+
+            displayLinks(linksData);
+        }
+
+        function displayLinks(linksData) {
+            const container = document.getElementById('linksContainer');
+            container.innerHTML = '';
+            const categories = loadCategories();
+
+            // Filter hanya link yang visible dan kelompokkan berdasarkan kategori
+            const categoryGroups = {};
+            linksData.forEach(link => {
+                // Hanya tampilkan link yang visible (default true untuk backward compatibility)
+                if (link.visible !== false) {
+                    if (!categoryGroups[link.category]) {
+                        categoryGroups[link.category] = [];
+                    }
+                    categoryGroups[link.category].push(link);
+                }
+            });
+
+            // Tampilkan setiap kategori
+            Object.keys(categoryGroups).forEach(categoryName => {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+
+                const categoryLabel = document.createElement('div');
+                categoryLabel.className = 'category-label';
+                
+                const categoryInfo = categories.find(cat => cat.name === categoryName);
+                const icon = categoryInfo && categoryInfo.icon ? categoryInfo.icon + ' ' : '';
+                categoryLabel.textContent = `${icon}${categoryName}`;
+
+                const categoryLinks = document.createElement('div');
+                categoryLinks.className = 'category-links';
+
+                categoryGroups[categoryName].forEach(link => {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = link.url;
+                    linkElement.target = '_blank';
+                    linkElement.rel = 'noopener noreferrer';
+                    linkElement.className = 'link-button';
+                    linkElement.textContent = link.title;
+                    categoryLinks.appendChild(linkElement);
+                });
+
+                categorySection.appendChild(categoryLabel);
+                categorySection.appendChild(categoryLinks);
+                container.appendChild(categorySection);
+            });
+        }
+
+        // Load categories into select dropdown
+        function loadCategorySelect() {
+            const categories = loadCategories();
+            const select = document.getElementById('linkCategory');
+            select.innerHTML = '';
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.name;
+                const icon = category.icon ? category.icon + ' ' : '';
+                option.textContent = `${icon}${category.name}`;
+                select.appendChild(option);
+            });
+        }
+
+        // Load categories for admin management
+        function loadAdminCategories() {
+            const categories = loadCategories();
+            const grid = document.getElementById('categoriesGrid');
+            grid.innerHTML = '';
+            
+            categories.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'link-card';
+                const icon = category.icon ? category.icon + ' ' : '';
+                card.innerHTML = `
+                    <div class="link-card-header">
+                        <h4 class="link-card-title">${icon}${category.name}</h4>
+                    </div>
+                    <div class="link-card-actions">
+                        <button class="btn-danger" onclick="deleteCategory('${category.name}')">Hapus</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Display header function
+        function displayHeader() {
+            const headerSettings = loadHeaderSettings();
+            const headerSection = document.getElementById('headerSection');
+            
+            let headerHTML = '';
+            
+            // Add logo if exists
+            if (headerSettings.logo) {
+                headerHTML += `<img src="${headerSettings.logo}" alt="Logo" class="header-logo">`;
+            }
+            
+            // Add title with size class
+            headerHTML += `<h1 class="title-${headerSettings.titleSize}">${headerSettings.title}</h1>`;
+            
+            // Add subtitle with size class
+            headerHTML += `<p class="subtitle-${headerSettings.subtitleSize}">${headerSettings.subtitle}</p>`;
+            
+            // Add description with size class if exists
+            if (headerSettings.description) {
+                headerHTML += `<p class="description-${headerSettings.descriptionSize || 'medium'}">${headerSettings.description}</p>`;
+            }
+            
+            headerSection.innerHTML = headerHTML;
+        }
+
+        // Display preview header function
+        function displayPreviewHeader() {
+            const headerSettings = loadHeaderSettings();
+            const previewHeaderSection = document.getElementById('previewHeaderSection');
+            
+            let headerHTML = '';
+            
+            // Add logo if exists
+            if (headerSettings.logo) {
+                headerHTML += `<img src="${headerSettings.logo}" alt="Logo" class="preview-header-logo">`;
+            }
+            
+            // Add title with size class
+            headerHTML += `<h1 class="preview-title-${headerSettings.titleSize}">${headerSettings.title}</h1>`;
+            
+            // Add subtitle with size class
+            headerHTML += `<p class="preview-subtitle-${headerSettings.subtitleSize}">${headerSettings.subtitle}</p>`;
+            
+            // Add description with size class if exists
+            if (headerSettings.description) {
+                headerHTML += `<p class="preview-description-${headerSettings.descriptionSize || 'medium'}">${headerSettings.description}</p>`;
+            }
+            
+            previewHeaderSection.innerHTML = headerHTML;
+        }
+
+        // Load header form data
+        function loadHeaderForm() {
+            const headerSettings = loadHeaderSettings();
+            
+            document.getElementById('headerTitle').value = headerSettings.title;
+            document.getElementById('headerSubtitle').value = headerSettings.subtitle;
+            document.getElementById('headerDescription').value = headerSettings.description || '';
+            document.getElementById('titleSize').value = headerSettings.titleSize;
+            document.getElementById('subtitleSize').value = headerSettings.subtitleSize;
+            document.getElementById('descriptionSize').value = headerSettings.descriptionSize || 'medium';
+            
+            // Display current logo if exists
+            const currentLogoDiv = document.getElementById('currentLogo');
+            if (headerSettings.logo) {
+                currentLogoDiv.innerHTML = `
+                    <div style="margin-bottom: 10px;">
+                        <strong style="color: #64b5f6;">Logo Saat Ini:</strong>
+                    </div>
+                    <img src="${headerSettings.logo}" alt="Current Logo" style="max-width: 100px; max-height: 100px;">
+                    <div style="margin-top: 10px;">
+                        <button type="button" class="btn-danger" onclick="removeLogo()">Hapus Logo</button>
+                    </div>
+                `;
+            } else {
+                currentLogoDiv.innerHTML = '<p style="color: #b0bec5; font-size: 0.9rem;">Belum ada logo yang diupload</p>';
+            }
+        }
+
+        // Initialize theme
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('linkHubTheme');
+            const theme = savedTheme || 'lavender';
+            applyTheme(theme);
+        }
+
+        // Apply theme
+        function applyTheme(theme) {
+            document.body.className = `theme-${theme}`;
+            localStorage.setItem('linkHubTheme', theme);
+        }
+
+        // Load theme form
+        function loadThemeForm() {
+            const savedTheme = localStorage.getItem('linkHubTheme') || 'lavender';
+            document.getElementById('themeSelect').value = savedTheme;
+        }
+
+        // Initialize on page load
+        initializeCategories();
+        initializeHeader();
+        initializeTheme();
+        loadLinks();
+        displayHeader();
+
+        // GANTI USERNAME DAN PASSWORD DI SINI
+        const validUsername = 'admin';
+        const validPassword = 'mandalawangi';
+
+        let currentEditId = null;
+
+        // Admin button click
+        document.getElementById('adminBtn').addEventListener('click', function() {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            // Auto focus on username field
+            setTimeout(() => {
+                document.getElementById('username').focus();
+            }, 100);
+        });
+
+        // Close login popup
+        document.getElementById('closeLogin').addEventListener('click', function() {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('loginError').textContent = '';
+        });
+
+        // Close admin panel
+        document.getElementById('closeAdmin').addEventListener('click', function() {
+            document.getElementById('adminPanel').style.display = 'none';
+        });
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === validUsername && password === validPassword) {
+                // Tutup login overlay
+                document.getElementById('loginOverlay').style.display = 'none';
+                
+                // Tampilkan admin panel dengan semua konten
+                const adminPanel = document.getElementById('adminPanel');
+                const adminContent = document.querySelector('.admin-content');
+                const adminHeader = document.querySelector('.admin-header');
+                const adminFooter = document.querySelector('.admin-footer');
+                
+                // Set display untuk panel utama
+                adminPanel.style.display = 'block';
+                adminPanel.style.position = 'fixed';
+                adminPanel.style.top = '0';
+                adminPanel.style.left = '0';
+                adminPanel.style.width = '100%';
+                adminPanel.style.height = '100%';
+                adminPanel.style.zIndex = '1500';
+                adminPanel.style.overflowY = 'auto';
+                
+                // Pastikan semua bagian terlihat
+                if (adminHeader) adminHeader.style.display = 'flex';
+                if (adminContent) adminContent.style.display = 'block';
+                if (adminFooter) adminFooter.style.display = 'block';
+                
+                // Load admin data
+                loadCategorySelect();
+                loadAdminCategories();
+                loadAdminLinks();
+                loadHeaderForm(); // Load header form
+                loadThemeForm(); // Load theme form
+                updatePreview(); // Initialize preview
+                
+                // Reset login form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('loginError').textContent = '';
+            } else {
+                document.getElementById('loginError').textContent = 'Username atau password salah!';
+            }
+        });
+
+        // Logout button
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('adminPanel').style.display = 'none';
+            resetForm();
+        });
+
+        // Header form submission
+        document.getElementById('headerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('headerTitle').value.trim();
+            const subtitle = document.getElementById('headerSubtitle').value.trim();
+            const description = document.getElementById('headerDescription').value.trim();
+            const titleSize = document.getElementById('titleSize').value;
+            const subtitleSize = document.getElementById('subtitleSize').value;
+            const descriptionSize = document.getElementById('descriptionSize').value;
+            const logoFile = document.getElementById('headerLogo').files[0];
+            
+            if (title && subtitle) {
+                const headerSettings = loadHeaderSettings();
+                
+                // Function to save header settings
+                function saveHeaderSettings(logoData = null) {
+                    const newSettings = {
+                        title: title,
+                        subtitle: subtitle,
+                        description: description,
+                        titleSize: titleSize,
+                        subtitleSize: subtitleSize,
+                        descriptionSize: descriptionSize,
+                        logo: logoData || headerSettings.logo
+                    };
+                    
+                    localStorage.setItem('linkHubHeader', JSON.stringify(newSettings));
+                    displayHeader(); // Update main page
+                    displayPreviewHeader(); // Update preview
+                    loadHeaderForm(); // Refresh form
+                    showHeaderMessage('Header berhasil diperbarui!', 'success');
+                }
+                
+                // Handle logo upload
+                if (logoFile) {
+                    if (logoFile.type === 'image/png') {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            saveHeaderSettings(e.target.result);
+                        };
+                        reader.readAsDataURL(logoFile);
+                    } else {
+                        showHeaderMessage('Hanya file PNG yang diizinkan!', 'error');
+                        return;
+                    }
+                } else {
+                    saveHeaderSettings();
+                }
+            }
+        });
+
+        // Reset header button
+        document.getElementById('resetHeaderBtn').addEventListener('click', function() {
+            if (confirm('Apakah Anda yakin ingin mereset header ke default?')) {
+                const defaultHeader = {
+                    title: '🌙 Link Hub',
+                    subtitle: 'Koleksi link dalam tema yang elegan dan nyaman di mata',
+                    description: 'Akses cepat ke semua website favorit Anda',
+                    titleSize: 'large',
+                    subtitleSize: 'medium',
+                    descriptionSize: 'medium',
+                    logo: null
+                };
+                
+                localStorage.setItem('linkHubHeader', JSON.stringify(defaultHeader));
+                displayHeader();
+                displayPreviewHeader();
+                loadHeaderForm();
+                showHeaderMessage('Header berhasil direset ke default!', 'success');
+            }
+        });
+
+        // Theme form submission
+        document.getElementById('themeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedTheme = document.getElementById('themeSelect').value;
+            applyTheme(selectedTheme);
+            showThemeMessage('Tema berhasil diterapkan!', 'success');
+        });
+
+        // Category form submission
+        document.getElementById('categoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('categoryName').value.trim();
+            const icon = document.getElementById('categoryIcon').value || '';
+            
+            if (name) {
+                const categories = loadCategories();
+                
+                // Check if category already exists
+                if (categories.find(cat => cat.name === name)) {
+                    showCategoryMessage('Kategori sudah ada!', 'error');
+                    return;
+                }
+                
+                categories.push({ name, icon });
+                localStorage.setItem('linkHubCategories', JSON.stringify(categories));
+                
+                loadCategorySelect();
+                loadAdminCategories();
+                updatePreview(); // Update preview
+                showCategoryMessage('Kategori berhasil ditambahkan!', 'success');
+                
+                document.getElementById('categoryForm').reset();
+            }
+        });
+
+        // Link form submission
+        document.getElementById('linkForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('linkTitle').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            const category = document.getElementById('linkCategory').value;
+            const visible = document.getElementById('linkVisible').value === 'true';
+            const editId = document.getElementById('editId').value;
+            
+            if (title && url) {
+                try {
+                    new URL(url);
+                } catch {
+                    showMessage('URL tidak valid!', 'error');
+                    return;
+                }
+                
+                const savedLinks = localStorage.getItem('linkHubData');
+                let linksData = savedLinks ? JSON.parse(savedLinks) : [];
+                
+                if (editId) {
+                    // Edit existing link
+                    const linkIndex = linksData.findIndex(link => link.id == editId);
+                    if (linkIndex !== -1) {
+                        linksData[linkIndex] = {
+                            id: parseInt(editId),
+                            title: title,
+                            url: url,
+                            category: category,
+                            visible: visible
+                        };
+                        showMessage('Link berhasil diperbarui!', 'success');
+                    }
+                } else {
+                    // Add new link
+                    const newId = linksData.length > 0 ? Math.max(...linksData.map(l => l.id)) + 1 : 1;
+                    linksData.push({
+                        id: newId,
+                        title: title,
+                        url: url,
+                        category: category,
+                        visible: visible
+                    });
+                    showMessage('Link berhasil ditambahkan!', 'success');
+                }
+                
+                localStorage.setItem('linkHubData', JSON.stringify(linksData));
+                loadLinks(); // Refresh main page
+                loadAdminLinks(); // Refresh admin view
+                updatePreview(); // Update preview
+                resetForm();
+            }
+        });
+
+        // Cancel edit button
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            resetForm();
+        });
+
+        // Load links for admin panel
+        function loadAdminLinks() {
+            const savedLinks = localStorage.getItem('linkHubData');
+            const linksData = savedLinks ? JSON.parse(savedLinks) : [];
+            
+            const grid = document.getElementById('linksGrid');
+            grid.innerHTML = '';
+            
+            if (linksData.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: #6c757d;">Belum ada link yang ditambahkan.</p>';
+                return;
+            }
+            
+            linksData.forEach((link, index) => {
+                const card = document.createElement('div');
+                card.className = 'link-card';
+                card.draggable = true;
+                card.dataset.linkId = link.id;
+                card.dataset.index = index;
+                const visibilityIcon = link.visible !== false ? '👁️' : '🙈';
+                const visibilityText = link.visible !== false ? 'Tampil' : 'Tersembunyi';
+                const cardOpacity = link.visible !== false ? '1' : '0.6';
+                
+                card.style.opacity = cardOpacity;
+                card.innerHTML = `
+                    <div class="link-card-info">
+                        <div class="link-card-header">
+                            <h4 class="link-card-title">⋮⋮ ${link.title}</h4>
+                            <span class="link-card-category">${link.category}</span>
+                            <span class="link-card-category" style="background: ${link.visible !== false ? 'rgba(76, 175, 80, 0.2)' : 'rgba(158, 158, 158, 0.2)'}; color: ${link.visible !== false ? '#4caf50' : '#9e9e9e'};">${visibilityIcon} ${visibilityText}</span>
+                        </div>
+                        <a href="${link.url}" target="_blank" class="link-card-url" title="${link.url}">${link.url}</a>
+                    </div>
+                    <div class="link-card-actions">
+                        <button class="btn-primary" onclick="editLink(${link.id})">Edit</button>
+                        <button class="btn-danger" onclick="deleteLink(${link.id})">Hapus</button>
+                    </div>
+                `;
+                
+                // Add drag event listeners
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+                card.addEventListener('dragend', handleDragEnd);
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Drag and drop functionality
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            
+            this.classList.add('drag-over');
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedElement !== this) {
+                const draggedIndex = parseInt(draggedElement.dataset.index);
+                const targetIndex = parseInt(this.dataset.index);
+                
+                // Reorder links in localStorage
+                const savedLinks = localStorage.getItem('linkHubData');
+                let linksData = savedLinks ? JSON.parse(savedLinks) : [];
+                
+                // Move the dragged item to new position
+                const draggedItem = linksData.splice(draggedIndex, 1)[0];
+                linksData.splice(targetIndex, 0, draggedItem);
+                
+                // Save reordered links
+                localStorage.setItem('linkHubData', JSON.stringify(linksData));
+                
+                // Refresh displays
+                loadLinks();
+                loadAdminLinks();
+                updatePreview();
+            }
+            
+            this.classList.remove('drag-over');
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            
+            // Remove drag-over class from all cards
+            const cards = document.querySelectorAll('.link-card');
+            cards.forEach(card => {
+                card.classList.remove('drag-over');
+            });
+            
+            draggedElement = null;
+        }
+
+        // Edit link function - make it global
+        window.editLink = function(id) {
+            const savedLinks = localStorage.getItem('linkHubData');
+            const linksData = savedLinks ? JSON.parse(savedLinks) : [];
+            const link = linksData.find(l => l.id === id);
+            
+            if (link) {
+                document.getElementById('editId').value = link.id;
+                document.getElementById('linkTitle').value = link.title;
+                document.getElementById('linkUrl').value = link.url;
+                document.getElementById('linkCategory').value = link.category;
+                document.getElementById('linkVisible').value = link.visible !== false ? 'true' : 'false';
+                
+                document.getElementById('formTitle').textContent = '✏️ Edit Link';
+                document.getElementById('submitBtn').textContent = 'Update Link';
+                document.getElementById('cancelBtn').style.display = 'inline-block';
+                
+                currentEditId = id;
+            }
+        }
+
+        // Delete link function
+        function deleteLink(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus link ini?')) {
+                const savedLinks = localStorage.getItem('linkHubData');
+                let linksData = savedLinks ? JSON.parse(savedLinks) : [];
+                
+                linksData = linksData.filter(link => link.id !== id);
+                localStorage.setItem('linkHubData', JSON.stringify(linksData));
+                
+                loadLinks(); // Refresh main page
+                loadAdminLinks(); // Refresh admin view
+                updatePreview(); // Update preview
+                showMessage('Link berhasil dihapus!', 'success');
+            }
+        }
+
+        // Delete category function
+        function deleteCategory(categoryName) {
+            if (confirm(`Apakah Anda yakin ingin menghapus kategori "${categoryName}"? Semua link dalam kategori ini akan dipindah ke "Lainnya".`)) {
+                let categories = loadCategories();
+                categories = categories.filter(cat => cat.name !== categoryName);
+                
+                // Move links to "Lainnya" category
+                const savedLinks = localStorage.getItem('linkHubData');
+                let linksData = savedLinks ? JSON.parse(savedLinks) : [];
+                linksData = linksData.map(link => {
+                    if (link.category === categoryName) {
+                        link.category = 'Lainnya';
+                    }
+                    return link;
+                });
+                
+                localStorage.setItem('linkHubCategories', JSON.stringify(categories));
+                localStorage.setItem('linkHubData', JSON.stringify(linksData));
+                
+                loadLinks();
+                loadCategorySelect();
+                loadAdminCategories();
+                loadAdminLinks();
+                updatePreview(); // Update preview
+                showCategoryMessage('Kategori berhasil dihapus!', 'success');
+            }
+        }
+
+        // Update preview function
+        function updatePreview() {
+            displayPreviewHeader(); // Update preview header
+            
+            const savedLinks = localStorage.getItem('linkHubData');
+            const linksData = savedLinks ? JSON.parse(savedLinks) : [];
+            const categories = loadCategories();
+            
+            const container = document.getElementById('previewLinksContainer');
+            container.innerHTML = '';
+
+            // Filter hanya link yang visible dan kelompokkan berdasarkan kategori
+            const categoryGroups = {};
+            linksData.forEach(link => {
+                // Hanya tampilkan link yang visible (default true untuk backward compatibility)
+                if (link.visible !== false) {
+                    if (!categoryGroups[link.category]) {
+                        categoryGroups[link.category] = [];
+                    }
+                    categoryGroups[link.category].push(link);
+                }
+            });
+
+            // Tampilkan setiap kategori
+            Object.keys(categoryGroups).forEach(categoryName => {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'preview-category-section';
+
+                const categoryLabel = document.createElement('div');
+                categoryLabel.className = 'preview-category-label';
+                
+                const categoryInfo = categories.find(cat => cat.name === categoryName);
+                const icon = categoryInfo && categoryInfo.icon ? categoryInfo.icon + ' ' : '';
+                categoryLabel.textContent = `${icon}${categoryName}`;
+
+                const categoryLinks = document.createElement('div');
+                categoryLinks.className = 'preview-category-links';
+
+                categoryGroups[categoryName].forEach(link => {
+                    const linkElement = document.createElement('div');
+                    linkElement.className = 'preview-link-button';
+                    linkElement.textContent = link.title;
+                    categoryLinks.appendChild(linkElement);
+                });
+
+                categorySection.appendChild(categoryLabel);
+                categorySection.appendChild(categoryLinks);
+                container.appendChild(categorySection);
+            });
+        }
+
+        // Remove logo function
+        function removeLogo() {
+            if (confirm('Apakah Anda yakin ingin menghapus logo?')) {
+                const headerSettings = loadHeaderSettings();
+                headerSettings.logo = null;
+                
+                localStorage.setItem('linkHubHeader', JSON.stringify(headerSettings));
+                displayHeader();
+                displayPreviewHeader();
+                loadHeaderForm();
+                showHeaderMessage('Logo berhasil dihapus!', 'success');
+            }
+        }
+
+        // Show header message function
+        function showHeaderMessage(message, type) {
+            const messageDiv = document.getElementById('headerMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+            }, 3000);
+        }
+
+        // Make functions globally accessible
+        window.deleteLink = deleteLink;
+        window.deleteCategory = deleteCategory;
+        window.removeLogo = removeLogo;
+
+        // Reset form function
+        function resetForm() {
+            document.getElementById('linkForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('formTitle').textContent = '➕ Tambah Link Baru';
+            document.getElementById('submitBtn').textContent = 'Tambah Link';
+            document.getElementById('cancelBtn').style.display = 'none';
+            document.getElementById('formMessage').textContent = '';
+            currentEditId = null;
+        }
+
+        // Show message function
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('formMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+            }, 3000);
+        }
+
+        // Show category message function
+        function showCategoryMessage(message, type) {
+            const messageDiv = document.getElementById('categoryMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+            }, 3000);
+        }
+
+        // Show theme message function
+        function showThemeMessage(message, type) {
+            const messageDiv = document.getElementById('themeMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+            }, 3000);
+        }
+
+        // Close popups when clicking outside
+        document.getElementById('loginOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+                document.getElementById('loginError').textContent = '';
+            }
+        });
+
+        document.getElementById('adminPanel').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+    </script>
+</body>    
+</html>
