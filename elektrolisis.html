@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ ElectroLab - Elektrolisis Interaktif</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 25%, #2d1b69 50%, #4c1d95 75%, #6366f1 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #a855f7, #00d4ff);
+            border-radius: 2px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #00d4ff; }
+            to { box-shadow: 0 0 30px #a855f7, 0 0 40px #00d4ff; }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #00d4ff, #a855f7, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-button {
+            padding: 15px 25px;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.2), rgba(168, 85, 247, 0.2));
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .nav-button.active {
+            background: linear-gradient(45deg, #00d4ff, #a855f7);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section.active {
+            display: block;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #a855f7, #00d4ff);
+        }
+
+        .simulation-container {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(26, 26, 62, 0.5));
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+        }
+
+        .electrodes-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .electrode {
+            width: 80px;
+            height: 200px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .electrode-bar {
+            width: 20px;
+            height: 150px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .anode {
+            background: linear-gradient(180deg, #ff6b6b, #ff4757);
+            animation: anodePulse 2s ease-in-out infinite;
+        }
+
+        .cathode {
+            background: linear-gradient(180deg, #00d4ff, #0984e3);
+            animation: cathodePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes anodePulse {
+            0%, 100% { box-shadow: 0 0 20px #ff6b6b; }
+            50% { box-shadow: 0 0 40px #ff6b6b, 0 0 60px #ff4757; }
+        }
+
+        @keyframes cathodePulse {
+            0%, 100% { box-shadow: 0 0 20px #00d4ff; }
+            50% { box-shadow: 0 0 40px #00d4ff, 0 0 60px #0984e3; }
+        }
+
+        .electrode-label {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .solution-container {
+            width: 300px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(168, 85, 247, 0.3));
+            border-radius: 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            overflow: hidden;
+        }
+
+        .ion {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: ionFloat 3s ease-in-out infinite;
+        }
+
+        .cation {
+            background: radial-gradient(circle, #ff6b6b, #ff4757);
+            color: white;
+            box-shadow: 0 0 15px #ff6b6b;
+        }
+
+        .anion {
+            background: radial-gradient(circle, #00d4ff, #0984e3);
+            color: white;
+            box-shadow: 0 0 15px #00d4ff;
+        }
+
+        @keyframes ionFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(120deg); }
+            66% { transform: translateY(5px) rotate(240deg); }
+        }
+
+        .electron-flow {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: electronMove 2s linear infinite;
+        }
+
+        @keyframes electronMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .control-button {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00d4ff, #a855f7);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .control-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .control-button:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quiz-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quiz-options li {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .quiz-options li:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .quiz-options li.selected {
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.2), rgba(168, 85, 247, 0.2));
+            border-color: #00d4ff;
+        }
+
+        .experiment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .experiment-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(26, 26, 62, 0.3));
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.3);
+            border-color: #00d4ff;
+        }
+
+        .reaction-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .formula {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: sparkle 1s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #a855f7);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .electrodes-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .solution-container {
+                width: 250px;
+                height: 100px;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ ElectroLab ⚡</h1>
+            <p style="font-size: 1.3rem; opacity: 0.9;">Laboratorium Digital Elektrolisis Interaktif</p>
+        </div>
+
+        <div class="nav-container">
+            <button class="nav-button active" onclick="showSection('konsep')">🧪 Konsep Dasar</button>
+            <button class="nav-button" onclick="showSection('komponen')">⚙️ Komponen Sel</button>
+            <button class="nav-button" onclick="showSection('simulasi')">🔬 Simulasi Visual</button>
+            <button class="nav-button" onclick="showSection('reaksi')">⚗️ Contoh Reaksi</button>
+            <button class="nav-button" onclick="showSection('aplikasi')">🏭 Aplikasi Nyata</button>
+            <button class="nav-button" onclick="showSection('hukum')">📐 Hukum Faraday</button>
+            <button class="nav-button" onclick="showSection('eksperimen')">🧬 Lab Virtual</button>
+        </div>
+
+        <!-- KONSEP DASAR -->
+        <div id="konsep" class="section active">
+            <h2><span class="icon">🧪</span>Konsep Dasar Elektrolisis</h2>
+            
+            <div class="concept-card">
+                <h3>⚡ Apa itu Elektrolisis?</h3>
+                <p><strong>Elektrolisis</strong> adalah proses penguraian senyawa ionik menjadi unsur-unsurnya menggunakan arus listrik searah (DC). Ini adalah reaksi <em>non-spontan</em> yang memerlukan energi listrik dari luar.</p>
+                
+                <div class="formula">
+                    <strong>Energi Listrik → Reaksi Kimia</strong><br>
+                    <small>Kebalikan dari sel volta yang menghasilkan listrik dari reaksi kimia</small>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>⚖️ Perbedaan Elektrolisis vs Sel Volta</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div style="background: rgba(255, 107, 107, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #ff6b6b;">
+                        <h4 style="color: #ff6b6b;">🔋 Sel Volta (Galvani)</h4>
+                        <ul>
+                            <li>Reaksi spontan</li>
+                            <li>Menghasilkan listrik</li>
+                            <li>ΔG < 0 (negatif)</li>
+                            <li>Anoda = elektroda negatif</li>
+                            <li>Katoda = elektroda positif</li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0, 212, 255, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #00d4ff;">
+                        <h4 style="color: #00d4ff;">⚡ Elektrolisis</h4>
+                        <ul>
+                            <li>Reaksi non-spontan</li>
+                            <li>Memerlukan listrik</li>
+                            <li>ΔG > 0 (positif)</li>
+                            <li>Anoda = elektroda positif</li>
+                            <li>Katoda = elektroda negatif</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Mini: Konsep Dasar</h4>
+                <p><strong>Manakah pernyataan yang benar tentang elektrolisis?</strong></p>
+                <ul class="quiz-options" id="quiz1">
+                    <li onclick="selectQuizOption(this, false)">A. Elektrolisis adalah reaksi spontan</li>
+                    <li onclick="selectQuizOption(this, true)">B. Elektrolisis memerlukan energi listrik dari luar</li>
+                    <li onclick="selectQuizOption(this, false)">C. Elektrolisis menghasilkan listrik</li>
+                    <li onclick="selectQuizOption(this, false)">D. Elektrolisis sama dengan sel volta</li>
+                </ul>
+                <div id="quiz1-result"></div>
+            </div>
+        </div>
+
+        <!-- KOMPONEN SEL -->
+        <div id="komponen" class="section">
+            <h2><span class="icon">⚙️</span>Komponen Sel Elektrolisis</h2>
+            
+            <div class="concept-card">
+                <h3>🔌 1. Sumber Arus DC</h3>
+                <p>Menyediakan arus listrik searah yang diperlukan untuk menggerakkan reaksi non-spontan. Kutub positif dihubungkan ke anoda, kutub negatif ke katoda.</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>🔧 2. Elektroda</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #a855f7;">⚫ Elektroda Inert</h4>
+                        <p><strong>Contoh:</strong> Platina (Pt), Karbon (C)</p>
+                        <p>Tidak ikut bereaksi, hanya sebagai penghantar listrik</p>
+                    </div>
+                    <div style="background: rgba(0, 212, 255, 0.1); padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #00d4ff;">🔵 Elektroda Aktif</h4>
+                        <p><strong>Contoh:</strong> Tembaga (Cu), Perak (Ag)</p>
+                        <p>Ikut bereaksi dalam proses elektrolisis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>💧 3. Elektrolit</h3>
+                <p>Zat yang dapat menghantarkan listrik karena mengandung ion-ion bebas:</p>
+                <ul>
+                    <li><strong>Larutan ion:</strong> NaCl(aq), CuSO₄(aq), H₂SO₄(aq)</li>
+                    <li><strong>Leburan garam:</strong> NaCl(l), Al₂O₃(l)</li>
+                </ul>
+            </div>
+
+            <div class="simulation-container">
+                <h3 style="text-align: center;">🔬 Visualisasi Komponen Sel</h3>
+                <div class="electrodes-container">
+                    <div class="electrode">
+                        <div class="electrode-bar anode"></div>
+                        <div class="electrode-label" style="color: #ff6b6b;">
+                            ANODA (+)<br>
+                            <small>Oksidasi</small>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-container">
+                        <div class="electron-flow"></div>
+                        <span style="font-weight: bold; z-index: 10;">Larutan Elektrolit</span>
+                        <!-- Sparks -->
+                        <div class="spark" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+                        <div class="spark" style="top: 60%; left: 80%; animation-delay: 0.3s;"></div>
+                        <div class="spark" style="top: 40%; left: 50%; animation-delay: 0.6s;"></div>
+                    </div>
+                    
+                    <div class="electrode">
+                        <div class="electrode-bar cathode"></div>
+                        <div class="electrode-label" style="color: #00d4ff;">
+                            KATODA (-)<br>
+                            <small>Reduksi</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="font-size: 1.1rem;">⚡ Arus listrik mengalir dari anoda ke katoda melalui larutan elektrolit</p>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Mini: Komponen Sel</h4>
+                <p><strong>Elektroda yang terhubung dengan kutub positif sumber arus disebut?</strong></p>
+                <ul class="quiz-options" id="quiz2">
+                    <li onclick="selectQuizOption(this, false)">A. Katoda</li>
+                    <li onclick="selectQuizOption(this, true)">B. Anoda</li>
+                    <li onclick="selectQuizOption(this, false)">C. Elektrolit</li>
+                    <li onclick="selectQuizOption(this, false)">D. Konduktor</li>
+                </ul>
+                <div id="quiz2-result"></div>
+            </div>
+        </div>
+
+        <!-- SIMULASI VISUAL -->
+        <div id="simulasi" class="section">
+            <h2><span class="icon">🔬</span>Simulasi Visual Elektrolisis</h2>
+            
+            <div class="simulation-container">
+                <h3 style="text-align: center;">⚡ Simulasi Pergerakan Ion</h3>
+                
+                <div class="control-panel">
+                    <select id="electrolyte" class="control-button" style="background: rgba(255,255,255,0.1); color: white;">
+                        <option value="cuso4">CuSO₄ (aq)</option>
+                        <option value="nacl">NaCl (aq)</option>
+                        <option value="h2o">H₂O (murni)</option>
+                    </select>
+                    <button class="control-button" onclick="startSimulation()">▶️ Mulai Simulasi</button>
+                    <button class="control-button" onclick="stopSimulation()">⏸️ Pause</button>
+                    <button class="control-button" onclick="resetSimulation()">🔄 Reset</button>
+                </div>
+
+                <div class="electrodes-container" id="simulationArea">
+                    <div class="electrode">
+                        <div class="electrode-bar anode"></div>
+                        <div class="electrode-label" style="color: #ff6b6b;">
+                            ANODA (+)<br>
+                            <div id="anodeReaction">Oksidasi</div>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-container" id="solutionArea">
+                        <div class="electron-flow"></div>
+                        <span id="solutionLabel">Pilih elektrolit dan mulai simulasi</span>
+                    </div>
+                    
+                    <div class="electrode">
+                        <div class="electrode-bar cathode"></div>
+                        <div class="electrode-label" style="color: #00d4ff;">
+                            KATODA (-)<br>
+                            <div id="cathodeReaction">Reduksi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+
+                <div class="reaction-display" id="reactionDisplay">
+                    <h4>📋 Reaksi yang Terjadi:</h4>
+                    <div id="reactionEquations">Mulai simulasi untuk melihat persamaan reaksi</div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Mini: Pergerakan Ion</h4>
+                <p><strong>Ion yang bermuatan negatif (anion) akan bergerak menuju?</strong></p>
+                <ul class="quiz-options" id="quiz3">
+                    <li onclick="selectQuizOption(this, false)">A. Katoda (elektroda negatif)</li>
+                    <li onclick="selectQuizOption(this, true)">B. Anoda (elektroda positif)</li>
+                    <li onclick="selectQuizOption(this, false)">C. Tidak bergerak</li>
+                    <li onclick="selectQuizOption(this, false)">D. Bergerak acak</li>
+                </ul>
+                <div id="quiz3-result"></div>
+            </div>
+        </div>
+
+        <!-- CONTOH REAKSI -->
+        <div id="reaksi" class="section">
+            <h2><span class="icon">⚗️</span>Contoh Reaksi Penting</h2>
+            
+            <div class="experiment-grid">
+                <div class="experiment-card" onclick="showReaction('cuso4')">
+                    <h3>🔵 Elektrolisis CuSO₄</h3>
+                    <p>Dengan elektroda karbon (inert)</p>
+                    <div style="text-align: center; font-size: 2rem; margin: 15px 0;">⚡🧪</div>
+                    <p><small>Klik untuk melihat detail reaksi</small></p>
+                </div>
+
+                <div class="experiment-card" onclick="showReaction('nacl-molten')">
+                    <h3>🧂 Elektrolisis NaCl Lebur</h3>
+                    <p>Produksi logam natrium</p>
+                    <div style="text-align: center; font-size: 2rem; margin: 15px 0;">🔥⚡</div>
+                    <p><small>Klik untuk melihat detail reaksi</small></p>
+                </div>
+
+                <div class="experiment-card" onclick="showReaction('h2o')">
+                    <h3>💧 Elektrolisis Air</h3>
+                    <p>Produksi gas H₂ dan O₂</p>
+                    <div style="text-align: center; font-size: 2rem; margin: 15px 0;">💨⚡</div>
+                    <p><small>Klik untuk melihat detail reaksi</small></p>
+                </div>
+
+                <div class="experiment-card" onclick="showReaction('electroplating')">
+                    <h3>✨ Penyepuhan Logam</h3>
+                    <p>Electroplating dengan Cu</p>
+                    <div style="text-align: center; font-size: 2rem; margin: 15px 0;">🏆⚡</div>
+                    <p><small>Klik untuk melihat detail reaksi</small></p>
+                </div>
+            </div>
+
+            <div class="reaction-display" id="reactionDetails" style="display: none;">
+                <div id="reactionContent"></div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Mini: Reaksi Elektrolisis</h4>
+                <p><strong>Pada elektrolisis air murni, gas apa yang dihasilkan di katoda?</strong></p>
+                <ul class="quiz-options" id="quiz4">
+                    <li onclick="selectQuizOption(this, true)">A. Gas hidrogen (H₂)</li>
+                    <li onclick="selectQuizOption(this, false)">B. Gas oksigen (O₂)</li>
+                    <li onclick="selectQuizOption(this, false)">C. Gas klorin (Cl₂)</li>
+                    <li onclick="selectQuizOption(this, false)">D. Tidak ada gas</li>
+                </ul>
+                <div id="quiz4-result"></div>
+            </div>
+        </div>
+
+        <!-- APLIKASI NYATA -->
+        <div id="aplikasi" class="section">
+            <h2><span class="icon">🏭</span>Aplikasi Nyata Elektrolisis</h2>
+            
+            <div class="concept-card">
+                <h3>🔧 1. Pemurnian Logam</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="background: rgba(255, 107, 107, 0.1); padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #ff6b6b;">🔴 Pemurnian Tembaga</h4>
+                        <p>Tembaga kotor sebagai anoda, tembaga murni sebagai katoda</p>
+                        <p><strong>Kemurnian:</strong> 99.9%</p>
+                    </div>
+                    <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #a855f7;">⚪ Produksi Aluminium</h4>
+                        <p>Elektrolisis Al₂O₃ dalam lelehan kriolit</p>
+                        <p><strong>Proses:</strong> Hall-Héroult</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>💨 2. Produksi Gas</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <div style="background: rgba(0, 212, 255, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2rem;">💨</div>
+                        <h4 style="color: #00d4ff;">Hidrogen (H₂)</h4>
+                        <p>Bahan bakar ramah lingkungan</p>
+                    </div>
+                    <div style="background: rgba(255, 107, 107, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2rem;">🌬️</div>
+                        <h4 style="color: #ff6b6b;">Oksigen (O₂)</h4>
+                        <p>Industri medis & metalurgi</p>
+                    </div>
+                    <div style="background: rgba(168, 85, 247, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2rem;">☁️</div>
+                        <h4 style="color: #a855f7;">Klorin (Cl₂)</h4>
+                        <p>Desinfektan & industri kimia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>✨ 3. Penyepuhan Logam (Electroplating)</h3>
+                <p>Melapisi logam murah dengan logam berharga untuk:</p>
+                <ul>
+                    <li><strong>🏆 Penyepuhan emas:</strong> Perhiasan, komponen elektronik</li>
+                    <li><strong>🥈 Penyepuhan perak:</strong> Peralatan makan, cermin</li>
+                    <li><strong>🔧 Penyepuhan krom:</strong> Bumper mobil, keran air</li>
+                    <li><strong>🛡️ Galvanisasi:</strong> Perlindungan besi dari karat</li>
+                </ul>
+                
+                <div class="simulation-container" style="margin-top: 20px;">
+                    <h4 style="text-align: center;">🔬 Simulasi Penyepuhan</h4>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div style="width: 60px; height: 80px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 10px; margin: 0 auto; box-shadow: 0 0 20px #ffd700;"></div>
+                            <p style="margin-top: 10px; color: #ffd700;"><strong>Anoda Au</strong></p>
+                            <small>Larut menjadi Au³⁺</small>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="width: 150px; height: 60px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 237, 78, 0.3)); border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 2px solid #ffd700;">
+                                <span style="color: #ffd700; font-weight: bold;">AuCl₃ (aq)</span>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="width: 60px; height: 80px; background: linear-gradient(45deg, #c0c0c0, #e8e8e8); border-radius: 10px; margin: 0 auto; position: relative;">
+                                <div style="position: absolute; top: 0; left: 0; right: 0; height: 20px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 10px 10px 0 0; animation: goldPlating 3s ease-in-out infinite;"></div>
+                            </div>
+                            <p style="margin-top: 10px; color: #00d4ff;"><strong>Katoda (Benda)</strong></p>
+                            <small>Dilapisi emas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Mini: Aplikasi Elektrolisis</h4>
+                <p><strong>Proses penyepuhan logam menggunakan elektrolisis disebut?</strong></p>
+                <ul class="quiz-options" id="quiz5">
+                    <li onclick="selectQuizOption(this, false)">A. Galvanisasi</li>
+                    <li onclick="selectQuizOption(this, true)">B. Electroplating</li>
+                    <li onclick="selectQuizOption(this, false)">C. Elektroforesis</li>
+                    <li onclick="selectQuizOption(this, false)">D. Elektrodialisis</li>
+                </ul>
+                <div id="quiz5-result"></div>
+            </div>
+        </div>
+
+        <!-- HUKUM FARADAY -->
+        <div id="hukum" class="section">
+            <h2><span class="icon">📐</span>Hukum Faraday</h2>
+            
+            <div class="concept-card">
+                <h3>⚖️ Hukum Faraday I</h3>
+                <p><em>"Massa zat yang dihasilkan pada elektroda sebanding dengan muatan listrik yang mengalir"</em></p>
+                
+                <div class="formula">
+                    <strong>m ∝ Q</strong><br>
+                    <strong>m = k × Q</strong><br>
+                    <small>m = massa (gram), Q = muatan listrik (coulomb), k = konstanta</small>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>⚖️ Hukum Faraday II</h3>
+                <p><em>"Massa zat yang dihasilkan berbanding lurus dengan massa ekuivalen zat tersebut"</em></p>
+                
+                <div class="formula">
+                    <strong>m = (Q × M) / (n × F)</strong><br>
+                    <strong>m = (i × t × M) / (n × F)</strong><br>
+                    <small>
+                        M = massa molar (g/mol)<br>
+                        n = jumlah elektron<br>
+                        F = konstanta Faraday = 96.500 C/mol<br>
+                        i = kuat arus (A), t = waktu (s)
+                    </small>
+                </div>
+            </div>
+
+            <div class="simulation-container">
+                <h3 style="text-align: center;">🧮 Kalkulator Hukum Faraday</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; color: #00d4ff;">Kuat Arus (A):</label>
+                        <input type="number" id="current" placeholder="Contoh: 2" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #00d4ff; background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; color: #00d4ff;">Waktu (detik):</label>
+                        <input type="number" id="time" placeholder="Contoh: 3600" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #00d4ff; background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; color: #00d4ff;">Massa Molar (g/mol):</label>
+                        <input type="number" id="molarMass" placeholder="Contoh: 63.5 (Cu)" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #00d4ff; background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; color: #00d4ff;">Jumlah Elektron:</label>
+                        <input type="number" id="electrons" placeholder="Contoh: 2 (Cu²⁺)" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #00d4ff; background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="control-button" onclick="calculateFaraday()">🧮 Hitung Massa</button>
+                </div>
+                
+                <div id="faradayResult" style="display: none; margin-top: 30px; padding: 25px; background: rgba(0, 212, 255, 0.1); border-radius: 15px; border: 1px solid #00d4ff;">
+                    <h4 style="color: #00d4ff; text-align: center;">📊 Hasil Perhitungan</h4>
+                    <div id="calculationSteps"></div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>📈 Infografis Alur Reaksi</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; flex: 1; min-width: 150px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #00d4ff, #a855f7); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">⚡</div>
+                        <p><strong>1. Arus Listrik</strong></p>
+                        <small>Energi input</small>
+                    </div>
+                    <div style="color: #00d4ff; font-size: 2rem;">→</div>
+                    <div style="text-align: center; flex: 1; min-width: 150px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff6b6b, #a855f7); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🧪</div>
+                        <p><strong>2. Ionisasi</strong></p>
+                        <small>Pembentukan ion</small>
+                    </div>
+                    <div style="color: #00d4ff; font-size: 2rem;">→</div>
+                    <div style="text-align: center; flex: 1; min-width: 150px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #a855f7, #00d4ff); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔄</div>
+                        <p><strong>3. Migrasi Ion</strong></p>
+                        <small>Pergerakan ion</small>
+                    </div>
+                    <div style="color: #00d4ff; font-size: 2rem;">→</div>
+                    <div style="text-align: center; flex: 1; min-width: 150px;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #00d4ff, #ff6b6b); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">⚗️</div>
+                        <p><strong>4. Reaksi Redoks</strong></p>
+                        <small>Produk terbentuk</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Mini: Hukum Faraday</h4>
+                <p><strong>Jika arus 5 A dialirkan selama 1930 detik untuk elektrolisis CuSO₄, massa Cu yang dihasilkan adalah... (Ar Cu = 63,5)</strong></p>
+                <ul class="quiz-options" id="quiz6">
+                    <li onclick="selectQuizOption(this, false)">A. 1,59 gram</li>
+                    <li onclick="selectQuizOption(this, false)">B. 6,35 gram</li>
+                    <li onclick="selectQuizOption(this, true)">C. 3,175 gram</li>
+                    <li onclick="selectQuizOption(this, false)">D. 12,7 gram</li>
+                </ul>
+                <div id="quiz6-result"></div>
+            </div>
+        </div>
+
+        <!-- LAB VIRTUAL -->
+        <div id="eksperimen" class="section">
+            <h2><span class="icon">🧬</span>Laboratorium Virtual</h2>
+            
+            <div class="simulation-container">
+                <h3 style="text-align: center;">🔬 Eksperimen Virtual Elektrolisis</h3>
+                <p style="text-align: center; margin-bottom: 30px;">Pilih elektrolit dan elektroda untuk melihat produk reaksi yang terbentuk!</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div>
+                        <label style="display: block; margin-bottom: 10px; color: #00d4ff; font-weight: bold;">🧪 Pilih Elektrolit:</label>
+                        <select id="virtualElectrolyte" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #00d4ff; background: rgba(255,255,255,0.1); color: white; font-size: 1rem;">
+                            <option value="">-- Pilih Elektrolit --</option>
+                            <option value="cuso4">CuSO₄ (aq)</option>
+                            <option value="nacl-aq">NaCl (aq)</option>
+                            <option value="nacl-molten">NaCl (lebur)</option>
+                            <option value="h2so4">H₂SO₄ (aq)</option>
+                            <option value="h2o">H₂O (murni)</option>
+                            <option value="agno3">AgNO₃ (aq)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 10px; color: #a855f7; font-weight: bold;">🔧 Pilih Elektroda:</label>
+                        <select id="virtualElectrode" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #a855f7; background: rgba(255,255,255,0.1); color: white; font-size: 1rem;">
+                            <option value="">-- Pilih Elektroda --</option>
+                            <option value="inert">Inert (Pt/C)</option>
+                            <option value="cu">Tembaga (Cu)</option>
+                            <option value="ag">Perak (Ag)</option>
+                            <option value="ni">Nikel (Ni)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="control-button" onclick="runVirtualExperiment()">🚀 Jalankan Eksperimen</button>
+                    <button class="control-button" onclick="resetVirtualLab()">🔄 Reset Lab</button>
+                </div>
+                
+                <div id="virtualResult" style="display: none;">
+                    <div class="electrodes-container">
+                        <div class="electrode">
+                            <div class="electrode-bar anode" id="virtualAnode"></div>
+                            <div class="electrode-label" style="color: #ff6b6b;">
+                                ANODA (+)<br>
+                                <div id="virtualAnodeProduct" style="font-size: 0.9rem; margin-top: 5px;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="solution-container" id="virtualSolution">
+                            <div class="electron-flow"></div>
+                            <span id="virtualSolutionLabel"></span>
+                        </div>
+                        
+                        <div class="electrode">
+                            <div class="electrode-bar cathode" id="virtualCathode"></div>
+                            <div class="electrode-label" style="color: #00d4ff;">
+                                KATODA (-)<br>
+                                <div id="virtualCathodeProduct" style="font-size: 0.9rem; margin-top: 5px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="reaction-display" style="margin-top: 30px;">
+                        <h4>📋 Hasil Eksperimen:</h4>
+                        <div id="virtualReactionEquations"></div>
+                        <div id="virtualObservation" style="margin-top: 20px; padding: 20px; background: rgba(0, 212, 255, 0.1); border-radius: 10px; border: 1px solid #00d4ff;">
+                            <h5 style="color: #00d4ff;">🔍 Pengamatan:</h5>
+                            <div id="observationText"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h4>🎯 Kuis Akhir: Benar atau Salah?</h4>
+                <div style="margin: 20px 0;">
+                    <p><strong>1. "Pada katoda selalu terjadi reaksi reduksi"</strong></p>
+                    <div style="display: flex; gap: 20px; margin: 10px 0;">
+                        <button class="control-button" onclick="answerTrueFalse(1, true)" style="background: #28a745;">✓ BENAR</button>
+                        <button class="control-button" onclick="answerTrueFalse(1, false)" style="background: #dc3545;">✗ SALAH</button>
+                    </div>
+                    <div id="answer1" style="display: none; margin-top: 10px; padding: 15px; border-radius: 8px;"></div>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <p><strong>2. "Elektrolisis dapat menggunakan arus AC (bolak-balik)"</strong></p>
+                    <div style="display: flex; gap: 20px; margin: 10px 0;">
+                        <button class="control-button" onclick="answerTrueFalse(2, true)" style="background: #28a745;">✓ BENAR</button>
+                        <button class="control-button" onclick="answerTrueFalse(2, false)" style="background: #dc3545;">✗ SALAH</button>
+                    </div>
+                    <div id="answer2" style="display: none; margin-top: 10px; padding: 15px; border-radius: 8px;"></div>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <p><strong>3. "Massa zat yang dihasilkan sebanding dengan kuat arus dan waktu"</strong></p>
+                    <div style="display: flex; gap: 20px; margin: 10px 0;">
+                        <button class="control-button" onclick="answerTrueFalse(3, true)" style="background: #28a745;">✓ BENAR</button>
+                        <button class="control-button" onclick="answerTrueFalse(3, false)" style="background: #dc3545;">✗ SALAH</button>
+                    </div>
+                    <div id="answer3" style="display: none; margin-top: 10px; padding: 15px; border-radius: 8px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let simulationRunning = false;
+        let simulationInterval;
+        let progress = 0;
+
+        // Animation for gold plating
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes goldPlating {
+                0% { height: 0px; }
+                100% { height: 80px; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function selectQuizOption(element, isCorrect) {
+            // Remove previous selections
+            element.parentElement.querySelectorAll('li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            
+            // Select current option
+            element.classList.add('selected');
+            
+            // Show result
+            const quizId = element.parentElement.id;
+            const resultDiv = document.getElementById(quizId + '-result');
+            
+            setTimeout(() => {
+                if (isCorrect) {
+                    resultDiv.innerHTML = '<div style="background: rgba(40, 167, 69, 0.2); color: #28a745; padding: 15px; border-radius: 8px; margin-top: 15px;"><strong>✅ Benar!</strong> Jawaban Anda tepat.</div>';
+                } else {
+                    resultDiv.innerHTML = '<div style="background: rgba(220, 53, 69, 0.2); color: #dc3545; padding: 15px; border-radius: 8px; margin-top: 15px;"><strong>❌ Salah!</strong> Coba lagi atau pelajari materi lebih lanjut.</div>';
+                }
+            }, 500);
+        }
+
+        function startSimulation() {
+            if (simulationRunning) return;
+            
+            simulationRunning = true;
+            progress = 0;
+            
+            const electrolyte = document.getElementById('electrolyte').value;
+            const solutionArea = document.getElementById('solutionArea');
+            const solutionLabel = document.getElementById('solutionLabel');
+            const anodeReaction = document.getElementById('anodeReaction');
+            const cathodeReaction = document.getElementById('cathodeReaction');
+            const reactionEquations = document.getElementById('reactionEquations');
+            
+            // Clear previous ions
+            solutionArea.querySelectorAll('.ion').forEach(ion => ion.remove());
+            
+            // Add animated ions based on electrolyte
+            let ionData = getIonData(electrolyte);
+            
+            // Create ions
+            for (let i = 0; i < 8; i++) {
+                const ion = document.createElement('div');
+                ion.className = 'ion ' + (i % 2 === 0 ? 'cation' : 'anion');
+                ion.textContent = i % 2 === 0 ? ionData.cation : ionData.anion;
+                ion.style.left = Math.random() * 250 + 'px';
+                ion.style.top = Math.random() * 80 + 'px';
+                ion.style.animationDelay = Math.random() * 2 + 's';
+                solutionArea.appendChild(ion);
+            }
+            
+            // Update labels and reactions
+            solutionLabel.textContent = ionData.solution;
+            anodeReaction.innerHTML = 'Oksidasi<br><small>' + ionData.anodeProduct + '</small>';
+            cathodeReaction.innerHTML = 'Reduksi<br><small>' + ionData.cathodeProduct + '</small>';
+            reactionEquations.innerHTML = ionData.equations;
+            
+            // Start progress animation
+            simulationInterval = setInterval(() => {
+                progress += 2;
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    progress = 0;
+                }
+            }, 100);
+        }
+
+        function stopSimulation() {
+            simulationRunning = false;
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
+            }
+        }
+
+        function resetSimulation() {
+            stopSimulation();
+            progress = 0;
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('solutionArea').querySelectorAll('.ion').forEach(ion => ion.remove());
+            document.getElementById('solutionLabel').textContent = 'Pilih elektrolit dan mulai simulasi';
+            document.getElementById('anodeReaction').textContent = 'Oksidasi';
+            document.getElementById('cathodeReaction').textContent = 'Reduksi';
+            document.getElementById('reactionEquations').textContent = 'Mulai simulasi untuk melihat persamaan reaksi';
+        }
+
+        function getIonData(electrolyte) {
+            const data = {
+                'cuso4': {
+                    solution: 'CuSO₄ (aq)',
+                    cation: 'Cu²⁺',
+                    anion: 'SO₄²⁻',
+                    anodeProduct: 'O₂ gas',
+                    cathodeProduct: 'Cu logam',
+                    equations: `
+                        <strong>Anoda (+):</strong> 2H₂O → O₂ + 4H⁺ + 4e⁻<br>
+                        <strong>Katoda (-):</strong> Cu²⁺ + 2e⁻ → Cu<br>
+                        <strong>Reaksi total:</strong> 2CuSO₄ + 2H₂O → 2Cu + O₂ + 2H₂SO₄
+                    `
+                },
+                'nacl': {
+                    solution: 'NaCl (aq)',
+                    cation: 'Na⁺',
+                    anion: 'Cl⁻',
+                    anodeProduct: 'Cl₂ gas',
+                    cathodeProduct: 'H₂ gas',
+                    equations: `
+                        <strong>Anoda (+):</strong> 2Cl⁻ → Cl₂ + 2e⁻<br>
+                        <strong>Katoda (-):</strong> 2H₂O + 2e⁻ → H₂ + 2OH⁻<br>
+                        <strong>Reaksi total:</strong> 2NaCl + 2H₂O → Cl₂ + H₂ + 2NaOH
+                    `
+                },
+                'h2o': {
+                    solution: 'H₂O (murni)',
+                    cation: 'H⁺',
+                    anion: 'OH⁻',
+                    anodeProduct: 'O₂ gas',
+                    cathodeProduct: 'H₂ gas',
+                    equations: `
+                        <strong>Anoda (+):</strong> 2H₂O → O₂ + 4H⁺ + 4e⁻<br>
+                        <strong>Katoda (-):</strong> 2H₂O + 2e⁻ → H₂ + 2OH⁻<br>
+                        <strong>Reaksi total:</strong> 2H₂O → 2H₂ + O₂
+                    `
+                }
+            };
+            
+            return data[electrolyte] || data['cuso4'];
+        }
+
+        function showReaction(reactionType) {
+            const reactionDetails = document.getElementById('reactionDetails');
+            const reactionContent = document.getElementById('reactionContent');
+            
+            const reactions = {
+                'cuso4': {
+                    title: '🔵 Elektrolisis CuSO₄ dengan Elektroda Karbon',
+                    description: 'Elektrolisis larutan tembaga(II) sulfat menggunakan elektroda inert',
+                    anodeReaction: '2H₂O → O₂ + 4H⁺ + 4e⁻',
+                    cathodeReaction: 'Cu²⁺ + 2e⁻ → Cu',
+                    products: 'Gas oksigen di anoda, endapan tembaga di katoda',
+                    observation: 'Elektroda katoda menjadi berwarna kemerahan (Cu), gelembung gas di anoda',
+                    application: 'Pemurnian tembaga, penyepuhan logam'
+                },
+                'nacl-molten': {
+                    title: '🧂 Elektrolisis NaCl Lebur (Proses Downs)',
+                    description: 'Elektrolisis lelehan natrium klorida untuk produksi logam natrium',
+                    anodeReaction: '2Cl⁻ → Cl₂ + 2e⁻',
+                    cathodeReaction: '2Na⁺ + 2e⁻ → 2Na',
+                    products: 'Gas klorin di anoda, logam natrium di katoda',
+                    observation: 'Logam natrium cair terbentuk, gas klorin berwarna kuning-hijau',
+                    application: 'Produksi industri natrium dan klorin'
+                },
+                'h2o': {
+                    title: '💧 Elektrolisis Air (Water Splitting)',
+                    description: 'Penguraian air menjadi gas hidrogen dan oksigen',
+                    anodeReaction: '2H₂O → O₂ + 4H⁺ + 4e⁻',
+                    cathodeReaction: '2H₂O + 2e⁻ → H₂ + 2OH⁻',
+                    products: 'Gas oksigen di anoda, gas hidrogen di katoda',
+                    observation: 'Gelembung gas di kedua elektroda, perbandingan volume H₂:O₂ = 2:1',
+                    application: 'Produksi hidrogen untuk bahan bakar, industri kimia'
+                },
+                'electroplating': {
+                    title: '✨ Penyepuhan Logam (Electroplating)',
+                    description: 'Pelapisan logam dengan logam lain menggunakan elektrolisis',
+                    anodeReaction: 'Au → Au³⁺ + 3e⁻ (anoda Au larut)',
+                    cathodeReaction: 'Au³⁺ + 3e⁻ → Au (Au mengendap)',
+                    products: 'Lapisan emas pada benda yang disepuh',
+                    observation: 'Benda menjadi berwarna keemasan, anoda emas berkurang',
+                    application: 'Perhiasan, komponen elektronik, dekorasi'
+                }
+            };
+            
+            const reaction = reactions[reactionType];
+            
+            reactionContent.innerHTML = `
+                <h3>${reaction.title}</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 20px;">${reaction.description}</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div style="background: rgba(255, 107, 107, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #ff6b6b;">
+                        <h4 style="color: #ff6b6b;">⚡ Reaksi Anoda (+)</h4>
+                        <p style="font-family: 'Courier New', monospace; font-size: 1.1rem;">${reaction.anodeReaction}</p>
+                    </div>
+                    <div style="background: rgba(0, 212, 255, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #00d4ff;">
+                        <h4 style="color: #00d4ff;">⚡ Reaksi Katoda (-)</h4>
+                        <p style="font-family: 'Courier New', monospace; font-size: 1.1rem;">${reaction.cathodeReaction}</p>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #a855f7; margin: 20px 0;">
+                    <h4 style="color: #a855f7;">🧪 Produk yang Dihasilkan</h4>
+                    <p>${reaction.products}</p>
+                </div>
+                
+                <div style="background: rgba(0, 212, 255, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #00d4ff; margin: 20px 0;">
+                    <h4 style="color: #00d4ff;">🔍 Pengamatan</h4>
+                    <p>${reaction.observation}</p>
+                </div>
+                
+                <div style="background: rgba(40, 167, 69, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #28a745; margin: 20px 0;">
+                    <h4 style="color: #28a745;">🏭 Aplikasi</h4>
+                    <p>${reaction.application}</p>
+                </div>
+            `;
+            
+            reactionDetails.style.display = 'block';
+            reactionDetails.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateFaraday() {
+            const current = parseFloat(document.getElementById('current').value);
+            const time = parseFloat(document.getElementById('time').value);
+            const molarMass = parseFloat(document.getElementById('molarMass').value);
+            const electrons = parseFloat(document.getElementById('electrons').value);
+            
+            if (!current || !time || !molarMass || !electrons) {
+                alert('⚠️ Mohon isi semua field dengan benar!');
+                return;
+            }
+            
+            const F = 96500; // Konstanta Faraday
+            const Q = current * time; // Muatan listrik
+            const mass = (Q * molarMass) / (electrons * F);
+            
+            const resultDiv = document.getElementById('faradayResult');
+            const calculationSteps = document.getElementById('calculationSteps');
+            
+            calculationSteps.innerHTML = `
+                <div style="text-align: left;">
+                    <p><strong>📝 Langkah Perhitungan:</strong></p>
+                    <p>1. Hitung muatan listrik (Q):</p>
+                    <p style="margin-left: 20px; font-family: 'Courier New', monospace;">Q = i × t = ${current} A × ${time} s = ${Q.toLocaleString()} C</p>
+                    
+                    <p>2. Gunakan rumus Hukum Faraday:</p>
+                    <p style="margin-left: 20px; font-family: 'Courier New', monospace;">m = (Q × M) / (n × F)</p>
+                    
+                    <p>3. Substitusi nilai:</p>
+                    <p style="margin-left: 20px; font-family: 'Courier New', monospace;">m = (${Q.toLocaleString()} × ${molarMass}) / (${electrons} × ${F.toLocaleString()})</p>
+                    <p style="margin-left: 20px; font-family: 'Courier New', monospace;">m = ${(Q * molarMass).toLocaleString()} / ${(electrons * F).toLocaleString()}</p>
+                    
+                    <div style="background: linear-gradient(45deg, #00d4ff, #a855f7); padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
+                        <h3 style="margin: 0; color: white;">🎯 Hasil Akhir</h3>
+                        <p style="font-size: 1.5rem; margin: 10px 0; color: white; font-weight: bold;">m = ${mass.toFixed(4)} gram</p>
+                    </div>
+                </div>
+            `;
+            
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function runVirtualExperiment() {
+            const electrolyte = document.getElementById('virtualElectrolyte').value;
+            const electrode = document.getElementById('virtualElectrode').value;
+            
+            if (!electrolyte || !electrode) {
+                alert('⚠️ Mohon pilih elektrolit dan elektroda terlebih dahulu!');
+                return;
+            }
+            
+            const virtualResult = document.getElementById('virtualResult');
+            const virtualSolutionLabel = document.getElementById('virtualSolutionLabel');
+            const virtualAnodeProduct = document.getElementById('virtualAnodeProduct');
+            const virtualCathodeProduct = document.getElementById('virtualCathodeProduct');
+            const virtualReactionEquations = document.getElementById('virtualReactionEquations');
+            const observationText = document.getElementById('observationText');
+            
+            // Get experiment data
+            const experimentData = getVirtualExperimentData(electrolyte, electrode);
+            
+            // Update display
+            virtualSolutionLabel.textContent = experimentData.solution;
+            virtualAnodeProduct.innerHTML = experimentData.anodeProduct;
+            virtualCathodeProduct.innerHTML = experimentData.cathodeProduct;
+            virtualReactionEquations.innerHTML = experimentData.equations;
+            observationText.innerHTML = experimentData.observation;
+            
+            // Add visual effects
+            const virtualSolution = document.getElementById('virtualSolution');
+            virtualSolution.querySelectorAll('.ion').forEach(ion => ion.remove());
+            
+            // Add ions
+            for (let i = 0; i < 6; i++) {
+                const ion = document.createElement('div');
+                ion.className = 'ion ' + (i % 2 === 0 ? 'cation' : 'anion');
+                ion.textContent = i % 2 === 0 ? experimentData.cation : experimentData.anion;
+                ion.style.left = Math.random() * 170 + 'px';
+                ion.style.top = Math.random() * 80 + 'px';
+                ion.style.animationDelay = Math.random() * 2 + 's';
+                virtualSolution.appendChild(ion);
+            }
+            
+            virtualResult.style.display = 'block';
+            virtualResult.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getVirtualExperimentData(electrolyte, electrode) {
+            const experiments = {
+                'cuso4-inert': {
+                    solution: 'CuSO₄ (aq)',
+                    cation: 'Cu²⁺',
+                    anion: 'SO₄²⁻',
+                    anodeProduct: 'O₂ ↑',
+                    cathodeProduct: 'Cu ↓',
+                    equations: `
+                        <strong>Anoda:</strong> 2H₂O → O₂ + 4H⁺ + 4e⁻<br>
+                        <strong>Katoda:</strong> Cu²⁺ + 2e⁻ → Cu
+                    `,
+                    observation: '• Gelembung gas oksigen di anoda<br>• Endapan tembaga kemerahan di katoda<br>• Larutan menjadi lebih asam'
+                },
+                'cuso4-cu': {
+                    solution: 'CuSO₄ (aq)',
+                    cation: 'Cu²⁺',
+                    anion: 'SO₄²⁻',
+                    anodeProduct: 'Cu²⁺',
+                    cathodeProduct: 'Cu ↓',
+                    equations: `
+                        <strong>Anoda:</strong> Cu → Cu²⁺ + 2e⁻<br>
+                        <strong>Katoda:</strong> Cu²⁺ + 2e⁻ → Cu
+                    `,
+                    observation: '• Anoda tembaga larut<br>• Endapan tembaga di katoda<br>• Konsentrasi larutan tetap'
+                },
+                'nacl-aq-inert': {
+                    solution: 'NaCl (aq)',
+                    cation: 'Na⁺',
+                    anion: 'Cl⁻',
+                    anodeProduct: 'Cl₂ ↑',
+                    cathodeProduct: 'H₂ ↑',
+                    equations: `
+                        <strong>Anoda:</strong> 2Cl⁻ → Cl₂ + 2e⁻<br>
+                        <strong>Katoda:</strong> 2H₂O + 2e⁻ → H₂ + 2OH⁻
+                    `,
+                    observation: '• Gas klorin kuning-hijau di anoda<br>• Gas hidrogen di katoda<br>• Larutan menjadi basa (NaOH)'
+                },
+                'h2o-inert': {
+                    solution: 'H₂O (murni)',
+                    cation: 'H⁺',
+                    anion: 'OH⁻',
+                    anodeProduct: 'O₂ ↑',
+                    cathodeProduct: 'H₂ ↑',
+                    equations: `
+                        <strong>Anoda:</strong> 2H₂O → O₂ + 4H⁺ + 4e⁻<br>
+                        <strong>Katoda:</strong> 2H₂O + 2e⁻ → H₂ + 2OH⁻
+                    `,
+                    observation: '• Gas oksigen di anoda<br>• Gas hidrogen di katoda<br>• Perbandingan volume H₂:O₂ = 2:1'
+                }
+            };
+            
+            const key = electrolyte + '-' + electrode;
+            return experiments[key] || experiments['cuso4-inert'];
+        }
+
+        function resetVirtualLab() {
+            document.getElementById('virtualElectrolyte').value = '';
+            document.getElementById('virtualElectrode').value = '';
+            document.getElementById('virtualResult').style.display = 'none';
+        }
+
+        function answerTrueFalse(questionNum, userAnswer) {
+            const correctAnswers = {
+                1: true,  // Pada katoda selalu terjadi reduksi
+                2: false, // Elektrolisis tidak bisa menggunakan AC
+                3: true   // Massa sebanding dengan arus dan waktu (Hukum Faraday I)
+            };
+            
+            const explanations = {
+                1: 'Benar! Katoda adalah tempat terjadinya reaksi reduksi (penerimaan elektron), sedangkan anoda adalah tempat oksidasi.',
+                2: 'Salah! Elektrolisis harus menggunakan arus DC (searah) agar ion dapat bergerak konsisten ke elektroda yang tepat.',
+                3: 'Benar! Ini adalah Hukum Faraday I: m ∝ i × t, massa zat yang dihasilkan sebanding dengan kuat arus dan waktu.'
+            };
+            
+            const answerDiv = document.getElementById('answer' + questionNum);
+            const isCorrect = userAnswer === correctAnswers[questionNum];
+            
+            answerDiv.style.display = 'block';
+            answerDiv.style.background = isCorrect ? 'rgba(40, 167, 69, 0.2)' : 'rgba(220, 53, 69, 0.2)';
+            answerDiv.style.color = isCorrect ? '#28a745' : '#dc3545';
+            answerDiv.style.border = `1px solid ${isCorrect ? '#28a745' : '#dc3545'}`;
+            
+            answerDiv.innerHTML = `
+                <strong>${isCorrect ? '✅ Benar!' : '❌ Salah!'}</strong><br>
+                ${explanations[questionNum]}
+            `;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some initial sparks
+            const containers = document.querySelectorAll('.solution-container');
+            containers.forEach(container => {
+                for (let i = 0; i < 3; i++) {
+                    const spark = document.createElement('div');
+                    spark.className = 'spark';
+                    spark.style.top = Math.random() * 80 + '%';
+                    spark.style.left = Math.random() * 80 + '%';
+                    spark.style.animationDelay = Math.random() * 1 + 's';
+                    container.appendChild(spark);
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98a38a81161d6034',t:'MTc1OTczNjc0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
