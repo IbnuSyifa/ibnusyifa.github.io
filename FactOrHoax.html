@@ -1,0 +1,1989 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saring Sebelum Sharing - Anti Hoaks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Comic+Neue:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Fredoka', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+    
+    .card-gradient {
+      background: linear-gradient(145deg, #ffffff 0%, #f0f4ff 100%);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+    
+    .btn-warning {
+      background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    }
+    
+    .btn-info {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    .nav-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .nav-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .nav-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .game-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .slide-container {
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .bounce-animation {
+      animation: bounce 2s infinite;
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    .progress-bar {
+      transition: width 0.5s ease;
+    }
+    
+    .quiz-option {
+      transition: all 0.2s ease;
+    }
+    
+    .quiz-option:hover {
+      transform: translateX(5px);
+      background: linear-gradient(90deg, #f0f4ff 0%, #e8ecff 100%);
+    }
+    
+    .quiz-option.selected {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .quiz-option.correct {
+      background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+      color: white;
+    }
+    
+    .quiz-option.wrong {
+      background: linear-gradient(90deg, #eb3349 0%, #f45c43 100%);
+      color: white;
+    }
+    
+    .score-display {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+    }
+    
+    .timer-circle {
+      stroke-dasharray: 283;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+    }
+    
+    .drag-item {
+      cursor: grab;
+      user-select: none;
+    }
+    
+    .drag-item:active {
+      cursor: grabbing;
+    }
+    
+    .drop-zone {
+      border: 3px dashed #667eea;
+      min-height: 60px;
+      transition: all 0.3s ease;
+    }
+    
+    .drop-zone.drag-over {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: #764ba2;
+    }
+    
+    .team-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
+    }
+    
+    .leaderboard-item:nth-child(1) {
+      background: linear-gradient(90deg, #ffd700 0%, #ffec8b 100%);
+    }
+    
+    .leaderboard-item:nth-child(2) {
+      background: linear-gradient(90deg, #c0c0c0 0%, #e8e8e8 100%);
+    }
+    
+    .leaderboard-item:nth-child(3) {
+      background: linear-gradient(90deg, #cd7f32 0%, #daa06d 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app" class="min-h-full gradient-bg"><!-- Navigation Bar -->
+   <nav id="navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-lg p-3">
+    <div class="max-w-6xl mx-auto flex flex-wrap gap-2 justify-center"><button onclick="navigateTo('home')" class="nav-btn active px-4 py-2 rounded-full text-sm font-semibold bg-gray-100" data-page="home"> 🏠 Beranda </button> <button onclick="navigateTo('pretest')" class="nav-btn px-4 py-2 rounded-full text-sm font-semibold bg-gray-100" data-page="pretest"> 📝 Pre-Test </button> <button onclick="navigateTo('materi')" class="nav-btn px-4 py-2 rounded-full text-sm font-semibold bg-gray-100" data-page="materi"> 📚 Materi </button> <button onclick="navigateTo('games')" class="nav-btn px-4 py-2 rounded-full text-sm font-semibold bg-gray-100" data-page="games"> 🎮 Games </button> <button onclick="navigateTo('posttest')" class="nav-btn px-4 py-2 rounded-full text-sm font-semibold bg-gray-100" data-page="posttest"> ✅ Post-Test </button> <button onclick="navigateTo('scores')" class="nav-btn px-4 py-2 rounded-full text-sm font-semibold bg-gray-100" data-page="scores"> 🏆 Skor </button>
+    </div>
+   </nav><!-- Main Content Container -->
+   <div id="content" class="max-w-6xl mx-auto p-4 pb-20"><!-- HOME PAGE -->
+    <div id="page-home" class="page slide-container">
+     <div class="text-center mb-8">
+      <h1 id="main-title" class="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg bounce-animation">🛡️ Saring Sebelum Sharing 🛡️</h1>
+      <p id="welcome-text" class="text-xl text-white/90 max-w-2xl mx-auto">Selamat datang di media pembelajaran interaktif Anti-Hoaks! Mari belajar menjadi pengguna internet yang cerdas dan bijak.</p>
+     </div><!-- Student Name Input -->
+     <div class="card-gradient rounded-3xl p-6 shadow-xl mb-6">
+      <h2 class="text-2xl font-bold text-purple-700 mb-4 text-center">👋 Siapa Namamu?</h2>
+      <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"><input type="text" id="student-name-input" placeholder="Masukkan nama lengkap..." class="flex-1 px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 focus:outline-none text-lg"> <button onclick="saveStudentName()" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold"> Mulai! 🚀 </button>
+      </div>
+      <p id="student-greeting" class="text-center mt-4 text-lg text-purple-600 font-semibold hidden"></p>
+     </div><!-- Quick Actions -->
+     <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <div onclick="navigateTo('pretest')" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        📝
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Pre-Test</h3>
+       <p class="text-gray-600">Uji pengetahuan awalmu tentang hoaks</p>
+       <div class="mt-4 btn-warning text-white px-4 py-2 rounded-xl inline-block font-semibold">
+        Mulai Test
+       </div>
+      </div>
+      <div onclick="navigateTo('materi')" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        📚
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Materi</h3>
+       <p class="text-gray-600">Pelajari cara menyaring informasi</p>
+       <div class="mt-4 btn-info text-white px-4 py-2 rounded-xl inline-block font-semibold">
+        Buka Materi
+       </div>
+      </div>
+      <div onclick="navigateTo('games')" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        🎮
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Games</h3>
+       <p class="text-gray-600">5 permainan seru menanti!</p>
+       <div class="mt-4 btn-success text-white px-4 py-2 rounded-xl inline-block font-semibold">
+        Main Sekarang
+       </div>
+      </div>
+     </div><!-- Info Cards -->
+     <div class="grid md:grid-cols-2 gap-6">
+      <div class="card-gradient rounded-3xl p-6 shadow-xl">
+       <h3 class="text-xl font-bold text-red-600 mb-4">🚨 Apa itu Hoaks?</h3>
+       <p class="text-gray-700 leading-relaxed">Hoaks adalah informasi palsu yang disebarkan seolah-olah benar. Hoaks bisa berbahaya karena dapat menyesatkan dan merugikan banyak orang!</p>
+      </div>
+      <div class="card-gradient rounded-3xl p-6 shadow-xl">
+       <h3 class="text-xl font-bold text-green-600 mb-4">✅ Kenapa Harus Saring?</h3>
+       <p class="text-gray-700 leading-relaxed">Dengan menyaring informasi sebelum membagikan, kita membantu menghentikan penyebaran hoaks dan menjaga kebenaran informasi di masyarakat.</p>
+      </div>
+     </div>
+    </div><!-- PRE-TEST PAGE -->
+    <div id="page-pretest" class="page hidden slide-container">
+     <div class="card-gradient rounded-3xl p-6 shadow-xl">
+      <div class="text-center mb-6">
+       <h2 class="text-3xl font-bold text-purple-700 mb-2">📝 Pre-Test</h2>
+       <p class="text-gray-600">Uji pengetahuan awalmu tentang hoaks dan literasi digital</p>
+      </div>
+      <div id="pretest-container">
+       <div id="pretest-progress" class="mb-6">
+        <div class="flex justify-between text-sm text-gray-600 mb-2"><span>Soal <span id="pretest-current">1</span> dari <span id="pretest-total">10</span></span> <span>Skor: <span id="pretest-score-display">0</span></span>
+        </div>
+        <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+         <div id="pretest-progress-bar" class="h-full progress-bar btn-primary" style="width: 10%"></div>
+        </div>
+       </div>
+       <div id="pretest-question" class="mb-6">
+        <p class="text-xl font-semibold text-gray-800 mb-4"></p>
+        <div id="pretest-options" class="space-y-3"></div>
+       </div>
+       <div id="pretest-feedback" class="hidden p-4 rounded-xl mb-4"></div>
+       <div class="flex justify-between"><button id="pretest-prev-btn" onclick="prevPretestQuestion()" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-semibold disabled:opacity-50" disabled> ← Sebelumnya </button> <button id="pretest-next-btn" onclick="nextPretestQuestion()" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold"> Selanjutnya → </button>
+       </div>
+      </div>
+      <div id="pretest-result" class="hidden text-center">
+       <div class="text-6xl mb-4">
+        🎉
+       </div>
+       <h3 class="text-2xl font-bold text-purple-700 mb-2">Pre-Test Selesai!</h3>
+       <div class="score-display inline-block px-8 py-4 rounded-2xl mb-4">
+        <p class="text-lg text-gray-700">Skor Kamu:</p>
+        <p class="text-4xl font-bold text-purple-700"><span id="pretest-final-score">0</span>/100</p>
+       </div>
+       <p id="pretest-message" class="text-gray-600 mb-6"></p><button onclick="navigateTo('materi')" class="btn-primary text-white px-8 py-3 rounded-xl font-semibold"> Lanjut ke Materi 📚 </button>
+      </div>
+     </div>
+    </div><!-- MATERI PAGE -->
+    <div id="page-materi" class="page hidden slide-container">
+     <div class="card-gradient rounded-3xl p-6 shadow-xl">
+      <div class="text-center mb-6">
+       <h2 class="text-3xl font-bold text-purple-700 mb-2">📚 Materi Pembelajaran</h2>
+       <p class="text-gray-600">Pelajari cara menyaring informasi dengan metode SARING</p>
+      </div><!-- Slide Navigation -->
+      <div class="flex justify-center gap-2 mb-6 flex-wrap"><button onclick="goToSlide(0)" class="slide-nav-btn w-10 h-10 rounded-full btn-primary text-white font-bold">1</button> <button onclick="goToSlide(1)" class="slide-nav-btn w-10 h-10 rounded-full bg-gray-200 text-gray-700 font-bold">2</button> <button onclick="goToSlide(2)" class="slide-nav-btn w-10 h-10 rounded-full bg-gray-200 text-gray-700 font-bold">3</button> <button onclick="goToSlide(3)" class="slide-nav-btn w-10 h-10 rounded-full bg-gray-200 text-gray-700 font-bold">4</button> <button onclick="goToSlide(4)" class="slide-nav-btn w-10 h-10 rounded-full bg-gray-200 text-gray-700 font-bold">5</button> <button onclick="goToSlide(5)" class="slide-nav-btn w-10 h-10 rounded-full bg-gray-200 text-gray-700 font-bold">6</button>
+      </div><!-- Slides Container -->
+      <div id="slides-container" class="min-h-[400px]"><!-- Slide 1: Introduction -->
+       <div class="slide" data-slide="0">
+        <div class="text-center p-8 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl">
+         <div class="text-7xl mb-6">
+          🤔
+         </div>
+         <h3 class="text-3xl font-bold text-purple-700 mb-4">Apa itu HOAKS?</h3>
+         <p class="text-xl text-gray-700 mb-6 max-w-2xl mx-auto"><strong>Hoaks</strong> (hoax) adalah informasi palsu atau berita bohong yang disebarkan seolah-olah benar untuk menipu atau menyesatkan pembaca.</p>
+         <div class="grid md:grid-cols-3 gap-4 mt-8">
+          <div class="bg-white p-4 rounded-xl shadow">
+           <div class="text-3xl mb-2">
+            📰
+           </div>
+           <p class="font-semibold text-red-600">Berita Palsu</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow">
+           <div class="text-3xl mb-2">
+            📸
+           </div>
+           <p class="font-semibold text-red-600">Foto Manipulasi</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow">
+           <div class="text-3xl mb-2">
+            🎬
+           </div>
+           <p class="font-semibold text-red-600">Video Edit</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Slide 2: SARING Method -->
+       <div class="slide hidden" data-slide="1">
+        <div class="text-center p-8 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl">
+         <h3 class="text-3xl font-bold text-blue-700 mb-6">🛡️ Metode SARING</h3>
+         <p class="text-lg text-gray-700 mb-8">Gunakan metode SARING untuk memverifikasi informasi sebelum menyebarkan!</p>
+         <div class="grid gap-4 max-w-2xl mx-auto">
+          <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full btn-danger text-white flex items-center justify-center text-2xl font-bold">
+            S
+           </div>
+           <div class="text-left">
+            <p class="font-bold text-lg">Sumber</p>
+            <p class="text-gray-600">Periksa sumber beritanya, apakah terpercaya?</p>
+           </div>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full btn-warning text-white flex items-center justify-center text-2xl font-bold">
+            A
+           </div>
+           <div class="text-left">
+            <p class="font-bold text-lg">Akurasi</p>
+            <p class="text-gray-600">Cek keakuratan fakta dan data yang disebutkan</p>
+           </div>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full btn-success text-white flex items-center justify-center text-2xl font-bold">
+            R
+           </div>
+           <div class="text-left">
+            <p class="font-bold text-lg">Relevansi</p>
+            <p class="text-gray-600">Apakah informasi masih relevan dan terkini?</p>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div><!-- Slide 3: SARING Method Continued -->
+       <div class="slide hidden" data-slide="2">
+        <div class="text-center p-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl">
+         <h3 class="text-3xl font-bold text-green-700 mb-6">🛡️ Metode SARING (Lanjutan)</h3>
+         <div class="grid gap-4 max-w-2xl mx-auto">
+          <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full btn-info text-white flex items-center justify-center text-2xl font-bold">
+            I
+           </div>
+           <div class="text-left">
+            <p class="font-bold text-lg">Investigasi</p>
+            <p class="text-gray-600">Lakukan pengecekan silang dengan sumber lain</p>
+           </div>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full btn-primary text-white flex items-center justify-center text-2xl font-bold">
+            N
+           </div>
+           <div class="text-left">
+            <p class="font-bold text-lg">Nalar</p>
+            <p class="text-gray-600">Gunakan akal sehat, apakah masuk akal?</p>
+           </div>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full btn-secondary text-white flex items-center justify-center text-2xl font-bold">
+            G
+           </div>
+           <div class="text-left">
+            <p class="font-bold text-lg">Gunakan Hati</p>
+            <p class="text-gray-600">Jangan mudah terpancing emosi, tetap tenang!</p>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div><!-- Slide 4: Ciri-ciri Hoaks -->
+       <div class="slide hidden" data-slide="3">
+        <div class="text-center p-8 bg-gradient-to-br from-red-100 to-orange-100 rounded-2xl">
+         <h3 class="text-3xl font-bold text-red-700 mb-6">🚨 Ciri-ciri Hoaks</h3>
+         <div class="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div class="bg-white p-4 rounded-xl shadow text-left">
+           <div class="text-2xl mb-2">
+            📢
+           </div>
+           <p class="font-bold text-red-600">Judul Sensasional</p>
+           <p class="text-sm text-gray-600">Menggunakan kata-kata bombastis dan berlebihan</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-left">
+           <div class="text-2xl mb-2">
+            ❓
+           </div>
+           <p class="font-bold text-red-600">Sumber Tidak Jelas</p>
+           <p class="text-sm text-gray-600">Tidak menyebutkan sumber yang kredibel</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-left">
+           <div class="text-2xl mb-2">
+            😱
+           </div>
+           <p class="font-bold text-red-600">Memancing Emosi</p>
+           <p class="text-sm text-gray-600">Membuat marah, takut, atau panik</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-left">
+           <div class="text-2xl mb-2">
+            🔄
+           </div>
+           <p class="font-bold text-red-600">Minta Disebarkan</p>
+           <p class="text-sm text-gray-600">"Sebarkan sebelum dihapus!"</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-left">
+           <div class="text-2xl mb-2">
+            📅
+           </div>
+           <p class="font-bold text-red-600">Tanggal Tidak Jelas</p>
+           <p class="text-sm text-gray-600">Tidak ada waktu publikasi yang jelas</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow text-left">
+           <div class="text-2xl mb-2">
+            ✏️
+           </div>
+           <p class="font-bold text-red-600">Banyak Typo</p>
+           <p class="text-sm text-gray-600">Penulisan tidak rapi dan banyak kesalahan</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Slide 5: Dampak Hoaks -->
+       <div class="slide hidden" data-slide="4">
+        <div class="text-center p-8 bg-gradient-to-br from-yellow-100 to-amber-100 rounded-2xl">
+         <h3 class="text-3xl font-bold text-amber-700 mb-6">⚠️ Dampak Buruk Hoaks</h3>
+         <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div class="bg-white p-6 rounded-xl shadow">
+           <div class="text-4xl mb-3">
+            👥
+           </div>
+           <h4 class="font-bold text-lg text-gray-800 mb-2">Merusak Kepercayaan</h4>
+           <p class="text-gray-600">Membuat orang sulit percaya informasi yang benar</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow">
+           <div class="text-4xl mb-3">
+            💔
+           </div>
+           <h4 class="font-bold text-lg text-gray-800 mb-2">Memecah Persatuan</h4>
+           <p class="text-gray-600">Menimbulkan konflik dan perpecahan di masyarakat</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow">
+           <div class="text-4xl mb-3">
+            💰
+           </div>
+           <h4 class="font-bold text-lg text-gray-800 mb-2">Kerugian Finansial</h4>
+           <p class="text-gray-600">Bisa menyebabkan penipuan dan kerugian uang</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow">
+           <div class="text-4xl mb-3">
+            😰
+           </div>
+           <h4 class="font-bold text-lg text-gray-800 mb-2">Kepanikan Massal</h4>
+           <p class="text-gray-600">Menyebabkan ketakutan dan kecemasan berlebihan</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Slide 6: Tips & Action -->
+       <div class="slide hidden" data-slide="5">
+        <div class="text-center p-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl">
+         <h3 class="text-3xl font-bold text-indigo-700 mb-6">✨ Jadilah Pejuang Anti-Hoaks!</h3>
+         <div class="max-w-2xl mx-auto mb-8">
+          <div class="bg-white p-6 rounded-xl shadow mb-4">
+           <h4 class="font-bold text-xl text-indigo-700 mb-4">Yang Harus Dilakukan:</h4>
+           <ul class="text-left space-y-2">
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Selalu cek fakta sebelum share</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Gunakan situs fact-checker terpercaya</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Laporkan konten hoaks yang ditemukan</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Edukasi keluarga dan teman tentang hoaks</li>
+           </ul>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow">
+           <h4 class="font-bold text-xl text-red-600 mb-4">Yang Harus Dihindari:</h4>
+           <ul class="text-left space-y-2">
+            <li class="flex items-center gap-2"><span class="text-red-500">✗</span> Langsung share tanpa baca lengkap</li>
+            <li class="flex items-center gap-2"><span class="text-red-500">✗</span> Percaya berita dari sumber tidak jelas</li>
+            <li class="flex items-center gap-2"><span class="text-red-500">✗</span> Terpancing emosi dan langsung bereaksi</li>
+            <li class="flex items-center gap-2"><span class="text-red-500">✗</span> Menyebarkan tanpa verifikasi</li>
+           </ul>
+          </div>
+         </div><button onclick="navigateTo('games')" class="btn-success text-white px-8 py-4 rounded-xl font-bold text-lg"> Ayo Bermain Games! 🎮 </button>
+        </div>
+       </div>
+      </div><!-- Slide Controls -->
+      <div class="flex justify-between mt-6"><button onclick="prevSlide()" id="prev-slide-btn" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-semibold disabled:opacity-50" disabled> ← Sebelumnya </button> <button onclick="nextSlide()" id="next-slide-btn" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold"> Selanjutnya → </button>
+      </div>
+     </div>
+    </div><!-- GAMES PAGE -->
+    <div id="page-games" class="page hidden slide-container">
+     <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-white mb-2">🎮 Zona Permainan</h2>
+      <p class="text-white/90">Pilih permainan favoritmu dan kumpulkan skor!</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Game 1 -->
+      <div onclick="startGame(1)" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        🔍
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Detektif Hoaks</h3>
+       <p class="text-gray-600 text-sm mb-4">Identifikasi mana berita hoaks dan mana yang fakta!</p>
+       <div class="btn-danger text-white px-4 py-2 rounded-xl inline-block font-semibold text-sm">
+        Individual • 10 Soal
+       </div>
+      </div><!-- Game 2 -->
+      <div onclick="startGame(2)" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        ⚡
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Speed SARING</h3>
+       <p class="text-gray-600 text-sm mb-4">Jawab dengan cepat! Ada batas waktu untuk setiap soal.</p>
+       <div class="btn-warning text-white px-4 py-2 rounded-xl inline-block font-semibold text-sm">
+        Individual • Timer
+       </div>
+      </div><!-- Game 3 -->
+      <div onclick="startGame(3)" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        🧩
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Puzzle SARING</h3>
+       <p class="text-gray-600 text-sm mb-4">Susun huruf SARING dengan urutan yang benar!</p>
+       <div class="btn-success text-white px-4 py-2 rounded-xl inline-block font-semibold text-sm">
+        Individual/Grup
+       </div>
+      </div><!-- Game 4 -->
+      <div onclick="startGame(4)" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        🎯
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Tembak Hoaks</h3>
+       <p class="text-gray-600 text-sm mb-4">Klik hoaks yang muncul sebelum waktu habis!</p>
+       <div class="btn-info text-white px-4 py-2 rounded-xl inline-block font-semibold text-sm">
+        Grup • Kompetisi
+       </div>
+      </div><!-- Game 5 -->
+      <div onclick="startGame(5)" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        🏆
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Quiz Battle</h3>
+       <p class="text-gray-600 text-sm mb-4">Pertarungan quiz antar tim! Siapa yang paling cerdas?</p>
+       <div class="btn-secondary text-white px-4 py-2 rounded-xl inline-block font-semibold text-sm">
+        Grup • 2-4 Tim
+       </div>
+      </div><!-- Scoreboard -->
+      <div onclick="navigateTo('scores')" class="game-card card-gradient rounded-3xl p-6 text-center shadow-xl">
+       <div class="text-5xl mb-4">
+        📊
+       </div>
+       <h3 class="text-xl font-bold text-purple-700 mb-2">Papan Skor</h3>
+       <p class="text-gray-600 text-sm mb-4">Lihat perolehan skormu dari semua permainan!</p>
+       <div class="btn-primary text-white px-4 py-2 rounded-xl inline-block font-semibold text-sm">
+        Lihat Skor
+       </div>
+      </div>
+     </div>
+    </div><!-- GAME PLAY AREA -->
+    <div id="page-game-play" class="page hidden slide-container">
+     <div id="game-container" class="card-gradient rounded-3xl p-6 shadow-xl"><!-- Game content will be loaded here -->
+     </div>
+     <div class="mt-4 text-center"><button onclick="navigateTo('games')" class="bg-white/20 text-white px-6 py-3 rounded-xl font-semibold hover:bg-white/30"> ← Kembali ke Daftar Games </button>
+     </div>
+    </div><!-- POST-TEST PAGE -->
+    <div id="page-posttest" class="page hidden slide-container">
+     <div class="card-gradient rounded-3xl p-6 shadow-xl">
+      <div class="text-center mb-6">
+       <h2 class="text-3xl font-bold text-purple-700 mb-2">✅ Post-Test</h2>
+       <p class="text-gray-600">Uji pemahamanmu setelah mempelajari materi!</p>
+      </div>
+      <div id="posttest-container">
+       <div id="posttest-progress" class="mb-6">
+        <div class="flex justify-between text-sm text-gray-600 mb-2"><span>Soal <span id="posttest-current">1</span> dari <span id="posttest-total">10</span></span> <span>Skor: <span id="posttest-score-display">0</span></span>
+        </div>
+        <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+         <div id="posttest-progress-bar" class="h-full progress-bar btn-success" style="width: 10%"></div>
+        </div>
+       </div>
+       <div id="posttest-question" class="mb-6">
+        <p class="text-xl font-semibold text-gray-800 mb-4"></p>
+        <div id="posttest-options" class="space-y-3"></div>
+       </div>
+       <div id="posttest-feedback" class="hidden p-4 rounded-xl mb-4"></div>
+       <div class="flex justify-between"><button id="posttest-prev-btn" onclick="prevPosttestQuestion()" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-semibold disabled:opacity-50" disabled> ← Sebelumnya </button> <button id="posttest-next-btn" onclick="nextPosttestQuestion()" class="btn-success text-white px-6 py-3 rounded-xl font-semibold"> Selanjutnya → </button>
+       </div>
+      </div>
+      <div id="posttest-result" class="hidden text-center">
+       <div class="text-6xl mb-4">
+        🏆
+       </div>
+       <h3 class="text-2xl font-bold text-purple-700 mb-2">Post-Test Selesai!</h3>
+       <div class="score-display inline-block px-8 py-4 rounded-2xl mb-4">
+        <p class="text-lg text-gray-700">Skor Akhir:</p>
+        <p class="text-4xl font-bold text-purple-700"><span id="posttest-final-score">0</span>/100</p>
+       </div>
+       <div id="posttest-comparison" class="mb-4 p-4 bg-purple-50 rounded-xl">
+        <p class="text-gray-600">Perbandingan dengan Pre-Test:</p>
+        <p class="text-2xl font-bold text-purple-700"><span id="score-improvement">+0</span> poin</p>
+       </div>
+       <p id="posttest-message" class="text-gray-600 mb-6"></p><button onclick="saveAllScores()" class="btn-primary text-white px-8 py-3 rounded-xl font-semibold"> Simpan Skor 💾 </button>
+      </div>
+     </div>
+    </div><!-- SCORES PAGE -->
+    <div id="page-scores" class="page hidden slide-container">
+     <div class="card-gradient rounded-3xl p-6 shadow-xl">
+      <div class="text-center mb-6">
+       <h2 class="text-3xl font-bold text-purple-700 mb-2">🏆 Papan Skor</h2>
+       <p class="text-gray-600">Lihat perolehan skormu!</p>
+      </div>
+      <div id="my-scores" class="mb-8">
+       <h3 class="text-xl font-bold text-gray-700 mb-4">📊 Skor Kamu</h3>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-xl">
+         <p class="text-gray-600">Pre-Test</p>
+         <p class="text-3xl font-bold text-purple-700"><span id="my-pretest-score">-</span></p>
+        </div>
+        <div class="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded-xl">
+         <p class="text-gray-600">Post-Test</p>
+         <p class="text-3xl font-bold text-green-700"><span id="my-posttest-score">-</span></p>
+        </div>
+       </div>
+       <h4 class="text-lg font-bold text-gray-700 mt-6 mb-3">🎮 Skor Games</h4>
+       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div class="bg-red-50 p-3 rounded-xl text-center">
+         <p class="text-xs text-gray-600">Detektif Hoaks</p>
+         <p class="text-xl font-bold text-red-600"><span id="my-game1-score">-</span></p>
+        </div>
+        <div class="bg-yellow-50 p-3 rounded-xl text-center">
+         <p class="text-xs text-gray-600">Speed SARING</p>
+         <p class="text-xl font-bold text-yellow-600"><span id="my-game2-score">-</span></p>
+        </div>
+        <div class="bg-green-50 p-3 rounded-xl text-center">
+         <p class="text-xs text-gray-600">Puzzle SARING</p>
+         <p class="text-xl font-bold text-green-600"><span id="my-game3-score">-</span></p>
+        </div>
+        <div class="bg-blue-50 p-3 rounded-xl text-center">
+         <p class="text-xs text-gray-600">Tembak Hoaks</p>
+         <p class="text-xl font-bold text-blue-600"><span id="my-game4-score">-</span></p>
+        </div>
+        <div class="bg-purple-50 p-3 rounded-xl text-center">
+         <p class="text-xs text-gray-600">Quiz Battle</p>
+         <p class="text-xl font-bold text-purple-600"><span id="my-game5-score">-</span></p>
+        </div>
+       </div>
+      </div>
+      <div id="leaderboard">
+       <h3 class="text-xl font-bold text-gray-700 mb-4">🥇 Papan Peringkat</h3>
+       <div id="leaderboard-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Belum ada data skor tersimpan</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // ===== CONFIG & STATE =====
+    const defaultConfig = {
+      app_title: 'Saring Sebelum Sharing',
+      welcome_message: 'Selamat datang di media pembelajaran interaktif Anti-Hoaks! Mari belajar menjadi pengguna internet yang cerdas dan bijak.',
+      primary_color: '#667eea',
+      secondary_color: '#f093fb',
+      text_color: '#374151',
+      background_color: '#667eea',
+      accent_color: '#38ef7d'
+    };
+    
+    let config = { ...defaultConfig };
+    let currentPage = 'home';
+    let currentSlide = 0;
+    let studentName = '';
+    let allScores = [];
+    
+    // Current session scores
+    let sessionScores = {
+      pretest: 0,
+      posttest: 0,
+      game1: 0,
+      game2: 0,
+      game3: 0,
+      game4: 0,
+      game5: 0
+    };
+    
+    // ===== PRE-TEST DATA =====
+    const pretestQuestions = [
+      {
+        question: "Apa yang dimaksud dengan hoaks?",
+        options: ["Berita yang benar dan akurat", "Informasi palsu yang disebarkan seolah-olah benar", "Pendapat pribadi seseorang", "Kritik terhadap pemerintah"],
+        correct: 1
+      },
+      {
+        question: "Apa langkah pertama dalam metode SARING?",
+        options: ["Akurasi", "Relevansi", "Sumber", "Investigasi"],
+        correct: 2
+      },
+      {
+        question: "Ciri-ciri hoaks adalah...",
+        options: ["Sumber jelas dan terpercaya", "Judul sensasional dan memancing emosi", "Bahasa yang sopan dan formal", "Mencantumkan tanggal publikasi"],
+        correct: 1
+      },
+      {
+        question: "Apa yang harus dilakukan saat menerima informasi yang belum tentu benar?",
+        options: ["Langsung sebarkan ke grup", "Cek fakta terlebih dahulu", "Hapus saja", "Balas dengan marah"],
+        correct: 1
+      },
+      {
+        question: "Huruf 'N' dalam SARING artinya...",
+        options: ["Narasumber", "Nalar", "Netral", "Nomor"],
+        correct: 1
+      },
+      {
+        question: "Dampak negatif hoaks adalah...",
+        options: ["Menambah pengetahuan", "Merusak kepercayaan dan memecah persatuan", "Membuat orang lebih pintar", "Meningkatkan literasi"],
+        correct: 1
+      },
+      {
+        question: "Situs fact-checker di Indonesia adalah...",
+        options: ["Wikipedia", "CekFakta.com atau TurnBackHoax", "Google", "Facebook"],
+        correct: 1
+      },
+      {
+        question: "Jika menemukan berita hoaks, sebaiknya...",
+        options: ["Sebarkan agar orang lain tahu", "Diamkan saja", "Laporkan dan edukasi orang lain", "Bikin versi baru"],
+        correct: 2
+      },
+      {
+        question: "Huruf 'G' dalam SARING artinya...",
+        options: ["Gadget", "Gunakan Hati", "Google", "Grup"],
+        correct: 1
+      },
+      {
+        question: "Mengapa kita perlu saring sebelum sharing?",
+        options: ["Agar terlihat pintar", "Agar tidak menyebarkan informasi palsu", "Agar dapat like banyak", "Agar viral"],
+        correct: 1
+      }
+    ];
+    
+    // ===== POST-TEST DATA =====
+    const posttestQuestions = [
+      {
+        question: "SARING adalah singkatan dari...",
+        options: ["Sumber, Akurasi, Relevansi, Investigasi, Nalar, Gunakan Hati", "Sebarkan, Analisis, Repost, Info, Narasi, Gosip", "Saring, Ambil, Review, Investigasi, Nilai, Grup", "Semua jawaban salah"],
+        correct: 0
+      },
+      {
+        question: "Berita hoaks biasanya memiliki judul yang...",
+        options: ["Biasa saja dan netral", "Sensasional dan mengejutkan", "Membosankan", "Sangat panjang"],
+        correct: 1
+      },
+      {
+        question: "Apa yang dimaksud dengan cek silang (cross-check)?",
+        options: ["Membagikan ke banyak grup", "Memverifikasi informasi dengan sumber lain", "Menghapus pesan", "Memblokir pengirim"],
+        correct: 1
+      },
+      {
+        question: "Kapan waktu yang tepat untuk share berita?",
+        options: ["Segera setelah membaca judul", "Setelah memverifikasi kebenarannya", "Saat banyak yang sudah share", "Kapan saja"],
+        correct: 1
+      },
+      {
+        question: "Huruf 'I' dalam SARING artinya...",
+        options: ["Info", "Investigasi", "Internet", "Ide"],
+        correct: 1
+      },
+      {
+        question: "Hoaks kesehatan berbahaya karena...",
+        options: ["Membuat orang tertawa", "Bisa membahayakan kesehatan jika dipercaya", "Menarik untuk dibaca", "Banyak yang share"],
+        correct: 1
+      },
+      {
+        question: "Apa tindakan yang TIDAK tepat saat menerima hoaks?",
+        options: ["Cek fakta", "Laporkan", "Langsung forward ke semua kontak", "Edukasi pengirim"],
+        correct: 2
+      },
+      {
+        question: "Literasi digital adalah kemampuan untuk...",
+        options: ["Menggunakan komputer saja", "Menganalisis dan memverifikasi informasi digital", "Bermain game online", "Membuat konten viral"],
+        correct: 1
+      },
+      {
+        question: "Mengapa emosi perlu dikontrol saat membaca berita?",
+        options: ["Agar tidak cape", "Agar tidak mudah terpancing dan menyebarkan hoaks", "Agar bisa tidur nyenyak", "Tidak ada alasan khusus"],
+        correct: 1
+      },
+      {
+        question: "Siapa yang bertanggung jawab menghentikan penyebaran hoaks?",
+        options: ["Pemerintah saja", "Media saja", "Setiap individu termasuk kita", "Tidak ada yang bertanggung jawab"],
+        correct: 2
+      }
+    ];
+    
+    // ===== GAME DATA =====
+    const game1QuestionPacks = {
+      pack1: [
+        { text: "BREAKING: Minum air putih 10 liter sehari bisa menyembuhkan semua penyakit!", isHoax: true, explanation: "Hoaks! Minum air berlebihan justru berbahaya bagi kesehatan." },
+        { text: "WHO mengumumkan bahwa mencuci tangan dengan sabun selama 20 detik efektif mencegah penularan penyakit.", isHoax: false, explanation: "Fakta! Ini adalah rekomendasi resmi dari WHO." },
+        { text: "SEBARKAN! Video meteor jatuh di Jakarta kemarin malam!", isHoax: true, explanation: "Hoaks! Kata 'SEBARKAN' adalah ciri khas hoaks." },
+        { text: "Pemerintah Indonesia menetapkan 17 Agustus sebagai Hari Kemerdekaan.", isHoax: false, explanation: "Fakta! Ini adalah informasi yang benar dan dapat diverifikasi." },
+        { text: "Makan nanas dan telur bersamaan bisa menyebabkan keracunan fatal!", isHoax: true, explanation: "Hoaks! Tidak ada bukti ilmiah yang mendukung klaim ini." },
+        { text: "Vaksin COVID-19 telah melalui uji klinis sebelum digunakan.", isHoax: false, explanation: "Fakta! Semua vaksin melewati proses uji klinis yang ketat." },
+        { text: "VIRAL! Cara mudah dapat uang 10 juta dengan klik link ini!", isHoax: true, explanation: "Hoaks! Ini adalah ciri penipuan online." },
+        { text: "Bumi mengelilingi matahari dalam waktu sekitar 365 hari.", isHoax: false, explanation: "Fakta! Ini adalah fakta astronomi yang terbukti." },
+        { text: "Forwarded: Besok internet akan dimatikan total seluruh Indonesia!", isHoax: true, explanation: "Hoaks! Pesan forward tanpa sumber jelas adalah ciri hoaks." },
+        { text: "Hujan asam dapat terjadi akibat polusi udara.", isHoax: false, explanation: "Fakta! Ini adalah fenomena lingkungan yang nyata." }
+      ],
+      pack2: [
+        { text: "URGENT! Makan coklat saat hujan bisa menyebabkan kanker paru-paru!", isHoax: true, explanation: "Hoaks! Tidak ada hubungan antara makan coklat saat hujan dengan kanker." },
+        { text: "Membaca buku dapat meningkatkan fungsi kognitif otak.", isHoax: false, explanation: "Fakta! Penelitian menunjukkan membaca bermanfaat untuk otak." },
+        { text: "SHARE SEBELUM DIHAPUS! Gempa besar akan terjadi besok pagi!", isHoax: true, explanation: "Hoaks! Gempa tidak bisa diprediksi dengan pasti. Kata 'share sebelum dihapus' adalah ciri hoaks." },
+        { text: "Matahari adalah bintang terdekat dengan Bumi.", isHoax: false, explanation: "Fakta! Matahari adalah bintang yang jaraknya terdekat dengan planet Bumi." },
+        { text: "BREAKING NEWS: Makan mie instan sambil minum soda bisa meledakkan perut!", isHoax: true, explanation: "Hoaks! Ini adalah mitos yang tidak berdasar ilmiah." },
+        { text: "Olahraga teratur dapat mengurangi risiko penyakit jantung.", isHoax: false, explanation: "Fakta! Ini adalah rekomendasi kesehatan yang terbukti secara medis." },
+        { text: "VIRAL! Hantu penunggu sekolah terekam CCTV! Tonton sebelum video dihapus!", isHoax: true, explanation: "Hoaks! Judul sensasional dan ajakan mendesak adalah ciri hoaks." },
+        { text: "Indonesia adalah negara kepulauan terbesar di dunia.", isHoax: false, explanation: "Fakta! Indonesia memiliki lebih dari 17.000 pulau." },
+        { text: "Forwarded many times: Pemerintah akan bagikan uang tunai Rp 5 juta ke semua warga!", isHoax: true, explanation: "Hoaks! Pesan forward tanpa sumber resmi adalah ciri hoaks." },
+        { text: "Pohon menghasilkan oksigen melalui proses fotosintesis.", isHoax: false, explanation: "Fakta! Ini adalah fakta biologi yang sudah terbukti." }
+      ],
+      pack3: [
+        { text: "PENTING! Pakai masker hitam bisa menyerap racun COVID lebih baik dari masker putih!", isHoax: true, explanation: "Hoaks! Warna masker tidak mempengaruhi efektivitas perlindungan." },
+        { text: "Mencuci tangan dengan sabun lebih efektif membunuh kuman daripada hanya air.", isHoax: false, explanation: "Fakta! Sabun membantu mengangkat dan membunuh kuman." },
+        { text: "VIRAL! Tumbuhan lidah buaya bisa mendeteksi WiFi dan radiasi berbahaya!", isHoax: true, explanation: "Hoaks! Tumbuhan tidak bisa mendeteksi sinyal WiFi." },
+        { text: "Air mendidih pada suhu 100 derajat Celsius di permukaan laut.", isHoax: false, explanation: "Fakta! Ini adalah fakta fisika yang sudah dibuktikan." },
+        { text: "SEBARKAN! Minum air hangat campur jeruk nipis bisa mengobati diabetes!", isHoax: true, explanation: "Hoaks! Diabetes memerlukan pengobatan medis yang tepat." },
+        { text: "Rokok mengandung zat-zat yang berbahaya bagi kesehatan.", isHoax: false, explanation: "Fakta! Rokok mengandung lebih dari 7000 zat kimia berbahaya." },
+        { text: "BREAKING! Pakai bawang merah di kaos kaki bisa menyembuhkan flu dalam 1 jam!", isHoax: true, explanation: "Hoaks! Tidak ada bukti ilmiah yang mendukung klaim ini." },
+        { text: "Bulan adalah satelit alami Bumi.", isHoax: false, explanation: "Fakta! Bulan mengelilingi Bumi sebagai satelit alamiahnya." },
+        { text: "Forwarded: Besok semua ATM akan error, ambil uang sekarang!", isHoax: true, explanation: "Hoaks! Pesan forward yang memancing kepanikan adalah ciri hoaks." },
+        { text: "Vitamin C dapat membantu meningkatkan sistem kekebalan tubuh.", isHoax: false, explanation: "Fakta! Vitamin C penting untuk sistem imun tubuh." }
+      ]
+    };
+    
+    const game2QuestionPacks = {
+      pack1: [
+        { q: "Apa kepanjangan huruf S dalam SARING?", a: "Sumber", options: ["Sumber", "Sharing", "Sensasi", "Sebarkan"] },
+        { q: "Apa kepanjangan huruf A dalam SARING?", a: "Akurasi", options: ["Aktual", "Akurasi", "Asli", "Aman"] },
+        { q: "Berita hoaks biasanya memiliki judul yang?", a: "Sensasional", options: ["Biasa", "Sensasional", "Pendek", "Netral"] },
+        { q: "Apa yang harus dilakukan sebelum share?", a: "Cek fakta", options: ["Langsung share", "Cek fakta", "Tunggu viral", "Hapus"] },
+        { q: "Huruf N dalam SARING artinya?", a: "Nalar", options: ["Nomor", "Nalar", "Netral", "Narasi"] },
+        { q: "Situs fact-checker Indonesia?", a: "CekFakta.com", options: ["Facebook", "CekFakta.com", "Google", "Wikipedia"] },
+        { q: "Huruf G dalam SARING artinya?", a: "Gunakan Hati", options: ["Gadget", "Grup", "Gunakan Hati", "Google"] },
+        { q: "Ciri hoaks adalah?", a: "Minta disebarkan", options: ["Sumber jelas", "Minta disebarkan", "Bahasa sopan", "Ada tanggal"] },
+        { q: "Huruf I dalam SARING artinya?", a: "Investigasi", options: ["Info", "Internet", "Investigasi", "Ide"] },
+        { q: "Huruf R dalam SARING artinya?", a: "Relevansi", options: ["Repost", "Review", "Relevansi", "Reaksi"] }
+      ],
+      pack2: [
+        { q: "Kata kunci hoaks yang sering muncul?", a: "VIRAL, BREAKING, SEBARKAN", options: ["Menurut ahli", "VIRAL, BREAKING, SEBARKAN", "Berdasarkan penelitian", "Dilansir dari"] },
+        { q: "Apa yang diperiksa pada tahap Sumber?", a: "Kredibilitas penulis", options: ["Jumlah like", "Kredibilitas penulis", "Panjang artikel", "Warna font"] },
+        { q: "Mengapa perlu cek Relevansi?", a: "Pastikan info masih terkini", options: ["Agar viral", "Pastikan info masih terkini", "Dapat banyak share", "Terlihat pintar"] },
+        { q: "Investigasi artinya?", a: "Cek silang dengan sumber lain", options: ["Langsung percaya", "Cek silang dengan sumber lain", "Share ke semua grup", "Hapus pesan"] },
+        { q: "Gunakan Hati maksudnya?", a: "Tidak mudah terpancing emosi", options: ["Ikuti kata hati", "Tidak mudah terpancing emosi", "Percaya instink", "Bagikan dengan cinta"] },
+        { q: "Hoaks kesehatan berbahaya karena?", a: "Bisa rugikan kesehatan", options: ["Membuat tertawa", "Bisa rugikan kesehatan", "Terlalu panjang", "Sulit dipahami"] },
+        { q: "Ciri berita terpercaya?", a: "Mencantumkan sumber jelas", options: ["Banyak emoji", "Mencantumkan sumber jelas", "Judul bombastis", "Minta disebarkan"] },
+        { q: "Apa dampak menyebarkan hoaks?", a: "Memecah persatuan", options: ["Dapat pahala", "Memecah persatuan", "Tambah followers", "Tidak ada dampak"] },
+        { q: "Media sosial yang aman dari hoaks?", a: "Tidak ada, semua bisa ada hoaks", options: ["WhatsApp", "Instagram", "Tidak ada, semua bisa ada hoaks", "TikTok"] },
+        { q: "Yang dilakukan saat terima hoaks?", a: "Laporkan dan beri tahu", options: ["Forward semua", "Laporkan dan beri tahu", "Diamkan saja", "Bikin versi baru"] }
+      ],
+      pack3: [
+        { q: "Metode verifikasi informasi?", a: "SARING", options: ["COPY", "PASTE", "SARING", "SHARE"] },
+        { q: "Hoaks biasanya menyasar?", a: "Emosi pembaca", options: ["Logika", "Emosi pembaca", "Pendidikan", "Usia"] },
+        { q: "Platform fact-checker global?", a: "Snopes, FactCheck.org", options: ["TikTok", "Snopes, FactCheck.org", "Instagram", "Twitter"] },
+        { q: "Foto manipulasi bisa dicek dengan?", a: "Google Reverse Image", options: ["Filter Instagram", "Google Reverse Image", "Edit Photoshop", "Share ke grup"] },
+        { q: "Berita tanpa tanggal publikasi?", a: "Patut dicurigai", options: ["Lebih terpercaya", "Patut dicurigai", "Lebih viral", "Lebih menarik"] },
+        { q: "Literasi digital adalah?", a: "Kemampuan analisis info digital", options: ["Bisa pakai HP", "Kemampuan analisis info digital", "Punya internet", "Banyak followers"] },
+        { q: "Hoaks politik bertujuan?", a: "Memengaruhi opini publik", options: ["Hiburan", "Memengaruhi opini publik", "Edukasi", "Informasi"] },
+        { q: "Yang TIDAK boleh dilakukan?", a: "Share tanpa baca", options: ["Cek fakta", "Share tanpa baca", "Tanya ahli", "Baca lengkap"] },
+        { q: "Konten clickbait adalah?", a: "Judul menarik tapi isi mengecewakan", options: ["Konten berkualitas", "Judul menarik tapi isi mengecewakan", "Video pendek", "Artikel panjang"] },
+        { q: "Tanggungjawab netizen cerdas?", a: "Saring sebelum sharing", options: ["Share semua", "Saring sebelum sharing", "Percaya semua", "Viral semua"] }
+      ]
+    };
+    
+    const game5QuestionPacks = {
+      pack1: [
+        { q: "SARING singkatan dari?", a: "Sumber, Akurasi, Relevansi, Investigasi, Nalar, Gunakan Hati", options: ["Saring Aman Rasional Info Netral Grup", "Sumber, Akurasi, Relevansi, Investigasi, Nalar, Gunakan Hati", "Sebarkan Aktif Review Info Narasi Gosip"] },
+        { q: "Ciri utama hoaks?", a: "Judul sensasional", options: ["Bahasa sopan", "Judul sensasional", "Sumber jelas"] },
+        { q: "Apa yang dilakukan sebelum share?", a: "Verifikasi fakta", options: ["Langsung forward", "Verifikasi fakta", "Tambah caption"] },
+        { q: "Huruf I artinya?", a: "Investigasi", options: ["Internet", "Investigasi", "Informasi"] },
+        { q: "Dampak hoaks?", a: "Memecah persatuan", options: ["Menambah teman", "Memecah persatuan", "Membuat pintar"] }
+      ],
+      pack2: [
+        { q: "Platform fact-checker Indonesia?", a: "TurnBackHoax, CekFakta", options: ["TikTok", "TurnBackHoax, CekFakta", "Instagram"] },
+        { q: "Hoaks kesehatan berbahaya karena?", a: "Bisa rugikan nyawa", options: ["Membosankan", "Bisa rugikan nyawa", "Terlalu panjang"] },
+        { q: "Kata kunci hoaks?", a: "VIRAL, BREAKING", options: ["Menurut ahli", "VIRAL, BREAKING", "Berdasarkan riset"] },
+        { q: "Yang dicek di tahap Sumber?", a: "Kredibilitas media", options: ["Jumlah like", "Kredibilitas media", "Panjang teks"] },
+        { q: "Literasi digital adalah?", a: "Kemampuan analisis info", options: ["Bisa pakai HP", "Kemampuan analisis info", "Punya WiFi"] }
+      ],
+      pack3: [
+        { q: "Hoaks biasanya memancing?", a: "Emosi", options: ["Logika", "Emosi", "Edukasi"] },
+        { q: "Google Reverse Image untuk?", a: "Cek foto manipulasi", options: ["Edit foto", "Cek foto manipulasi", "Download foto"] },
+        { q: "Berita tanpa tanggal?", a: "Patut dicurigai", options: ["Lebih terpercaya", "Patut dicurigai", "Lebih viral"] },
+        { q: "Tanggungjawab netizen cerdas?", a: "Saring sebelum sharing", options: ["Share semua", "Saring sebelum sharing", "Viral semua"] },
+        { q: "Yang TIDAK dilakukan?", a: "Share tanpa baca", options: ["Cek fakta", "Share tanpa baca", "Tanya ahli"] }
+      ]
+    };
+    
+    const saringLetters = ['S', 'A', 'R', 'I', 'N', 'G'];
+    const saringMeanings = {
+      'S': 'Sumber',
+      'A': 'Akurasi',
+      'R': 'Relevansi',
+      'I': 'Investigasi',
+      'N': 'Nalar',
+      'G': 'Gunakan Hati'
+    };
+    
+    // ===== TEST STATE =====
+    let pretestState = { current: 0, score: 0, answers: [], answered: false };
+    let posttestState = { current: 0, score: 0, answers: [], answered: false };
+    
+    // ===== GAME STATE =====
+    let currentGameNumber = 0;
+    let gameState = {};
+    
+    // ===== SDK INITIALIZATION =====
+    const dataHandler = {
+      onDataChanged(data) {
+        allScores = data;
+        updateLeaderboard();
+        updateMyScores();
+      }
+    };
+    
+    async function initApp() {
+      // Init Element SDK
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (newConfig) => {
+            config = { ...defaultConfig, ...newConfig };
+            applyConfig();
+          },
+          mapToCapabilities: (cfg) => ({
+            recolorables: [
+              { get: () => cfg.background_color || defaultConfig.background_color, set: (v) => window.elementSdk.setConfig({ background_color: v }) },
+              { get: () => cfg.primary_color || defaultConfig.primary_color, set: (v) => window.elementSdk.setConfig({ primary_color: v }) },
+              { get: () => cfg.secondary_color || defaultConfig.secondary_color, set: (v) => window.elementSdk.setConfig({ secondary_color: v }) },
+              { get: () => cfg.text_color || defaultConfig.text_color, set: (v) => window.elementSdk.setConfig({ text_color: v }) },
+              { get: () => cfg.accent_color || defaultConfig.accent_color, set: (v) => window.elementSdk.setConfig({ accent_color: v }) }
+            ],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (cfg) => new Map([
+            ['app_title', cfg.app_title || defaultConfig.app_title],
+            ['welcome_message', cfg.welcome_message || defaultConfig.welcome_message]
+          ])
+        });
+      }
+      
+      // Init Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to init data SDK');
+        }
+      }
+      
+      applyConfig();
+      initPretest();
+      initPosttest();
+    }
+    
+    function applyConfig() {
+      const title = document.getElementById('main-title');
+      const welcome = document.getElementById('welcome-text');
+      const app = document.getElementById('app');
+      
+      if (title) title.textContent = `🛡️ ${config.app_title || defaultConfig.app_title} 🛡️`;
+      if (welcome) welcome.textContent = config.welcome_message || defaultConfig.welcome_message;
+      
+      // Apply background color
+      if (app) {
+        app.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, ${config.secondary_color || defaultConfig.secondary_color} 100%)`;
+      }
+    }
+    
+    // ===== NAVIGATION =====
+    function navigateTo(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      const targetPage = document.getElementById(`page-${page}`);
+      const targetNav = document.querySelector(`[data-page="${page}"]`);
+      
+      if (targetPage) {
+        targetPage.classList.remove('hidden');
+        currentPage = page;
+      }
+      if (targetNav) targetNav.classList.add('active');
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // ===== STUDENT NAME =====
+    function saveStudentName() {
+      const input = document.getElementById('student-name-input');
+      const greeting = document.getElementById('student-greeting');
+      
+      if (input.value.trim()) {
+        studentName = input.value.trim();
+        greeting.textContent = `Halo, ${studentName}! Selamat belajar! 🎉`;
+        greeting.classList.remove('hidden');
+        input.disabled = true;
+      }
+    }
+    
+    // ===== SLIDES =====
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlideDisplay();
+    }
+    
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlideDisplay();
+      }
+    }
+    
+    function nextSlide() {
+      if (currentSlide < 5) {
+        currentSlide++;
+        updateSlideDisplay();
+      }
+    }
+    
+    function updateSlideDisplay() {
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.classList.toggle('hidden', i !== currentSlide);
+      });
+      
+      document.querySelectorAll('.slide-nav-btn').forEach((btn, i) => {
+        if (i === currentSlide) {
+          btn.className = 'slide-nav-btn w-10 h-10 rounded-full btn-primary text-white font-bold';
+        } else {
+          btn.className = 'slide-nav-btn w-10 h-10 rounded-full bg-gray-200 text-gray-700 font-bold';
+        }
+      });
+      
+      document.getElementById('prev-slide-btn').disabled = currentSlide === 0;
+      document.getElementById('next-slide-btn').disabled = currentSlide === 5;
+    }
+    
+    // ===== PRE-TEST =====
+    function initPretest() {
+      pretestState = { current: 0, score: 0, answers: new Array(pretestQuestions.length).fill(null), answered: false };
+      renderPretestQuestion();
+    }
+    
+    function renderPretestQuestion() {
+      const q = pretestQuestions[pretestState.current];
+      const questionEl = document.querySelector('#pretest-question p');
+      const optionsEl = document.getElementById('pretest-options');
+      
+      questionEl.textContent = `${pretestState.current + 1}. ${q.question}`;
+      optionsEl.innerHTML = q.options.map((opt, i) => `
+        <button onclick="selectPretestOption(${i})" class="quiz-option w-full text-left p-4 rounded-xl border-2 border-purple-200 ${pretestState.answers[pretestState.current] === i ? 'selected' : ''}">
+          <span class="font-bold mr-2">${String.fromCharCode(65 + i)}.</span> ${opt}
+        </button>
+      `).join('');
+      
+      document.getElementById('pretest-current').textContent = pretestState.current + 1;
+      document.getElementById('pretest-progress-bar').style.width = `${((pretestState.current + 1) / pretestQuestions.length) * 100}%`;
+      document.getElementById('pretest-prev-btn').disabled = pretestState.current === 0;
+      document.getElementById('pretest-next-btn').textContent = pretestState.current === pretestQuestions.length - 1 ? 'Selesai ✓' : 'Selanjutnya →';
+      document.getElementById('pretest-feedback').classList.add('hidden');
+    }
+    
+    function selectPretestOption(index) {
+      pretestState.answers[pretestState.current] = index;
+      pretestState.answered = true;
+      
+      const q = pretestQuestions[pretestState.current];
+      const feedback = document.getElementById('pretest-feedback');
+      
+      if (index === q.correct) {
+        feedback.className = 'p-4 rounded-xl mb-4 bg-green-100 text-green-800';
+        feedback.innerHTML = '✅ Benar! Jawaban yang tepat.';
+      } else {
+        feedback.className = 'p-4 rounded-xl mb-4 bg-red-100 text-red-800';
+        feedback.innerHTML = `❌ Kurang tepat. Jawaban yang benar: ${q.options[q.correct]}`;
+      }
+      feedback.classList.remove('hidden');
+      
+      document.querySelectorAll('#pretest-options .quiz-option').forEach((btn, i) => {
+        btn.classList.remove('selected', 'correct', 'wrong');
+        if (i === q.correct) btn.classList.add('correct');
+        else if (i === index) btn.classList.add('wrong');
+      });
+    }
+    
+    function prevPretestQuestion() {
+      if (pretestState.current > 0) {
+        pretestState.current--;
+        pretestState.answered = pretestState.answers[pretestState.current] !== null;
+        renderPretestQuestion();
+      }
+    }
+    
+    function nextPretestQuestion() {
+      if (pretestState.current < pretestQuestions.length - 1) {
+        pretestState.current++;
+        pretestState.answered = pretestState.answers[pretestState.current] !== null;
+        renderPretestQuestion();
+      } else {
+        finishPretest();
+      }
+    }
+    
+    function finishPretest() {
+      let correct = 0;
+      pretestState.answers.forEach((ans, i) => {
+        if (ans === pretestQuestions[i].correct) correct++;
+      });
+      
+      const score = Math.round((correct / pretestQuestions.length) * 100);
+      pretestState.score = score;
+      sessionScores.pretest = score;
+      
+      document.getElementById('pretest-container').classList.add('hidden');
+      document.getElementById('pretest-result').classList.remove('hidden');
+      document.getElementById('pretest-final-score').textContent = score;
+      
+      let message = '';
+      if (score >= 80) message = '🌟 Luar biasa! Kamu sudah memiliki pengetahuan yang baik tentang hoaks!';
+      else if (score >= 60) message = '👍 Bagus! Mari pelajari materi untuk meningkatkan pemahamanmu.';
+      else message = '💪 Tidak apa-apa! Yuk belajar materi untuk menambah pengetahuan.';
+      document.getElementById('pretest-message').textContent = message;
+      
+      document.getElementById('pretest-score-display').textContent = score;
+    }
+    
+    // ===== POST-TEST =====
+    function initPosttest() {
+      posttestState = { current: 0, score: 0, answers: new Array(posttestQuestions.length).fill(null), answered: false };
+      renderPosttestQuestion();
+    }
+    
+    function renderPosttestQuestion() {
+      const q = posttestQuestions[posttestState.current];
+      const questionEl = document.querySelector('#posttest-question p');
+      const optionsEl = document.getElementById('posttest-options');
+      
+      questionEl.textContent = `${posttestState.current + 1}. ${q.question}`;
+      optionsEl.innerHTML = q.options.map((opt, i) => `
+        <button onclick="selectPosttestOption(${i})" class="quiz-option w-full text-left p-4 rounded-xl border-2 border-green-200 ${posttestState.answers[posttestState.current] === i ? 'selected' : ''}">
+          <span class="font-bold mr-2">${String.fromCharCode(65 + i)}.</span> ${opt}
+        </button>
+      `).join('');
+      
+      document.getElementById('posttest-current').textContent = posttestState.current + 1;
+      document.getElementById('posttest-progress-bar').style.width = `${((posttestState.current + 1) / posttestQuestions.length) * 100}%`;
+      document.getElementById('posttest-prev-btn').disabled = posttestState.current === 0;
+      document.getElementById('posttest-next-btn').textContent = posttestState.current === posttestQuestions.length - 1 ? 'Selesai ✓' : 'Selanjutnya →';
+      document.getElementById('posttest-feedback').classList.add('hidden');
+    }
+    
+    function selectPosttestOption(index) {
+      posttestState.answers[posttestState.current] = index;
+      posttestState.answered = true;
+      
+      const q = posttestQuestions[posttestState.current];
+      const feedback = document.getElementById('posttest-feedback');
+      
+      if (index === q.correct) {
+        feedback.className = 'p-4 rounded-xl mb-4 bg-green-100 text-green-800';
+        feedback.innerHTML = '✅ Benar! Jawaban yang tepat.';
+      } else {
+        feedback.className = 'p-4 rounded-xl mb-4 bg-red-100 text-red-800';
+        feedback.innerHTML = `❌ Kurang tepat. Jawaban yang benar: ${q.options[q.correct]}`;
+      }
+      feedback.classList.remove('hidden');
+      
+      document.querySelectorAll('#posttest-options .quiz-option').forEach((btn, i) => {
+        btn.classList.remove('selected', 'correct', 'wrong');
+        if (i === q.correct) btn.classList.add('correct');
+        else if (i === index) btn.classList.add('wrong');
+      });
+    }
+    
+    function prevPosttestQuestion() {
+      if (posttestState.current > 0) {
+        posttestState.current--;
+        posttestState.answered = posttestState.answers[posttestState.current] !== null;
+        renderPosttestQuestion();
+      }
+    }
+    
+    function nextPosttestQuestion() {
+      if (posttestState.current < posttestQuestions.length - 1) {
+        posttestState.current++;
+        posttestState.answered = posttestState.answers[posttestState.current] !== null;
+        renderPosttestQuestion();
+      } else {
+        finishPosttest();
+      }
+    }
+    
+    function finishPosttest() {
+      let correct = 0;
+      posttestState.answers.forEach((ans, i) => {
+        if (ans === posttestQuestions[i].correct) correct++;
+      });
+      
+      const score = Math.round((correct / posttestQuestions.length) * 100);
+      posttestState.score = score;
+      sessionScores.posttest = score;
+      
+      document.getElementById('posttest-container').classList.add('hidden');
+      document.getElementById('posttest-result').classList.remove('hidden');
+      document.getElementById('posttest-final-score').textContent = score;
+      
+      const improvement = score - sessionScores.pretest;
+      document.getElementById('score-improvement').textContent = improvement >= 0 ? `+${improvement}` : improvement;
+      
+      let message = '';
+      if (score >= 80) message = '🏆 Excellent! Kamu sudah memahami materi dengan sangat baik!';
+      else if (score >= 60) message = '👏 Good job! Pemahamanmu sudah meningkat.';
+      else message = '📚 Coba pelajari materi lagi untuk hasil yang lebih baik.';
+      document.getElementById('posttest-message').textContent = message;
+      
+      document.getElementById('posttest-score-display').textContent = score;
+    }
+    
+    // ===== GAMES =====
+    function startGame(gameNumber) {
+      currentGameNumber = gameNumber;
+      navigateTo('game-play');
+      
+      const container = document.getElementById('game-container');
+      
+      switch(gameNumber) {
+        case 1: renderGame1(container); break;
+        case 2: renderGame2(container); break;
+        case 3: renderGame3(container); break;
+        case 4: renderGame4(container); break;
+        case 5: renderGame5(container); break;
+      }
+    }
+    
+    // GAME 1: Detektif Hoaks
+    function renderGame1(container) {
+      container.innerHTML = `
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-purple-700 mb-2">🔍 Detektif Hoaks</h2>
+          <p class="text-gray-600">Pilih paket soal yang ingin kamu mainkan!</p>
+        </div>
+        <div id="game1-pack-selection" class="grid md:grid-cols-3 gap-4 mb-6">
+          <div onclick="startGame1WithPack('pack1')" class="game-card card-gradient p-6 rounded-xl text-center cursor-pointer">
+            <div class="text-4xl mb-3">📦</div>
+            <h3 class="text-lg font-bold text-purple-700 mb-2">Paket 1</h3>
+            <p class="text-sm text-gray-600">Hoaks Umum & Kesehatan</p>
+            <div class="mt-3 btn-primary text-white px-4 py-2 rounded-xl inline-block text-sm">10 Soal</div>
+          </div>
+          <div onclick="startGame1WithPack('pack2')" class="game-card card-gradient p-6 rounded-xl text-center cursor-pointer">
+            <div class="text-4xl mb-3">📦</div>
+            <h3 class="text-lg font-bold text-purple-700 mb-2">Paket 2</h3>
+            <p class="text-sm text-gray-600">Mitos & Berita Viral</p>
+            <div class="mt-3 btn-warning text-white px-4 py-2 rounded-xl inline-block text-sm">10 Soal</div>
+          </div>
+          <div onclick="startGame1WithPack('pack3')" class="game-card card-gradient p-6 rounded-xl text-center cursor-pointer">
+            <div class="text-4xl mb-3">📦</div>
+            <h3 class="text-lg font-bold text-purple-700 mb-2">Paket 3</h3>
+            <p class="text-sm text-gray-600">Kesehatan & Sains</p>
+            <div class="mt-3 btn-success text-white px-4 py-2 rounded-xl inline-block text-sm">10 Soal</div>
+          </div>
+        </div>
+        <div id="game1-play-area" class="hidden"></div>
+      `;
+    }
+    
+    function startGame1WithPack(packName) {
+      const questions = game1QuestionPacks[packName];
+      gameState = { current: 0, score: 0, total: questions.length, questions, packName };
+      
+      const playArea = document.getElementById('game1-play-area');
+      playArea.classList.remove('hidden');
+      document.getElementById('game1-pack-selection').classList.add('hidden');
+      
+      playArea.innerHTML = `
+        <div class="text-center mb-4">
+          <p class="text-lg font-semibold text-purple-700">${packName === 'pack1' ? 'Paket 1: Hoaks Umum' : packName === 'pack2' ? 'Paket 2: Mitos Viral' : 'Paket 3: Kesehatan & Sains'}</p>
+        </div>
+        <div id="game1-progress" class="mb-4">
+          <div class="flex justify-between text-sm text-gray-600 mb-2">
+            <span>Soal <span id="g1-current">1</span>/${questions.length}</span>
+            <span>Skor: <span id="g1-score">0</span></span>
+          </div>
+          <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div id="g1-progress-bar" class="h-full btn-danger progress-bar" style="width: 10%"></div>
+          </div>
+        </div>
+        <div id="game1-content" class="min-h-[200px]"></div>
+      `;
+      
+      renderGame1Question();
+    }
+    
+    function renderGame1Question() {
+      if (gameState.current >= gameState.questions.length) {
+        finishGame1();
+        return;
+      }
+      
+      const q = gameState.questions[gameState.current];
+      const content = document.getElementById('game1-content');
+      
+      content.innerHTML = `
+        <div class="bg-yellow-50 p-6 rounded-xl mb-6 border-l-4 border-yellow-400">
+          <p class="text-lg text-gray-800">"${q.text}"</p>
+        </div>
+        <div class="flex gap-4 justify-center mb-4">
+          <button onclick="answerGame1(true)" class="btn-danger text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition">
+            🚫 HOAKS
+          </button>
+          <button onclick="answerGame1(false)" class="btn-success text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition">
+            ✅ FAKTA
+          </button>
+        </div>
+        <div id="g1-feedback" class="hidden p-4 rounded-xl"></div>
+      `;
+      
+      document.getElementById('g1-current').textContent = gameState.current + 1;
+      document.getElementById('g1-progress-bar').style.width = `${((gameState.current + 1) / gameState.questions.length) * 100}%`;
+    }
+    
+    function answerGame1(isHoax) {
+      const q = gameState.questions[gameState.current];
+      const feedback = document.getElementById('g1-feedback');
+      const correct = q.isHoax === isHoax;
+      
+      if (correct) {
+        gameState.score += 10;
+        feedback.className = 'p-4 rounded-xl bg-green-100 text-green-800';
+        feedback.innerHTML = `✅ Benar! ${q.explanation}`;
+      } else {
+        feedback.className = 'p-4 rounded-xl bg-red-100 text-red-800';
+        feedback.innerHTML = `❌ Salah! ${q.explanation}`;
+      }
+      feedback.classList.remove('hidden');
+      
+      document.getElementById('g1-score').textContent = gameState.score;
+      
+      setTimeout(() => {
+        gameState.current++;
+        renderGame1Question();
+      }, 2000);
+    }
+    
+    function finishGame1() {
+      sessionScores.game1 = gameState.score;
+      const content = document.getElementById('game1-content');
+      
+      content.innerHTML = `
+        <div class="text-center">
+          <div class="text-6xl mb-4">🎉</div>
+          <h3 class="text-2xl font-bold text-purple-700 mb-2">Game Selesai!</h3>
+          <div class="score-display inline-block px-8 py-4 rounded-2xl mb-4">
+            <p class="text-lg text-gray-700">Skor Akhir:</p>
+            <p class="text-4xl font-bold text-purple-700">${gameState.score}/100</p>
+          </div>
+          <p class="text-gray-600 mb-4">${gameState.score >= 70 ? 'Hebat! Kamu detektif hoaks yang handal!' : 'Terus berlatih untuk meningkatkan kemampuanmu!'}</p>
+          <div class="flex gap-3 justify-center">
+            <button onclick="startGame(1)" class="btn-warning text-white px-6 py-3 rounded-xl font-semibold">Main Lagi</button>
+            <button onclick="navigateTo('games')" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Pilih Game Lain</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    // GAME 2: Speed SARING
+    function renderGame2(container) {
+      container.innerHTML = `
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-purple-700 mb-2">⚡ Speed SARING</h2>
+          <p class="text-gray-600">Pilih paket soal dan jawab dengan cepat!</p>
+        </div>
+        <div id="game2-pack-selection" class="grid md:grid-cols-3 gap-4 mb-6">
+          <div onclick="startGame2WithPack('pack1')" class="game-card card-gradient p-6 rounded-xl text-center cursor-pointer">
+            <div class="text-4xl mb-3">⚡</div>
+            <h3 class="text-lg font-bold text-purple-700 mb-2">Paket 1</h3>
+            <p class="text-sm text-gray-600">Dasar-dasar SARING</p>
+            <div class="mt-3 btn-primary text-white px-4 py-2 rounded-xl inline-block text-sm">10 Soal</div>
+          </div>
+          <div onclick="startGame2WithPack('pack2')" class="game-card card-gradient p-6 rounded-xl text-center cursor-pointer">
+            <div class="text-4xl mb-3">⚡</div>
+            <h3 class="text-lg font-bold text-purple-700 mb-2">Paket 2</h3>
+            <p class="text-sm text-gray-600">Level Menengah</p>
+            <div class="mt-3 btn-warning text-white px-4 py-2 rounded-xl inline-block text-sm">10 Soal</div>
+          </div>
+          <div onclick="startGame2WithPack('pack3')" class="game-card card-gradient p-6 rounded-xl text-center cursor-pointer">
+            <div class="text-4xl mb-3">⚡</div>
+            <h3 class="text-lg font-bold text-purple-700 mb-2">Paket 3</h3>
+            <p class="text-sm text-gray-600">Level Ahli</p>
+            <div class="mt-3 btn-success text-white px-4 py-2 rounded-xl inline-block text-sm">10 Soal</div>
+          </div>
+        </div>
+        <div id="game2-play-area" class="hidden"></div>
+      `;
+    }
+    
+    function startGame2WithPack(packName) {
+      const speedQuestions = game2QuestionPacks[packName];
+      gameState = { current: 0, score: 0, timeLeft: 10, timer: null, questions: speedQuestions, packName };
+      
+      const playArea = document.getElementById('game2-play-area');
+      playArea.classList.remove('hidden');
+      document.getElementById('game2-pack-selection').classList.add('hidden');
+      
+      playArea.innerHTML = `
+        <div class="text-center mb-4">
+          <p class="text-lg font-semibold text-purple-700">${packName === 'pack1' ? 'Paket 1: Dasar SARING' : packName === 'pack2' ? 'Paket 2: Level Menengah' : 'Paket 3: Level Ahli'}</p>
+          <p class="text-sm text-gray-600">Jawab dengan cepat sebelum waktu habis!</p>
+        </div>
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-lg font-bold">Soal <span id="g2-current">1</span>/10</span>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⏱️</span>
+            <span id="g2-timer" class="text-3xl font-bold text-red-600">10</span>
+          </div>
+          <span class="text-lg font-bold">Skor: <span id="g2-score">0</span></span>
+        </div>
+        <div id="game2-content" class="min-h-[250px]"></div>
+      `;
+      
+      renderGame2Question();
+    }
+    
+    function renderGame2Question() {
+      if (gameState.current >= gameState.questions.length) {
+        finishGame2();
+        return;
+      }
+      
+      clearInterval(gameState.timer);
+      gameState.timeLeft = 10;
+      
+      const q = gameState.questions[gameState.current];
+      const content = document.getElementById('game2-content');
+      const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+      
+      content.innerHTML = `
+        <div class="bg-blue-50 p-6 rounded-xl mb-6">
+          <p class="text-xl font-semibold text-gray-800">${q.q}</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          ${shuffled.map(opt => `
+            <button onclick="answerGame2('${opt}')" class="quiz-option p-4 rounded-xl border-2 border-blue-200 font-semibold hover:bg-blue-50 transition">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+      `;
+      
+      document.getElementById('g2-current').textContent = gameState.current + 1;
+      document.getElementById('g2-timer').textContent = gameState.timeLeft;
+      
+      gameState.timer = setInterval(() => {
+        gameState.timeLeft--;
+        document.getElementById('g2-timer').textContent = gameState.timeLeft;
+        
+        if (gameState.timeLeft <= 0) {
+          clearInterval(gameState.timer);
+          gameState.current++;
+          renderGame2Question();
+        }
+      }, 1000);
+    }
+    
+    function answerGame2(answer) {
+      clearInterval(gameState.timer);
+      const q = gameState.questions[gameState.current];
+      
+      if (answer === q.a) {
+        const bonus = gameState.timeLeft;
+        gameState.score += 10 + bonus;
+        document.getElementById('g2-score').textContent = gameState.score;
+      }
+      
+      gameState.current++;
+      setTimeout(renderGame2Question, 500);
+    }
+    
+    function finishGame2() {
+      clearInterval(gameState.timer);
+      sessionScores.game2 = gameState.score;
+      const content = document.getElementById('game2-content');
+      
+      content.innerHTML = `
+        <div class="text-center">
+          <div class="text-6xl mb-4">⚡</div>
+          <h3 class="text-2xl font-bold text-purple-700 mb-2">Waktu Habis!</h3>
+          <div class="score-display inline-block px-8 py-4 rounded-2xl mb-4">
+            <p class="text-lg text-gray-700">Skor Akhir:</p>
+            <p class="text-4xl font-bold text-purple-700">${gameState.score}</p>
+          </div>
+          <p class="text-gray-600 mb-4">${gameState.score >= 100 ? 'Super cepat! Kamu ahli SARING!' : 'Coba lagi untuk skor lebih tinggi!'}</p>
+          <div class="flex gap-3 justify-center">
+            <button onclick="startGame(2)" class="btn-warning text-white px-6 py-3 rounded-xl font-semibold">Main Lagi</button>
+            <button onclick="navigateTo('games')" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Pilih Game Lain</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    // GAME 3: Puzzle SARING
+    function renderGame3(container) {
+      gameState = { score: 0, attempts: 0, arranged: [], startTime: Date.now() };
+      
+      container.innerHTML = `
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-purple-700 mb-2">🧩 Puzzle SARING</h2>
+          <p class="text-gray-600">Susun huruf SARING dengan urutan yang benar!</p>
+        </div>
+        <div class="mb-6">
+          <p class="text-center text-lg mb-4">Skor: <span id="g3-score" class="font-bold">0</span> | Percobaan: <span id="g3-attempts" class="font-bold">0</span></p>
+        </div>
+        <div id="game3-content"></div>
+      `;
+      
+      renderGame3Puzzle();
+    }
+    
+    function renderGame3Puzzle() {
+      const content = document.getElementById('game3-content');
+      const shuffled = [...saringLetters].sort(() => Math.random() - 0.5);
+      gameState.arranged = [];
+      
+      content.innerHTML = `
+        <div class="mb-6">
+          <p class="text-center text-sm text-gray-600 mb-2">Klik huruf sesuai urutan S-A-R-I-N-G</p>
+          <div id="g3-arranged" class="flex justify-center gap-2 mb-4 min-h-[60px] items-center">
+            <p class="text-gray-400">Klik huruf di bawah...</p>
+          </div>
+        </div>
+        <div id="g3-letters" class="flex justify-center gap-3 flex-wrap mb-6">
+          ${shuffled.map(letter => `
+            <button onclick="selectLetter('${letter}', this)" class="w-16 h-16 rounded-xl text-3xl font-bold text-white btn-primary hover:scale-110 transition">
+              ${letter}
+            </button>
+          `).join('')}
+        </div>
+        <div class="flex justify-center gap-3">
+          <button onclick="resetPuzzle()" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-semibold">Reset</button>
+          <button onclick="checkPuzzle()" class="btn-success text-white px-6 py-3 rounded-xl font-semibold">Cek Jawaban</button>
+        </div>
+        <div id="g3-feedback" class="mt-4 hidden p-4 rounded-xl text-center"></div>
+        <div id="g3-meanings" class="mt-6 hidden">
+          <h4 class="font-bold text-center text-purple-700 mb-3">Arti SARING:</h4>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+            ${Object.entries(saringMeanings).map(([letter, meaning]) => `
+              <div class="bg-purple-50 p-3 rounded-xl text-center">
+                <span class="font-bold text-purple-700">${letter}</span> = ${meaning}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    function selectLetter(letter, btn) {
+      if (gameState.arranged.includes(letter)) return;
+      
+      gameState.arranged.push(letter);
+      btn.classList.add('opacity-50');
+      btn.disabled = true;
+      
+      const arranged = document.getElementById('g3-arranged');
+      arranged.innerHTML = gameState.arranged.map(l => `
+        <div class="w-12 h-12 rounded-xl text-2xl font-bold text-white btn-secondary flex items-center justify-center">
+          ${l}
+        </div>
+      `).join('');
+    }
+    
+    function resetPuzzle() {
+      renderGame3Puzzle();
+    }
+    
+    function checkPuzzle() {
+      gameState.attempts++;
+      document.getElementById('g3-attempts').textContent = gameState.attempts;
+      
+      const feedback = document.getElementById('g3-feedback');
+      const meanings = document.getElementById('g3-meanings');
+      const isCorrect = gameState.arranged.join('') === 'SARING';
+      
+      if (isCorrect) {
+        const timeBonus = Math.max(0, 100 - Math.floor((Date.now() - gameState.startTime) / 1000));
+        const attemptBonus = Math.max(0, 50 - (gameState.attempts - 1) * 10);
+        gameState.score = 50 + timeBonus + attemptBonus;
+        sessionScores.game3 = gameState.score;
+        
+        feedback.className = 'mt-4 p-4 rounded-xl text-center bg-green-100 text-green-800';
+        feedback.innerHTML = `🎉 Benar! Skor: ${gameState.score} (Bonus waktu: +${timeBonus}, Bonus percobaan: +${attemptBonus})`;
+        meanings.classList.remove('hidden');
+      } else {
+        feedback.className = 'mt-4 p-4 rounded-xl text-center bg-red-100 text-red-800';
+        feedback.innerHTML = '❌ Urutan belum benar! Coba lagi dengan urutan S-A-R-I-N-G';
+      }
+      feedback.classList.remove('hidden');
+      
+      document.getElementById('g3-score').textContent = gameState.score;
+    }
+    
+    // GAME 4: Tembak Hoaks
+    function renderGame4(container) {
+      gameState = { score: 0, timeLeft: 30, timer: null, spawner: null };
+      
+      container.innerHTML = `
+        <div class="text-center mb-4">
+          <h2 class="text-2xl font-bold text-purple-700 mb-2">🎯 Tembak Hoaks</h2>
+          <p class="text-gray-600">Klik berita HOAKS sebelum waktu habis! Hindari berita FAKTA!</p>
+        </div>
+        <div class="flex justify-between items-center mb-4 bg-purple-100 p-3 rounded-xl">
+          <span class="text-lg font-bold">⏱️ <span id="g4-timer">30</span>s</span>
+          <span class="text-lg font-bold">Skor: <span id="g4-score">0</span></span>
+        </div>
+        <div id="game4-arena" class="relative bg-gradient-to-b from-blue-100 to-purple-100 rounded-xl min-h-[400px] overflow-hidden">
+          <div id="game4-start" class="absolute inset-0 flex items-center justify-center">
+            <button onclick="startGame4Timer()" class="btn-success text-white px-8 py-4 rounded-xl font-bold text-xl pulse-animation">
+              🎮 Mulai Game!
+            </button>
+          </div>
+          <div id="game4-targets" class="hidden"></div>
+        </div>
+        <div id="game4-result" class="hidden mt-4 text-center"></div>
+      `;
+    }
+    
+    function startGame4Timer() {
+      document.getElementById('game4-start').classList.add('hidden');
+      document.getElementById('game4-targets').classList.remove('hidden');
+      
+      gameState.timeLeft = 30;
+      gameState.score = 0;
+      
+      gameState.timer = setInterval(() => {
+        gameState.timeLeft--;
+        document.getElementById('g4-timer').textContent = gameState.timeLeft;
+        
+        if (gameState.timeLeft <= 0) {
+          finishGame4();
+        }
+      }, 1000);
+      
+      gameState.spawner = setInterval(spawnTarget, 1500);
+      spawnTarget();
+    }
+    
+    function spawnTarget() {
+      const arena = document.getElementById('game4-targets');
+      const isHoax = Math.random() > 0.4;
+      const hoaxTexts = [
+        "VIRAL! Minum air kelapa bisa sembuhkan COVID!",
+        "SHARE! Besok listrik gratis sebulan!",
+        "BREAKING! WiFi menyebabkan kanker!",
+        "SEBARKAN! Pemerintah sembunyikan alien!",
+        "URGENT! Vaksin mengandung chip!"
+      ];
+      const faktaTexts = [
+        "Cuci tangan mencegah penyakit",
+        "Olahraga baik untuk kesehatan",
+        "Membaca meningkatkan pengetahuan",
+        "Tidur cukup penting untuk tubuh",
+        "Makan sayur menyehatkan"
+      ];
+      
+      const text = isHoax ? hoaxTexts[Math.floor(Math.random() * hoaxTexts.length)] : faktaTexts[Math.floor(Math.random() * faktaTexts.length)];
+      const left = Math.random() * 70;
+      const top = Math.random() * 70;
+      
+      const target = document.createElement('div');
+      target.className = `absolute p-3 rounded-xl cursor-pointer transition-all duration-300 hover:scale-110 ${isHoax ? 'bg-red-100 border-2 border-red-300' : 'bg-green-100 border-2 border-green-300'}`;
+      target.style.left = `${left}%`;
+      target.style.top = `${top}%`;
+      target.style.maxWidth = '200px';
+      target.innerHTML = `<p class="text-sm font-semibold ${isHoax ? 'text-red-700' : 'text-green-700'}">${text}</p>`;
+      target.onclick = () => shootTarget(target, isHoax);
+      
+      arena.appendChild(target);
+      
+      setTimeout(() => {
+        if (target.parentNode) target.remove();
+      }, 3000);
+    }
+    
+    function shootTarget(target, isHoax) {
+      if (isHoax) {
+        gameState.score += 10;
+        target.innerHTML = '<span class="text-2xl">💥</span>';
+      } else {
+        gameState.score = Math.max(0, gameState.score - 5);
+        target.innerHTML = '<span class="text-2xl">❌</span>';
+      }
+      document.getElementById('g4-score').textContent = gameState.score;
+      
+      setTimeout(() => target.remove(), 300);
+    }
+    
+    function finishGame4() {
+      clearInterval(gameState.timer);
+      clearInterval(gameState.spawner);
+      sessionScores.game4 = gameState.score;
+      
+      document.getElementById('game4-targets').innerHTML = '';
+      const result = document.getElementById('game4-result');
+      result.classList.remove('hidden');
+      result.innerHTML = `
+        <div class="card-gradient p-6 rounded-xl">
+          <div class="text-5xl mb-3">🎯</div>
+          <h3 class="text-xl font-bold text-purple-700 mb-2">Waktu Habis!</h3>
+          <p class="text-3xl font-bold text-purple-700 mb-4">${gameState.score} Poin</p>
+          <p class="text-gray-600 mb-4">${gameState.score >= 80 ? 'Penembak jitu! Kamu hebat!' : 'Terus berlatih!'}</p>
+          <div class="flex gap-3 justify-center">
+            <button onclick="startGame(4)" class="btn-warning text-white px-6 py-3 rounded-xl font-semibold">Main Lagi</button>
+            <button onclick="navigateTo('games')" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Game Lain</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    // GAME 5: Quiz Battle
+    function renderGame5(container) {
+      gameState = { 
+        teams: [], 
+        currentTeam: 0, 
+        currentQuestion: 0,
+        questions: [
+          { q: "SARING singkatan dari?", a: "Sumber, Akurasi, Relevansi, Investigasi, Nalar, Gunakan Hati", options: ["Saring Aman Rasional Info Netral Grup", "Sumber Akurasi Relevansi Investigasi Nalar Gunakan Hati", "Sebarkan Aktif Review Info Narasi Gosip"] },
+          { q: "Ciri utama hoaks?", a: "Judul sensasional", options: ["Bahasa sopan", "Judul sensasional", "Sumber jelas"] },
+          { q: "Apa yang dilakukan sebelum share?", a: "Verifikasi fakta", options: ["Langsung forward", "Verifikasi fakta", "Tambah caption"] },
+          { q: "Huruf I artinya?", a: "Investigasi", options: ["Internet", "Investigasi", "Informasi"] },
+          { q: "Dampak hoaks?", a: "Memecah persatuan", options: ["Menambah teman", "Memecah persatuan", "Membuat pintar"] }
+        ]
+      };
+      
+      container.innerHTML = `
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-purple-700 mb-2">🏆 Quiz Battle</h2>
+          <p class="text-gray-600">Pertarungan quiz antar tim!</p>
+        </div>
+        <div id="game5-setup">
+          <div class="bg-purple-50 p-6 rounded-xl mb-4">
+            <h3 class="font-bold text-lg text-purple-700 mb-4">Buat Tim (2-4 Tim)</h3>
+            <div id="teams-list" class="space-y-3 mb-4"></div>
+            <div class="flex gap-2">
+              <input type="text" id="team-name-input" placeholder="Nama tim..." class="flex-1 px-4 py-2 rounded-xl border-2 border-purple-200">
+              <button onclick="addTeam()" class="btn-primary text-white px-4 py-2 rounded-xl font-semibold">+ Tambah</button>
+            </div>
+          </div>
+          <button onclick="startQuizBattle()" id="start-battle-btn" class="w-full btn-success text-white py-4 rounded-xl font-bold text-lg disabled:opacity-50" disabled>
+            🚀 Mulai Battle!
+          </button>
+        </div>
+        <div id="game5-battle" class="hidden"></div>
+        <div id="game5-result" class="hidden"></div>
+      `;
+    }
+    
+    function addTeam() {
+      const input = document.getElementById('team-name-input');
+      const name = input.value.trim();
+      
+      if (name && gameState.teams.length < 4) {
+        const colors = ['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-yellow-400'];
+        gameState.teams.push({ name, score: 0, color: colors[gameState.teams.length] });
+        input.value = '';
+        renderTeamsList();
+      }
+    }
+    
+    function removeTeam(index) {
+      gameState.teams.splice(index, 1);
+      renderTeamsList();
+    }
+    
+    function renderTeamsList() {
+      const list = document.getElementById('teams-list');
+      list.innerHTML = gameState.teams.map((team, i) => `
+        <div class="flex items-center gap-3 ${team.color} text-white p-3 rounded-xl">
+          <span class="font-bold">${i + 1}. ${team.name}</span>
+          <button onclick="removeTeam(${i})" class="ml-auto bg-white/20 px-3 py-1 rounded-lg">×</button>
+        </div>
+      `).join('');
+      
+      document.getElementById('start-battle-btn').disabled = gameState.teams.length < 2;
+    }
+    
+    function startQuizBattle() {
+      document.getElementById('game5-setup').classList.add('hidden');
+      document.getElementById('game5-battle').classList.remove('hidden');
+      renderBattleQuestion();
+    }
+    
+    function renderBattleQuestion() {
+      if (gameState.currentQuestion >= gameState.questions.length) {
+        finishQuizBattle();
+        return;
+      }
+      
+      const q = gameState.questions[gameState.currentQuestion];
+      const team = gameState.teams[gameState.currentTeam];
+      const battle = document.getElementById('game5-battle');
+      
+      battle.innerHTML = `
+        <div class="mb-4 p-4 ${team.color} text-white rounded-xl text-center">
+          <p class="text-lg font-bold">Giliran: ${team.name}</p>
+          <p>Soal ${gameState.currentQuestion + 1}/${gameState.questions.length}</p>
+        </div>
+        <div class="grid grid-cols-${gameState.teams.length} gap-2 mb-4">
+          ${gameState.teams.map(t => `
+            <div class="${t.color} text-white p-2 rounded-xl text-center">
+              <p class="text-sm">${t.name}</p>
+              <p class="text-xl font-bold">${t.score}</p>
+            </div>
+          `).join('')}
+        </div>
+        <div class="bg-yellow-50 p-6 rounded-xl mb-4">
+          <p class="text-xl font-semibold text-gray-800">${q.q}</p>
+        </div>
+        <div class="space-y-3">
+          ${q.options.map((opt, i) => `
+            <button onclick="answerBattle('${opt}')" class="quiz-option w-full text-left p-4 rounded-xl border-2 border-purple-200 font-semibold">
+              ${String.fromCharCode(65 + i)}. ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div id="battle-feedback" class="hidden mt-4 p-4 rounded-xl"></div>
+      `;
+    }
+    
+    function answerBattle(answer) {
+      const q = gameState.questions[gameState.currentQuestion];
+      const team = gameState.teams[gameState.currentTeam];
+      const feedback = document.getElementById('battle-feedback');
+      
+      if (answer === q.a) {
+        team.score += 20;
+        feedback.className = 'mt-4 p-4 rounded-xl bg-green-100 text-green-800';
+        feedback.innerHTML = `✅ Benar! ${team.name} dapat 20 poin!`;
+      } else {
+        feedback.className = 'mt-4 p-4 rounded-xl bg-red-100 text-red-800';
+        feedback.innerHTML = `❌ Salah! Jawaban: ${q.a}`;
+      }
+      feedback.classList.remove('hidden');
+      
+      setTimeout(() => {
+        gameState.currentTeam = (gameState.currentTeam + 1) % gameState.teams.length;
+        if (gameState.currentTeam === 0) gameState.currentQuestion++;
+        renderBattleQuestion();
+      }, 2000);
+    }
+    
+    function finishQuizBattle() {
+      const sorted = [...gameState.teams].sort((a, b) => b.score - a.score);
+      sessionScores.game5 = sorted[0].score;
+      
+      const result = document.getElementById('game5-result');
+      result.classList.remove('hidden');
+      document.getElementById('game5-battle').classList.add('hidden');
+      
+      result.innerHTML = `
+        <div class="text-center">
+          <div class="text-6xl mb-4">🏆</div>
+          <h3 class="text-2xl font-bold text-purple-700 mb-4">Hasil Battle!</h3>
+          <div class="space-y-3 mb-6">
+            ${sorted.map((team, i) => `
+              <div class="flex items-center gap-3 ${team.color} text-white p-4 rounded-xl">
+                <span class="text-2xl">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🎖️'}</span>
+                <span class="font-bold flex-1">${team.name}</span>
+                <span class="text-2xl font-bold">${team.score}</span>
+              </div>
+            `).join('')}
+          </div>
+          <p class="text-xl font-bold text-purple-700 mb-4">🎉 Pemenang: ${sorted[0].name}!</p>
+          <div class="flex gap-3 justify-center">
+            <button onclick="startGame(5)" class="btn-warning text-white px-6 py-3 rounded-xl font-semibold">Main Lagi</button>
+            <button onclick="navigateTo('games')" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Game Lain</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    // ===== SCORES =====
+    function updateMyScores() {
+      document.getElementById('my-pretest-score').textContent = sessionScores.pretest || '-';
+      document.getElementById('my-posttest-score').textContent = sessionScores.posttest || '-';
+      document.getElementById('my-game1-score').textContent = sessionScores.game1 || '-';
+      document.getElementById('my-game2-score').textContent = sessionScores.game2 || '-';
+      document.getElementById('my-game3-score').textContent = sessionScores.game3 || '-';
+      document.getElementById('my-game4-score').textContent = sessionScores.game4 || '-';
+      document.getElementById('my-game5-score').textContent = sessionScores.game5 || '-';
+    }
+    
+    function updateLeaderboard() {
+      const list = document.getElementById('leaderboard-list');
+      
+      if (allScores.length === 0) {
+        list.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada data skor tersimpan</p>';
+        return;
+      }
+      
+      const sorted = [...allScores].sort((a, b) => {
+        const totalA = (a.pretest_score || 0) + (a.posttest_score || 0);
+        const totalB = (b.pretest_score || 0) + (b.posttest_score || 0);
+        return totalB - totalA;
+      });
+      
+      list.innerHTML = sorted.slice(0, 10).map((score, i) => `
+        <div class="leaderboard-item flex items-center gap-4 p-4 rounded-xl ${i < 3 ? '' : 'bg-gray-100'}">
+          <span class="text-2xl font-bold w-8">${i + 1}</span>
+          <div class="flex-1">
+            <p class="font-bold">${score.student_name}</p>
+            <p class="text-sm text-gray-600">Pre: ${score.pretest_score || 0} | Post: ${score.posttest_score || 0}</p>
+          </div>
+          <span class="text-xl font-bold">${(score.pretest_score || 0) + (score.posttest_score || 0)}</span>
+        </div>
+      `).join('');
+    }
+    
+    async function saveAllScores() {
+      if (!studentName) {
+        const nameInput = document.getElementById('student-name-input');
+        if (nameInput.value.trim()) {
+          studentName = nameInput.value.trim();
+        } else {
+          navigateTo('home');
+          return;
+        }
+      }
+      
+      if (allScores.length >= 999) {
+        const msg = document.getElementById('posttest-message');
+        msg.textContent = '⚠️ Penyimpanan penuh! Maksimal 999 data.';
+        return;
+      }
+      
+      const scoreData = {
+        id: Date.now().toString(),
+        student_name: studentName,
+        pretest_score: sessionScores.pretest,
+        posttest_score: sessionScores.posttest,
+        game1_score: sessionScores.game1,
+        game2_score: sessionScores.game2,
+        game3_score: sessionScores.game3,
+        game4_score: sessionScores.game4,
+        game5_score: sessionScores.game5,
+        completed_at: new Date().toISOString()
+      };
+      
+      if (window.dataSdk) {
+        const btn = document.querySelector('#posttest-result button');
+        btn.disabled = true;
+        btn.textContent = 'Menyimpan...';
+        
+        const result = await window.dataSdk.create(scoreData);
+        
+        if (result.isOk) {
+          btn.textContent = '✓ Tersimpan!';
+          btn.className = 'btn-success text-white px-8 py-3 rounded-xl font-semibold';
+          setTimeout(() => navigateTo('scores'), 1500);
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Simpan Skor 💾';
+        }
+      }
+    }
+    
+    // Initialize
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4993b6000b806f',t:'MTc2OTUzMDgyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
