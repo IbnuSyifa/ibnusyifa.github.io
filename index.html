@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ibnu Syifa — Educator, Technology Practitioner, Coding, AI and Data Science." />
+  <title>Ibnu Syifa — Educator & Technology Practitioner</title>
+
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --text: #171717;
+      --muted: #6b6b68;
+      --line: #deded8;
+      --soft: #eeeeea;
+      --max: 1120px;
+      --radius: 18px;
+      --shadow: 0 24px 50px -22px rgba(23,23,23,.20), 0 8px 18px -10px rgba(23,23,23,.10);
+      --shadow-lg: 0 34px 70px -24px rgba(23,23,23,.28), 0 12px 26px -12px rgba(23,23,23,.14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin-inline: auto;
+    }
+
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 20;
+      background: rgba(247,247,245,.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(222,222,216,.75);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-weight: 750;
+      letter-spacing: -.035em;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .language-switcher {
+      display: inline-flex;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+
+    .language-switcher button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 5px 9px;
+      border-radius: 999px;
+      font: inherit;
+      font-size: .72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-switcher button.active {
+      background: var(--text);
+      color: white;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 0 90px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 1px;
+      background: var(--text);
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(3.2rem, 8vw, 6.8rem);
+      line-height: .94;
+      letter-spacing: -.065em;
+      font-weight: 750;
+    }
+
+    .hero-lead {
+      max-width: 680px;
+      margin: 30px 0 0;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid var(--text);
+      border-radius: 999px;
+      font-size: .9rem;
+      transition: .2s ease;
+    }
+
+    .button.primary {
+      background: var(--text);
+      color: white;
+    }
+
+    .button:hover { transform: translateY(-2px); }
+
+    .photo-frame {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      max-width: 420px;
+      margin-left: auto;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow .3s ease;
+    }
+
+    .photo-frame:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-placeholder {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      text-align: center;
+      color: #858580;
+      font-size: .9rem;
+    }
+
+    section {
+      padding: 110px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: .35fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .section-number {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    .intro {
+      max-width: 720px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .about-copy { font-size: 1.12rem; }
+
+    .about-copy p:first-child { margin-top: 0; }
+
+    .facts {
+      display: grid;
+      border-top: 1px solid var(--line);
+    }
+
+    .fact {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 20px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: .94rem;
+    }
+
+    .fact-label { color: var(--muted); }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .focus-card {
+      padding: 30px;
+      min-height: 260px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .focus-card span {
+      display: block;
+      font-size: .76rem;
+      color: var(--muted);
+      letter-spacing: .1em;
+      margin-bottom: 55px;
+    }
+
+    .focus-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: -.025em;
+    }
+
+    .focus-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .work-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .work-card {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      min-height: 310px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: box-shadow .3s ease;
+    }
+
+    .work-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .work-image {
+      min-height: 280px;
+      background: var(--soft);
+      border-right: 1px solid var(--line);
+      border-top-left-radius: var(--radius);
+      border-bottom-left-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .work-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .work-image .photo-placeholder { min-height: 280px; }
+
+    .work-content {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .work-meta {
+      font-size: .76rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .work-content h3 {
+      margin: 12px 0;
+      font-size: 1.7rem;
+      letter-spacing: -.035em;
+      line-height: 1.15;
+    }
+
+    .work-content p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: .76rem;
+      color: var(--muted);
+    }
+
+    .timeline {
+      border-top: 1px solid var(--line);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 35px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .timeline-date {
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .timeline h3 {
+      margin: 0 0 7px;
+      font-size: 1.2rem;
+    }
+
+    .timeline p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .gallery-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+    }
+
+    .gallery-controls button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: box-shadow .25s ease, background-color .25s ease, color .25s ease;
+    }
+
+    .gallery-controls button:hover {
+      background: var(--text);
+      color: var(--surface);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .gallery-track {
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+    }
+
+    .gallery-track::-webkit-scrollbar { height: 6px; }
+    .gallery-track::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+    .gallery-item {
+      flex: 0 0 280px;
+      scroll-snap-align: start;
+    }
+
+    .gallery-photo {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      background: var(--soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow .3s ease, border-color .3s ease;
+    }
+
+    .gallery-photo:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--text);
+    }
+
+    .gallery-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-photo .photo-placeholder { padding: 20px; font-size: .82rem; }
+
+    .gallery-caption {
+      margin-top: 12px;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 520px) {
+      .gallery-item { flex-basis: 220px; }
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .contact-link {
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: .9rem;
+    }
+
+    .contact-link:hover { border-color: var(--text); }
+
+    footer {
+      padding: 30px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-right { gap: 0; }
+
+      .hero,
+      .about-grid,
+      .contact,
+      .work-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        gap: 50px;
+        padding-top: 125px;
+      }
+
+      .photo-frame {
+        margin: 0;
+        max-width: none;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 40px;
+      }
+
+      .focus-grid { grid-template-columns: 1fr; }
+
+      .work-image {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        border-top-left-radius: var(--radius);
+        border-top-right-radius: var(--radius);
+        border-bottom-left-radius: 0;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container { width: min(calc(100% - 28px), var(--max)); }
+      .hero { padding-top: 115px; }
+      h1 { font-size: clamp(3rem, 16vw, 4.6rem); }
+      .fact { grid-template-columns: 1fr; gap: 3px; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="container nav-inner">
+    <a class="brand" href="#top">Ibnu Syifa</a>
+
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#focus" data-i18n="nav.focus">Focus</a>
+        <a href="#work" data-i18n="nav.work">Work</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </div>
+
+      <div class="language-switcher" aria-label="Language selector">
+        <button id="lang-id" type="button" onclick="setLanguage('id')">ID</button>
+        <button id="lang-en" type="button" onclick="setLanguage('en')" class="active">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <header class="container hero">
+    <div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">Educator · Technology</div>
+
+      <h1 data-i18n="hero.title">
+        Teaching technology.<br>Building possibilities.
+      </h1>
+
+      <p class="hero-lead" data-i18n="hero.lead">
+        Saya mengajar, membangun, dan mengeksplorasi teknologi dengan fokus pada
+        coding, AI, data science, dan penerapannya dalam pendidikan.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button primary" href="#work" data-i18n="hero.buttonWork">Lihat karya</a>
+        <a class="button" href="#contact" data-i18n="hero.buttonContact">Hubungi saya</a>
+      </div>
+    </div>
+
+    <div class="photo-frame">
+      <!--
+        FOTO UTAMA:
+        Ganti seluruh blok .photo-placeholder di bawah dengan:
+        <img src="PASTE_URL_FOTO_UTAMA" alt="Ibnu Syifa">
+      -->
+      <img src="D:\Foto\Profil2.png" alt="Ibnu Syifa">
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-heading">
+        <div class="section-number">ABOUT</div>
+        <div>
+          <h2 data-i18n="about.title">Educator by profession. Practitioner by curiosity.</h2>
+          <p class="intro" data-i18n="about.intro">
+            Saya bekerja di persimpangan antara pendidikan, software development,
+            AI, dan data science.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-copy">
+          <p data-i18n="about.p1">
+            Selama lebih dari satu dekade mengajar teknologi, saya tidak hanya
+            tertarik pada bagaimana teknologi digunakan, tetapi juga bagaimana
+            teknologi dibangun dan diterapkan untuk memecahkan masalah nyata.
+          </p>
+
+          <p data-i18n="about.p2">
+            Pengalaman saya mencakup pembelajaran coding, pengembangan proyek
+            teknologi bersama murid, computer vision, AI, data science, riset
+            Agentic RAG, serta pelatihan teknologi untuk pendidik.
+          </p>
+        </div>
+
+        <div class="facts">
+          <div class="fact">
+            <div class="fact-label" data-i18n="facts.roleLabel">Role</div>
+            <div data-i18n="facts.role">Educator & Technology Practitioner</div>
+          </div>
+          <div class="fact">
+            <div class="fact-label" data-i18n="facts.educationLabel">Education</div>
+            <div data-i18n="facts.education">Master of Informatics Engineering — Data Science</div>
+          </div>
+          <div class="fact">
+            <div class="fact-label" data-i18n="facts.experienceLabel">Experience</div>
+            <div data-i18n="facts.experience">13+ years in technology education</div>
+          </div>
+          <div class="fact">
+            <div class="fact-label" data-i18n="facts.focusLabel">Focus</div>
+            <div data-i18n="facts.focus">Coding · AI · Data Science · Computer Vision · EdTech</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOCUS -->
+  <section id="focus">
+    <div class="container">
+      <div class="section-heading">
+        <div class="section-number">FOCUS</div>
+        <div>
+          <h2 data-i18n="focus.title">Where education meets technology.</h2>
+          <p class="intro" data-i18n="focus.intro">
+            Empat area yang saat ini paling banyak membentuk pekerjaan dan eksplorasi saya.
+          </p>
+        </div>
+      </div>
+
+      <div class="focus-grid">
+
+        <article class="focus-card">
+          <span>01</span>
+          <h3 data-i18n="focus.coding.title">Coding & Software</h3>
+          <p data-i18n="focus.coding.text">
+            Mengajar C++ dan Python, sekaligus membangun solusi dan prototipe
+            untuk mengeksplorasi konsep pemrograman secara nyata.
+          </p>
+        </article>
+
+        <article class="focus-card">
+          <span>02</span>
+          <h3 data-i18n="focus.ai.title">AI & Data Science</h3>
+          <p data-i18n="focus.ai.text">
+            Mengeksplorasi LLM, RAG, embeddings, evaluasi AI, dan data science
+            melalui riset maupun implementasi praktis.
+          </p>
+        </article>
+
+        <article class="focus-card">
+          <span>03</span>
+          <h3 data-i18n="focus.vision.title">Computer Vision</h3>
+          <p data-i18n="focus.vision.text">
+            Menggunakan OpenCV dan MediaPipe untuk membuat interaksi berbasis
+            visual dan proyek teknologi yang mudah dipahami melalui praktik.
+          </p>
+        </article>
+
+        <article class="focus-card">
+          <span>04</span>
+          <h3 data-i18n="focus.training.title">Technology for Educators</h3>
+          <p data-i18n="focus.training.text">
+            Berbagi praktik pemanfaatan coding, AI, dan teknologi digital
+            kepada guru melalui pelatihan dan pendampingan.
+          </p>
+        </article>
+
+        <article class="focus-card">
+          <span>05</span>
+          <h3 data-i18n="focus.projects.title">Student Projects</h3>
+          <p data-i18n="focus.projects.text">
+            Mendampingi murid mengubah ide menjadi prototipe teknologi,
+            dari IoT dan computer vision hingga sistem otomasi.
+          </p>
+        </article>
+
+        <article class="focus-card">
+          <span>06</span>
+          <h3 data-i18n="focus.research.title">Applied Research</h3>
+          <p data-i18n="focus.research.text">
+            Menghubungkan penelitian akademik dengan kebutuhan praktis,
+            khususnya pada AI dan teknologi pendidikan.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="container">
+      <div class="section-heading">
+        <div class="section-number">SELECTED WORK</div>
+        <div>
+          <h2 data-i18n="work.title">Selected projects & contributions.</h2>
+          <p class="intro" data-i18n="work.intro">
+            Beberapa karya yang merepresentasikan kombinasi antara pengalaman
+            mengajar dan kemampuan teknis.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-list">
+
+        <article class="work-card">
+          <div class="work-image">
+            <!-- GANTI DENGAN FOTO PROYEK -->
+            <div class="photo-placeholder" data-i18n="photo.project1">FOTO PROYEK / THESIS</div>
+            <!-- <img src="PASTE_URL_FOTO_1" alt="Agentic RAG research"> -->
+          </div>
+
+          <div class="work-content">
+            <div>
+              <div class="work-meta" data-i18n="work.project1.meta">Research · AI · Data Science</div>
+              <h3 data-i18n="work.project1.title">Agentic RAG for School Virtual Assistant</h3>
+              <p data-i18n="work.project1.text">
+                Riset mengenai mitigasi halusinasi dan peningkatan akurasi asisten
+                virtual sekolah menggunakan Agentic RAG berbasis BGE-M3,
+                hybrid retrieval, reranking, dan self-reflection.
+              </p>
+              <div class="tags">
+                <span class="tag">BGE-M3</span>
+                <span class="tag">RAG</span>
+                <span class="tag">LangGraph</span>
+                <span class="tag">Qdrant</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-image">
+            <div class="photo-placeholder" data-i18n="photo.project2">FOTO PROYEK MURID</div>
+            <!-- <img src="PASTE_URL_FOTO_2" alt="Gesture-based arithmetic system"> -->
+          </div>
+
+          <div class="work-content">
+            <div>
+              <div class="work-meta" data-i18n="work.project2.meta">Student Project · Computer Vision</div>
+              <h3 data-i18n="work.project2.title">Gesture-Based Arithmetic System</h3>
+              <p data-i18n="work.project2.text">
+                Sistem interaktif berbasis computer vision yang mengenali jumlah
+                jari untuk menjalankan empat operasi aritmatika dasar.
+              </p>
+              <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">OpenCV</span>
+                <span class="tag">MediaPipe</span>
+                <span class="tag">Computer Vision</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-image">
+            <div class="photo-placeholder" data-i18n="photo.project3">FOTO TRAINING</div>
+            <!-- <img src="PASTE_URL_FOTO_3" alt="Technology and AI training"> -->
+          </div>
+
+          <div class="work-content">
+            <div>
+              <div class="work-meta" data-i18n="work.project3.meta">Training · Professional Development</div>
+              <h3 data-i18n="work.project3.title">Technology & AI for Educators</h3>
+              <p data-i18n="work.project3.text">
+                Pelatihan dan pendampingan guru dalam memanfaatkan coding,
+                AI, dan teknologi digital untuk pembelajaran yang lebih interaktif.
+              </p>
+              <div class="tags">
+                <span class="tag">AI</span>
+                <span class="tag">Coding</span>
+                <span class="tag">EdTech</span>
+                <span class="tag">Teacher Training</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-image">
+            <div class="photo-placeholder" data-i18n="photo.project4">FOTO PROGRAM CODING</div>
+            <!-- <img src="PASTE_URL_FOTO_4" alt="Coding education program"> -->
+          </div>
+
+          <div class="work-content">
+            <div>
+              <div class="work-meta" data-i18n="work.project4.meta">Education · Curriculum · Coding</div>
+              <h3 data-i18n="work.project4.title">Coding in School</h3>
+              <p data-i18n="work.project4.text">
+                Mengembangkan pembelajaran coding berbasis proyek untuk murid
+                SMA dengan C++ dan Python, dari fundamental hingga proyek nyata.
+              </p>
+              <div class="tags">
+                <span class="tag">C++</span>
+                <span class="tag">Python</span>
+                <span class="tag">PBL</span>
+                <span class="tag">Curriculum</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-image">
+            <div class="photo-placeholder" data-i18n="photo.project5">FOTO STUDENT PROJECT</div>
+            <!-- <img src="PASTE_URL_FOTO_5" alt="Student technology projects"> -->
+          </div>
+
+          <div class="work-content">
+            <div>
+              <div class="work-meta" data-i18n="work.project5.meta">Mentoring · IoT · Automation</div>
+              <h3 data-i18n="work.project5.title">Technology Projects with Students</h3>
+              <p data-i18n="work.project5.text">
+                Mendampingi pengembangan berbagai proyek murid, termasuk RFID
+                attendance, computer-vision attendance, smart agriculture,
+                fingerprint locker, dan sistem deteksi potensi bencana berbasis IoT.
+              </p>
+              <div class="tags">
+                <span class="tag">IoT</span>
+                <span class="tag">Automation</span>
+                <span class="tag">Computer Vision</span>
+                <span class="tag">Mentoring</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-heading">
+        <div class="section-number">EXPERIENCE</div>
+        <div>
+          <h2 data-i18n="experience.title">A path between education and technology.</h2>
+          <p class="intro" data-i18n="experience.intro">
+            Perjalanan profesional yang bergerak dari pengajaran teknologi
+            menuju praktik, riset, dan pengembangan teknologi pendidikan.
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-date" data-i18n="timeline.current.date">Current</div>
+          <div>
+            <h3 data-i18n="timeline.current.title">ICT / Coding Educator — SMAIT Al Haraki</h3>
+            <p data-i18n="timeline.current.text">
+              Mengajar Informatika dan coding, mendampingi proyek teknologi murid,
+              serta mengembangkan pembelajaran berbasis teknologi.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date" data-i18n="timeline.master.date">Recent</div>
+          <div>
+            <h3 data-i18n="timeline.master.title">Master of Informatics Engineering — Data Science</h3>
+            <p data-i18n="timeline.master.text">
+              Memperdalam data science dan AI melalui pendidikan magister,
+              dengan riset Agentic RAG untuk asisten virtual sekolah.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date" data-i18n="timeline.coding.date">Education</div>
+          <div>
+            <h3 data-i18n="timeline.coding.title">Coding Education & School Program Development</h3>
+            <p data-i18n="timeline.coding.text">
+              Menginisiasi dan mengembangkan program coding di sekolah serta
+              terlibat dalam pengembangan ekosistem pembelajaran coding dan AI.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date" data-i18n="timeline.training.date">13+ years</div>
+          <div>
+            <h3 data-i18n="timeline.training.title">Technology Education</h3>
+            <p data-i18n="timeline.training.text">
+              Lebih dari 13 tahun mengajar bidang teknologi dengan fokus pada
+              coding, proyek, literasi digital, dan pemanfaatan teknologi.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-heading">
+        <div class="section-number">GALLERY</div>
+        <div>
+          <h2 data-i18n="gallery.title">Frames from along the way.</h2>
+          <p class="intro" data-i18n="gallery.intro">
+            Sebagian bingkai fotografi pribadi — dari gunung, jalan, dan momen sehari-hari.
+          </p>
+        </div>
+      </div>
+
+      <div class="gallery-controls">
+        <button type="button" aria-label="prev" onclick="document.getElementById('galleryTrack').scrollBy({left:-320,behavior:'smooth'})">&#8592;</button>
+        <button type="button" aria-label="next" onclick="document.getElementById('galleryTrack').scrollBy({left:320,behavior:'smooth'})">&#8594;</button>
+      </div>
+
+      <div class="gallery-track" id="galleryTrack">
+        <!-- GANTI DENGAN FOTO GALERI: ganti .photo-placeholder di tiap .gallery-photo dengan <img src="PASTE_URL_FOTO" alt="..."> -->
+        <figure class="gallery-item">
+          <div class="gallery-photo">
+            <div class="photo-placeholder" data-i18n="photo.gallery1">FOTO 1<br>Paste URL foto di &lt;img&gt;</div>
+            <!-- <img src="PASTE_URL_FOTO_GALERI_1" alt="Gallery photo 1"> -->
+          </div>
+          <figcaption class="gallery-caption" data-i18n="gallery.caption1">Judul foto 1</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <div class="gallery-photo">
+            <div class="photo-placeholder" data-i18n="photo.gallery2">FOTO 2<br>Paste URL foto di &lt;img&gt;</div>
+            <!-- <img src="PASTE_URL_FOTO_GALERI_2" alt="Gallery photo 2"> -->
+          </div>
+          <figcaption class="gallery-caption" data-i18n="gallery.caption2">Judul foto 2</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <div class="gallery-photo">
+            <div class="photo-placeholder" data-i18n="photo.gallery3">FOTO 3<br>Paste URL foto di &lt;img&gt;</div>
+            <!-- <img src="PASTE_URL_FOTO_GALERI_3" alt="Gallery photo 3"> -->
+          </div>
+          <figcaption class="gallery-caption" data-i18n="gallery.caption3">Judul foto 3</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <div class="gallery-photo">
+            <div class="photo-placeholder" data-i18n="photo.gallery4">FOTO 4<br>Paste URL foto di &lt;img&gt;</div>
+            <!-- <img src="PASTE_URL_FOTO_GALERI_4" alt="Gallery photo 4"> -->
+          </div>
+          <figcaption class="gallery-caption" data-i18n="gallery.caption4">Judul foto 4</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <div class="gallery-photo">
+            <div class="photo-placeholder" data-i18n="photo.gallery5">FOTO 5<br>Paste URL foto di &lt;img&gt;</div>
+            <!-- <img src="PASTE_URL_FOTO_GALERI_5" alt="Gallery photo 5"> -->
+          </div>
+          <figcaption class="gallery-caption" data-i18n="gallery.caption5">Judul foto 5</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <div class="gallery-photo">
+            <div class="photo-placeholder" data-i18n="photo.gallery6">FOTO 6<br>Paste URL foto di &lt;img&gt;</div>
+            <!-- <img src="PASTE_URL_FOTO_GALERI_6" alt="Gallery photo 6"> -->
+          </div>
+          <figcaption class="gallery-caption" data-i18n="gallery.caption6">Judul foto 6</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container contact">
+      <div>
+        <div class="eyebrow" data-i18n="contact.eyebrow">Get in touch</div>
+        <h2 data-i18n="contact.title">Let's connect.</h2>
+        <p class="intro" data-i18n="contact.text">
+          Terbuka untuk kolaborasi, berbagi praktik, pelatihan, dan percakapan
+          mengenai teknologi, AI, dan pendidikan.
+        </p>
+      </div>
+
+      <div class="contact-links">
+        <a class="contact-link" href="https://www.linkedin.com/in/ibnu-syifa/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="contact-link" href="https://instagram.com/nunukrib" target="_blank" rel="noopener">Instagram ↗</a>
+        <a class="contact-link" href="https://ibnu-syifa.tumblr.com/" target="_blank" rel="noopener">Tumblr ↗</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    © <span id="year"></span> Ibnu Syifa.
+    <span data-i18n="footer">Education · Technology · Curiosity</span>
+  </div>
+</footer>
+
+<script>
+  const translations = {
+    id: {
+      "nav.about": "Tentang",
+      "nav.focus": "Fokus",
+      "nav.work": "Karya",
+      "nav.experience": "Pengalaman",
+      "nav.gallery": "Galeri",
+      "nav.contact": "Kontak",
+
+      "hero.eyebrow": "Educator · Technology · AI",
+      "hero.title": "Mengajar teknologi.<br>Membangun kemungkinan.",
+      "hero.lead": "Saya mengajar, membangun, dan mengeksplorasi teknologi dengan fokus pada coding, AI, data science, dan penerapannya dalam pendidikan.",
+      "hero.buttonWork": "Lihat karya",
+      "hero.buttonContact": "Hubungi saya",
+
+      "photo.main": "FOTO UTAMA<br>Paste URL foto pada elemen &lt;img&gt; di source code.",
+
+      "about.title": "Educator by profession. Practitioner by curiosity.",
+      "about.intro": "Saya bekerja di persimpangan antara pendidikan, software development, AI, dan data science.",
+      "about.p1": "Selama lebih dari satu dekade mengajar teknologi, saya tidak hanya tertarik pada bagaimana teknologi digunakan, tetapi juga bagaimana teknologi dibangun dan diterapkan untuk memecahkan masalah nyata.",
+      "about.p2": "Pengalaman saya mencakup pembelajaran coding, pengembangan proyek teknologi bersama murid, computer vision, AI, data science, riset Agentic RAG, serta pelatihan teknologi untuk pendidik.",
+
+      "facts.roleLabel": "Peran",
+      "facts.role": "Educator & Technology Practitioner",
+      "facts.educationLabel": "Pendidikan",
+      "facts.education": "Magister Teknik Informatika — Data Science",
+      "facts.experienceLabel": "Pengalaman",
+      "facts.experience": "13+ tahun di bidang pendidikan teknologi",
+      "facts.focusLabel": "Fokus",
+      "facts.focus": "Coding · AI · Data Science · Computer Vision · EdTech",
+
+      "focus.title": "Where education meets technology.",
+      "focus.intro": "Enam area yang saat ini paling banyak membentuk pekerjaan dan eksplorasi saya.",
+      "focus.coding.title": "Coding & Software",
+      "focus.coding.text": "Mengajar C++ dan Python, sekaligus membangun solusi dan prototipe untuk mengeksplorasi konsep pemrograman secara nyata.",
+      "focus.ai.title": "AI & Data Science",
+      "focus.ai.text": "Mengeksplorasi LLM, RAG, embeddings, evaluasi AI, dan data science melalui riset maupun implementasi praktis.",
+      "focus.vision.title": "Computer Vision",
+      "focus.vision.text": "Menggunakan OpenCV dan MediaPipe untuk membuat interaksi berbasis visual dan proyek teknologi yang mudah dipahami melalui praktik.",
+      "focus.training.title": "Technology for Educators",
+      "focus.training.text": "Berbagi praktik pemanfaatan coding, AI, dan teknologi digital kepada guru melalui pelatihan dan pendampingan.",
+      "focus.projects.title": "Student Projects",
+      "focus.projects.text": "Mendampingi murid mengubah ide menjadi prototipe teknologi, dari IoT dan computer vision hingga sistem otomasi.",
+      "focus.research.title": "Applied Research",
+      "focus.research.text": "Menghubungkan penelitian akademik dengan kebutuhan praktis, khususnya pada AI dan teknologi pendidikan.",
+
+      "work.title": "Selected projects & contributions.",
+      "work.intro": "Beberapa karya yang merepresentasikan kombinasi antara pengalaman mengajar dan kemampuan teknis.",
+      "photo.project1": "FOTO PROYEK / THESIS",
+      "photo.project2": "FOTO PROYEK MURID",
+      "photo.project3": "FOTO TRAINING",
+      "photo.project4": "FOTO PROGRAM CODING",
+      "photo.project5": "FOTO STUDENT PROJECT",
+
+      "work.project1.meta": "Research · AI · Data Science",
+      "work.project1.title": "Agentic RAG for School Virtual Assistant",
+      "work.project1.text": "Riset mengenai mitigasi halusinasi dan peningkatan akurasi asisten virtual sekolah menggunakan Agentic RAG berbasis BGE-M3, hybrid retrieval, reranking, dan self-reflection.",
+      "work.project2.meta": "Student Project · Computer Vision",
+      "work.project2.title": "Gesture-Based Arithmetic System",
+      "work.project2.text": "Sistem interaktif berbasis computer vision yang mengenali jumlah jari untuk menjalankan empat operasi aritmatika dasar.",
+      "work.project3.meta": "Training · Professional Development",
+      "work.project3.title": "Technology & AI for Educators",
+      "work.project3.text": "Pelatihan dan pendampingan guru dalam memanfaatkan coding, AI, dan teknologi digital untuk pembelajaran yang lebih interaktif.",
+      "work.project4.meta": "Education · Curriculum · Coding",
+      "work.project4.title": "Coding in School",
+      "work.project4.text": "Mengembangkan pembelajaran coding berbasis proyek untuk murid SMA dengan C++ dan Python, dari fundamental hingga proyek nyata.",
+      "work.project5.meta": "Mentoring · IoT · Automation",
+      "work.project5.title": "Technology Projects with Students",
+      "work.project5.text": "Mendampingi pengembangan berbagai proyek murid, termasuk RFID attendance, computer-vision attendance, smart agriculture, fingerprint locker, dan sistem deteksi potensi bencana berbasis IoT.",
+
+      "experience.title": "A path between education and technology.",
+      "experience.intro": "Perjalanan profesional yang bergerak dari pengajaran teknologi menuju praktik, riset, dan pengembangan teknologi pendidikan.",
+      "timeline.current.date": "Saat ini",
+      "timeline.current.title": "ICT / Coding Educator — SMAIT Al Haraki",
+      "timeline.current.text": "Mengajar Informatika dan coding, mendampingi proyek teknologi murid, serta mengembangkan pembelajaran berbasis teknologi.",
+      "timeline.master.date": "Terbaru",
+      "timeline.master.title": "Magister Teknik Informatika — Data Science",
+      "timeline.master.text": "Memperdalam data science dan AI melalui pendidikan magister, dengan riset Agentic RAG untuk asisten virtual sekolah.",
+      "timeline.coding.date": "Pendidikan",
+      "timeline.coding.title": "Coding Education & School Program Development",
+      "timeline.coding.text": "Menginisiasi dan mengembangkan program coding di sekolah serta terlibat dalam pengembangan ekosistem pembelajaran coding dan AI.",
+      "timeline.training.date": "13+ tahun",
+      "timeline.training.title": "Technology Education",
+      "timeline.training.text": "Lebih dari 13 tahun mengajar bidang teknologi dengan fokus pada coding, proyek, literasi digital, dan pemanfaatan teknologi.",
+
+      "gallery.title": "Frames from along the way.",
+      "gallery.intro": "Sebagian bingkai fotografi pribadi — dari gunung, jalan, dan momen sehari-hari.",
+      "photo.gallery1": "FOTO 1<br>Paste URL foto di &lt;img&gt;",
+      "photo.gallery2": "FOTO 2<br>Paste URL foto di &lt;img&gt;",
+      "photo.gallery3": "FOTO 3<br>Paste URL foto di &lt;img&gt;",
+      "photo.gallery4": "FOTO 4<br>Paste URL foto di &lt;img&gt;",
+      "photo.gallery5": "FOTO 5<br>Paste URL foto di &lt;img&gt;",
+      "photo.gallery6": "FOTO 6<br>Paste URL foto di &lt;img&gt;",
+      "gallery.caption1": "Judul foto 1",
+      "gallery.caption2": "Judul foto 2",
+      "gallery.caption3": "Judul foto 3",
+      "gallery.caption4": "Judul foto 4",
+      "gallery.caption5": "Judul foto 5",
+      "gallery.caption6": "Judul foto 6",
+
+      "contact.eyebrow": "Get in touch",
+      "contact.title": "Let's connect.",
+      "contact.text": "Terbuka untuk kolaborasi, berbagi praktik, pelatihan, dan percakapan mengenai teknologi, AI, dan pendidikan.",
+      "footer": "Education · Technology · Curiosity"
+    },
+
+    en: {
+      "nav.about": "About",
+      "nav.focus": "Focus",
+      "nav.work": "Work",
+      "nav.experience": "Experience",
+      "nav.gallery": "Gallery",
+      "nav.contact": "Contact",
+
+      "hero.eyebrow": "Educator · Technology · AI",
+      "hero.title": "Teaching technology.<br>Building possibilities.",
+      "hero.lead": "I teach, build, and explore technology with a focus on coding, AI, data science, and their practical applications in education.",
+      "hero.buttonWork": "View selected work",
+      "hero.buttonContact": "Get in touch",
+
+      "photo.main": "MAIN PHOTO<br>Paste the photo URL into the &lt;img&gt; element in the source code.",
+
+      "about.title": "Educator by profession. Practitioner by curiosity.",
+      "about.intro": "I work at the intersection of education, software development, AI, and data science.",
+      "about.p1": "After more than a decade teaching technology, I have become equally interested in how technology is used and how it can be built and applied to solve real-world problems.",
+      "about.p2": "My experience spans coding education, student technology projects, computer vision, AI, data science, Agentic RAG research, and technology training for educators.",
+
+      "facts.roleLabel": "Role",
+      "facts.role": "Educator & Technology Practitioner",
+      "facts.educationLabel": "Education",
+      "facts.education": "Master of Informatics Engineering — Data Science",
+      "facts.experienceLabel": "Experience",
+      "facts.experience": "13+ years in technology education",
+      "facts.focusLabel": "Focus",
+      "facts.focus": "Coding · AI · Data Science · Computer Vision · EdTech",
+
+      "focus.title": "Where education meets technology.",
+      "focus.intro": "Six areas currently shaping my work and exploration.",
+      "focus.coding.title": "Coding & Software",
+      "focus.coding.text": "Teaching C++ and Python while building solutions and prototypes that turn programming concepts into practical experiences.",
+      "focus.ai.title": "AI & Data Science",
+      "focus.ai.text": "Exploring LLMs, RAG, embeddings, AI evaluation, and data science through both research and practical implementation.",
+      "focus.vision.title": "Computer Vision",
+      "focus.vision.text": "Using OpenCV and MediaPipe to build visual interactions and technology projects that can be explored through practice.",
+      "focus.training.title": "Technology for Educators",
+      "focus.training.text": "Sharing practical approaches to coding, AI, and digital technology through teacher training and mentoring.",
+      "focus.projects.title": "Student Projects",
+      "focus.projects.text": "Helping students turn ideas into technology prototypes, from IoT and computer vision to automation systems.",
+      "focus.research.title": "Applied Research",
+      "focus.research.text": "Connecting academic research with practical needs, particularly in AI and educational technology.",
+
+      "work.title": "Selected projects & contributions.",
+      "work.intro": "A selection of work representing the combination of teaching experience and hands-on technical practice.",
+      "photo.project1": "PROJECT / THESIS PHOTO",
+      "photo.project2": "STUDENT PROJECT PHOTO",
+      "photo.project3": "TRAINING PHOTO",
+      "photo.project4": "CODING PROGRAM PHOTO",
+      "photo.project5": "STUDENT PROJECT PHOTO",
+
+      "work.project1.meta": "Research · AI · Data Science",
+      "work.project1.title": "Agentic RAG for School Virtual Assistant",
+      "work.project1.text": "Research on hallucination mitigation and accuracy improvement for a school virtual assistant using BGE-M3-based Agentic RAG, hybrid retrieval, reranking, and self-reflection.",
+      "work.project2.meta": "Student Project · Computer Vision",
+      "work.project2.title": "Gesture-Based Arithmetic System",
+      "work.project2.text": "An interactive computer vision system that recognizes finger counts to perform four basic arithmetic operations.",
+      "work.project3.meta": "Training · Professional Development",
+      "work.project3.title": "Technology & AI for Educators",
+      "work.project3.text": "Training and mentoring educators in the practical use of coding, AI, and digital technology for more interactive learning.",
+      "work.project4.meta": "Education · Curriculum · Coding",
+      "work.project4.title": "Coding in School",
+      "work.project4.text": "Developing project-based coding education for high-school students using C++ and Python, from fundamentals to real-world projects.",
+      "work.project5.meta": "Mentoring · IoT · Automation",
+      "work.project5.title": "Technology Projects with Students",
+      "work.project5.text": "Mentoring student projects including RFID attendance, computer-vision attendance, smart agriculture, fingerprint lockers, and IoT-based disaster-potential detection.",
+
+      "experience.title": "A path between education and technology.",
+      "experience.intro": "A professional journey moving from technology education into hands-on practice, research, and educational technology.",
+      "timeline.current.date": "Current",
+      "timeline.current.title": "ICT / Coding Educator — SMAIT Al Haraki",
+      "timeline.current.text": "Teaching Informatics and coding, mentoring student technology projects, and developing technology-based learning experiences.",
+      "timeline.master.date": "Recent",
+      "timeline.master.title": "Master of Informatics Engineering — Data Science",
+      "timeline.master.text": "Advanced study in data science and AI, including research on Agentic RAG for a school virtual assistant.",
+      "timeline.coding.date": "Education",
+      "timeline.coding.title": "Coding Education & School Program Development",
+      "timeline.coding.text": "Initiating and developing coding programs at school while contributing to the broader coding and AI learning ecosystem.",
+      "timeline.training.date": "13+ years",
+      "timeline.training.title": "Technology Education",
+      "timeline.training.text": "More than 13 years teaching technology with a focus on coding, projects, digital literacy, and practical technology use.",
+
+      "gallery.title": "Frames from along the way.",
+      "gallery.intro": "A selection of personal photography — mountains, roads, and everyday moments.",
+      "photo.gallery1": "PHOTO 1<br>Paste the photo URL into the &lt;img&gt;",
+      "photo.gallery2": "PHOTO 2<br>Paste the photo URL into the &lt;img&gt;",
+      "photo.gallery3": "PHOTO 3<br>Paste the photo URL into the &lt;img&gt;",
+      "photo.gallery4": "PHOTO 4<br>Paste the photo URL into the &lt;img&gt;",
+      "photo.gallery5": "PHOTO 5<br>Paste the photo URL into the &lt;img&gt;",
+      "photo.gallery6": "PHOTO 6<br>Paste the photo URL into the &lt;img&gt;",
+      "gallery.caption1": "Photo caption 1",
+      "gallery.caption2": "Photo caption 2",
+      "gallery.caption3": "Photo caption 3",
+      "gallery.caption4": "Photo caption 4",
+      "gallery.caption5": "Photo caption 5",
+      "gallery.caption6": "Photo caption 6",
+
+      "contact.eyebrow": "Get in touch",
+      "contact.title": "Let's connect.",
+      "contact.text": "Open to collaboration, knowledge sharing, training, and conversations around technology, AI, and education.",
+      "footer": "Education · Technology · Curiosity"
+    }
+  };
+
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.dataset.i18n;
+      if (translations[lang][key] !== undefined) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+
+    document.getElementById("lang-id").classList.toggle("active", lang === "id");
+    document.getElementById("lang-en").classList.toggle("active", lang === "en");
+
+    localStorage.setItem("portfolio-language", lang);
+  }
+
+  const savedLanguage = localStorage.getItem("portfolio-language") || "en";
+  setLanguage(savedLanguage);
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
