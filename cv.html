@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4T1B7R5SC"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X4T1B7R5SC');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professional CV and speaker profile of Ibnu Syifa, Educational Technology Specialist.">
+  <title>Ibnu Syifa | CV</title>
+  <style>
+    :root {
+      --ink: #17242d;
+      --muted: #62717a;
+      --accent: #1e6470;
+      --accent-light: #e7f0f0;
+      --line: #dce4e6;
+      --paper: #ffffff;
+      --canvas: #eef2f3;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .toolbar {
+      width: min(1040px, calc(100% - 32px));
+      margin: 22px auto 14px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .toolbar a, .toolbar button {
+      border: 1px solid #cbd6d9;
+      border-radius: 999px;
+      background: white;
+      color: var(--ink);
+      padding: 9px 15px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .page {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto 40px;
+      background: var(--paper);
+      box-shadow: 0 18px 60px rgba(27, 48, 56, .10);
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr);
+      min-height: 1120px;
+    }
+    .sidebar {
+      background: #f5f8f8;
+      padding: 42px 30px;
+      border-right: 1px solid var(--line);
+    }
+    .portrait {
+      width: 100%;
+      aspect-ratio: 4 / 4.5;
+      object-fit: cover;
+      object-position: center 25%;
+      display: block;
+      background: #dce4e6;
+      border-radius: 3px;
+      margin-bottom: 27px;
+    }
+    .portrait-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 4.5;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #dce6e7, #aabfc2);
+      color: #fff;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      margin-bottom: 27px;
+      border-radius: 3px;
+    }
+    .side-section { margin-top: 29px; }
+    .eyebrow {
+      margin: 0 0 13px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .contact-item { margin: 0 0 12px; font-size: 13px; overflow-wrap: anywhere; }
+    .contact-item strong {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .skill-list, .language-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .skill-list li {
+      padding: 7px 0;
+      border-bottom: 1px solid #e2e9ea;
+      font-size: 13px;
+    }
+    .language-list li { font-size: 13px; margin: 0 0 9px; }
+    .main {
+      padding: 53px 48px 45px;
+      min-width: 0;
+    }
+    .name {
+      font-size: clamp(35px, 5vw, 53px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+      margin: 0;
+      font-weight: 800;
+    }
+    .role {
+      margin: 13px 0 0;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .035em;
+    }
+    .tagline {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .025em;
+    }
+    .intro {
+      margin: 29px 0 0;
+      padding: 19px 0 20px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: #43535b;
+      font-size: 14px;
+    }
+    .main-section { margin-top: 31px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 19px;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .section-title::after {
+      content: "";
+      height: 1px;
+      background: var(--line);
+      flex: 1;
+    }
+    .entry { margin: 0 0 21px; }
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .entry h3 {
+      font-size: 15px;
+      line-height: 1.35;
+      margin: 0;
+      font-weight: 750;
+    }
+    .date {
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 11px;
+    }
+    .organization {
+      margin: 4px 0 7px;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 650;
+    }
+    .entry p, .entry ul {
+      margin: 0;
+      font-size: 13px;
+      color: #52616a;
+    }
+    .entry ul { padding-left: 17px; margin-top: 6px; }
+    .entry li { margin: 3px 0; }
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .project {
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+    }
+    .project h3 { margin: 0 0 5px; font-size: 13px; }
+    .project p { margin: 0; font-size: 12px; color: var(--muted); }
+    .footer {
+      border-top: 1px solid var(--line);
+      padding-top: 17px;
+      margin-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 760px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 27px 25px;
+      }
+      .portrait, .portrait-placeholder {
+        width: min(210px, 65%);
+        aspect-ratio: 4 / 4.5;
+        margin: 0 auto 22px;
+      }
+      .sidebar .side-section { margin-top: 23px; }
+      .main { padding: 34px 25px; }
+      .entry-head { display: block; }
+      .date { display: block; margin-top: 4px; }
+      .project-grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      @page { size: A4; margin: 0; }
+      body { background: white; }
+      .toolbar { display: none; }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        box-shadow: none;
+        grid-template-columns: 67mm minmax(0, 1fr);
+      }
+      .sidebar { padding: 12mm 8mm; }
+      .main { padding: 14mm 11mm 10mm; }
+      .portrait, .portrait-placeholder { margin-bottom: 7mm; }
+      .main-section { margin-top: 7mm; }
+      .entry { margin-bottom: 4.5mm; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="toolbar" aria-label="CV actions">
+    <a href="https://ibnusyifa.site" target="_blank" rel="noopener">Portfolio ↗</a>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </nav>
+
+  <div class="page">
+    <aside class="sidebar">
+      <img class="portrait" src="Profile2.png" alt="Portrait of Ibnu Syifa">
+      <div class="portrait-placeholder" aria-label="Photo placeholder">IS</div>
+
+      <section class="side-section">
+        <h2 class="eyebrow">Contact</h2>
+        <p class="contact-item">
+          <strong>Website</strong>
+          <a href="https://ibnusyifa.site" target="_blank" rel="noopener">ibnusyifa.site</a>
+        </p>
+        <p class="contact-item">
+          <strong>Email</strong>
+          <span>ibnusyifa07@gmail.com</span>
+        </p>
+        <p class="contact-item">
+          <strong>LinkedIn</strong>
+          <a href="https://www.linkedin.com/in/ibnu-syifa" target="_blank" rel="noopener">linkedin.com/in/ibnu-syifa</a>
+        </p>
+        <p class="contact-item">
+          <strong>Location</strong>
+          Indonesia
+        </p>
+      </section>
+
+      <section class="side-section">
+        <h2 class="eyebrow">Core Expertise</h2>
+        <ul class="skill-list">
+          <li>Educational Technology</li>
+          <li>Coding & Computational Thinking</li>
+          <li>Artificial Intelligence in Education</li>
+          <li>Digital Learning Design</li>
+          <li>Training & Facilitation</li>
+        </ul>
+      </section>
+
+      <section class="side-section">
+        <h2 class="eyebrow">Education</h2>
+        <div class="entry">
+          <h3>Master’s Degree in Informatics Engineering</h3>
+          <p class="organization">Universitas Pamulang</p>
+          <p>Specialization: Data Science</p>
+        </div>
+        <div class="entry">
+          <h3>Diploma in Education</h3>
+          <p class="organization">Universitas Negeri Makassar</p>
+        </div>
+		<div class="entry">
+          <h3>Bachelor Degree in Informatics Engineering</h3>
+          <p class="organization">Universitas Pamulang</p>
+          <p>Specialization: Software Development</p>
+        </div>
+      </section>
+
+      <!--<section class="side-section">
+        <h2 class="eyebrow">Languages</h2>
+        <ul class="language-list">
+          <li>Indonesian — Native</li>
+          <li>English — [add proficiency]</li>
+        </ul>-->
+      </section>
+    </aside>
+
+    <main class="main">
+      <header>
+        <h1 class="name">IBNU<br>SYIFA</h1>
+        <p class="role">Educational Technology Specialist</p>
+        <p class="tagline">EDUCATION&nbsp; · &nbsp;CODING&nbsp; · &nbsp;ARTIFICIAL INTELLIGENCE</p>
+        <p class="intro">
+          Educator and technology practitioner with 13 years of experience in education,
+          specializing in Informatics, coding, digital learning, and the practical use of
+          emerging technologies in teaching and learning. Passionate about helping educators
+          and learners build relevant skills through hands-on, technology-enabled experiences.
+        </p>
+      </header>
+
+      <section class="main-section">
+        <h2 class="section-title">Professional Experience</h2>
+        <article class="entry">
+          <div class="entry-head">
+            <h3>Informatics Educator</h3>
+            <span class="date">13 years of experience</span>
+          </div>
+          <p class="organization">SMAIT Al Haraki</p>
+          <ul>
+            <li>Design and deliver Informatics and coding learning experiences for high-school learners.</li>
+            <li>Develop learning plans, teaching materials, and project-based assessments.</li>
+            <li>Mentor student innovation projects involving programming, computer vision, and IoT.</li>
+            <li>Integrate digital tools and AI into teaching practice to support active learning.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="main-section">
+        <h2 class="section-title">Training & Speaking</h2>
+        <article class="entry">
+          <div class="entry-head">
+            <h3>Coding & Artificial Intelligence Training</h3>
+          </div>
+          <p class="organization">Teacher professional development</p>
+          <p>Contributed to coding and AI training activities for educators, with an emphasis on practical classroom application and digital learning resources.</p>
+        </article>
+        <article class="entry">
+          <div class="entry-head">
+            <h3>AI-Based Interactive Learning Content</h3>
+          </div>
+          <!--<p class="organization">SDN Rawabuntu 2 and school learning communities</p>-->
+          <p>Shared practical approaches to creating interactive learning content and introducing AI concepts to teachers and learners.</p>
+        </article>
+        <article class="entry">
+          <div class="entry-head">
+            <h3>Academic Session Moderator</h3>
+            <span class="date">2026</span>
+          </div>
+          <p class="organization">Digital Safety for Students — A-Council, Singapore</p>
+          <p>Facilitated a student-focused discussion and prepared prompts to encourage engagement and reflection.</p>
+        </article>
+      </section>
+
+      <section class="main-section">
+        <h2 class="section-title">Selected Projects</h2>
+        <div class="project-grid">
+          <article class="project">
+            <h3>Gesture-Based Arithmetic</h3>
+            <p>OpenCV and MediaPipe project using hand gestures to represent numbers and select arithmetic operations.</p>
+          </article>
+          <article class="project">
+            <h3>School Virtual Assistant</h3>
+            <p>Research and development of an Agentic RAG assistant for school information retrieval and grounded responses.</p>
+          </article>
+          <article class="project">
+            <h3>Student Innovation Mentoring</h3>
+            <p>Mentoring projects involving RFID attendance, computer vision, smart agriculture, and IoT sensing.</p>
+          </article>
+          <article class="project">
+            <h3>Digital Learning Design</h3>
+            <p>Development of learning materials and interactive activities for coding, AI, and Informatics education.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="main-section">
+        <h2 class="section-title">Additional Profile</h2>
+        <article class="entry">
+          <h3>Contributor — Academic Manuscript on Coding & Artificial Intelligence</h3>
+          <p class="organization">Education sector · 2025</p>
+          <p>Invited to contribute to the development of an academic manuscript on Coding and Artificial Intelligence. Add the official document title and contribution details before publishing.</p>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span>CV / Speaker Profile</span>
+        <span>Ibnu Syifa · Updated 2026</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
