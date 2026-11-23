@@ -20,7 +20,22 @@
 
   gtag('config', 'G-X4T1B7R5SC');
   </script>
-  
+
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modul Ajar Generator — SMAIT Al Haraki</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Inter untuk Antarmuka & Tahoma untuk Dokumen Modul Ajar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Library docx untuk Ekspor Microsoft Word (.docx) -->
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+
   <style>
     /* Pengaturan Dasar Antarmuka */
     body {
@@ -258,7 +273,7 @@
             <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white">Modul Ajar Generator</h1>
             <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#00BFC2]/20 text-[#22d3ee] border border-[#00BFC2]/40">SMAIT Al Haraki</span>
           </div>
-          <p class="text-xs text-slate-400">Template Resmi Kurikulum Merdeka</p>
+          <p class="text-xs text-slate-400">Template Resmi Kurikulum Merdeka &bull; Generator Otomatis Berbasis AI &amp; Ekspor A4/Word</p>
         </div>
       </div>
 
@@ -982,10 +997,10 @@
 
                 <!-- Blok Pengesahan & Tanda Tangan -->
                 <div style="margin-top: 22px; font-size: 9.2pt; color: #000000; padding: 0 8px;">
-                  <div id="prev-kotaTanggal" style="text-align: right; margin-bottom: 6px; padding-right: 75px;">
+                  <div id="prev-kotaTanggal" style="text-align: right; margin-bottom: 6px; padding-right: 18px;">
                     Depok, 23 November 2026
                   </div>
-                  <div style="text-align: center; padding-left: 110px; margin-bottom: 2px;">
+                  <div style="text-align: center; margin-bottom: 2px;">
                     Mengetahui,
                   </div>
                   <div style="display: flex; justify-content: space-between; align-items: flex-start; text-align: center;">
@@ -1094,7 +1109,7 @@
                     <td style="padding: 1px 0; vertical-align: top;">Instrumen Refleksi</td>
                     <td style="vertical-align: top;">:</td>
                     <td>
-                      <ol id="prev-asLearningPertanyaan"></ol>
+                      <ol id="prev-asLearningPertanyaan" style="margin: 0 0 0 16px; padding: 0;"></ol>
                     </td>
                   </tr>
                 </table>
@@ -1141,7 +1156,7 @@
                     </tr>
                   </tfoot>
                 </table>
-                <div style="margin-bottom: 10px; text-align: center; font-size: 8.5pt;">
+                <div style="margin-bottom: 10px; font-size: 8.5pt;">
                   <em>Nilai</em> =
                   <span class="fraction">
                     <span>Jumlah Skor</span>
@@ -2140,14 +2155,108 @@
     }
 
     // =========================================================================
-    // 7. INTEGRASI GEMINI AI LANGSUNG DARI BROWSER (2.5-FLASH -> 2.0-FLASH)
+    // 7. INTEGRASI GEMINI AI LANGSUNG DARI BROWSER (GEMINI-3.8-FLASH + AUTO-DISCOVERY)
     // =========================================================================
     function cleanJsonString(rawText) {
       let cleaned = (rawText || '').trim();
       if (cleaned.startsWith('```')) {
         cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
       }
+      // Ekstrak objek JSON utama jika masih diapit teks tambahan
+      const firstBrace = cleaned.indexOf('{');
+      const lastBrace = cleaned.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace > firstBrace) {
+        cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+      }
       return cleaned;
+    }
+
+    function parseGeminiVersionScore(modelId) {
+      const match = modelId.match(/gemini-(\d+)(?:\.(\d+))?/i);
+      const major = match ? parseInt(match[1], 10) : 0;
+      const minor = match && match[2] ? parseInt(match[2], 10) : 0;
+      const isLiteOrPreview = /-(lite|preview|exp)/i.test(modelId) ? 0 : 1;
+      return { major, minor, isLiteOrPreview };
+    }
+
+    async function discoverLatestFlashModels(apiKey, excludedModels = []) {
+      try {
+        const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`;
+        const res = await fetch(listUrl);
+        if (!res.ok) return [];
+
+        const data = await res.json().catch(() => ({}));
+        const rawModels = Array.isArray(data.models) ? data.models : [];
+        const excludedSet = new Set(excludedModels.map(m => m.toLowerCase()));
+
+        const candidates = rawModels
+          .filter(m =>
+            Array.isArray(m.supportedGenerationMethods) &&
+            m.supportedGenerationMethods.includes('generateContent')
+          )
+          .map(m => (m.name || '').replace(/^models\//i, '').trim())
+          .filter(id =>
+            /^gemini-.*flash/i.test(id) &&
+            !/-(image|tts|live|audio|embedding|vision|robotics|computer-use)/i.test(id) &&
+            !excludedSet.has(id.toLowerCase())
+          );
+
+        candidates.sort((a, b) => {
+          const sa = parseGeminiVersionScore(a);
+          const sb = parseGeminiVersionScore(b);
+          if (sb.major !== sa.major) return sb.major - sa.major;
+          if (sb.minor !== sa.minor) return sb.minor - sa.minor;
+          return sb.isLiteOrPreview - sa.isLiteOrPreview;
+        });
+
+        return [...new Set(candidates)];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    async function fetchGeminiEndpoint(apiUrl, payload) {
+      const delays = [1000, 2000];
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if ((response.status === 429 || response.status === 503) && attempt < delays.length) {
+          await new Promise(resolve => setTimeout(resolve, delays[attempt]));
+          continue;
+        }
+        return response;
+      }
+    }
+
+    async function tryGenerateWithModel(modelName, apiKey, payload) {
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const response = await fetchGeminiEndpoint(apiUrl, payload);
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const apiErrMsg = data?.error?.message || `HTTP ${response.status}`;
+        const isInvalidKey =
+          response.status === 403 ||
+          (response.status === 400 && /api[_ ]?key/i.test(apiErrMsg));
+
+        if (isInvalidKey) {
+          const fatalErr = new Error(`API Key ditolak oleh Google (${apiErrMsg}). Periksa kembali kunci Anda.`);
+          fatalErr.isFatal = true;
+          throw fatalErr;
+        }
+        throw new Error(`${modelName}: ${apiErrMsg}`);
+      }
+
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawText) {
+        throw new Error(`${modelName}: Respons AI kosong.`);
+      }
+
+      return JSON.parse(cleanJsonString(rawText));
     }
 
     async function callGeminiWithFrontKey(promptText) {
@@ -2161,7 +2270,6 @@
         throw new Error('MISSING_API_KEY');
       }
 
-      const models = ['gemini-3.8-flash', 'gemini-3.5-flash'];
       const payload = {
         contents: [{ parts: [{ text: promptText }] }],
         systemInstruction: {
@@ -2174,41 +2282,37 @@
         }
       };
 
+      const primaryModel = 'gemini-3.8-flash';
+      const triedModels = [primaryModel];
       let lastErrorMessage = 'Gagal menghubungi server Google Gemini.';
 
-      for (let i = 0; i < models.length; i++) {
-        const modelName = models[i];
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      // 1. Coba model utama gemini-3.8-flash terlebih dahulu
+      try {
+        return await tryGenerateWithModel(primaryModel, apiKey, payload);
+      } catch (err) {
+        if (err.isFatal) throw err;
+        lastErrorMessage = err.message || lastErrorMessage;
+      }
 
+      // 2. Fallback otomatis: cari model gemini-*-flash terbaru yang aktif pada API Key ini
+      const discoveredModels = await discoverLatestFlashModels(apiKey, triedModels);
+
+      // Jika pesan error API menyebut model pengganti spesifik, prioritaskan model tersebut
+      const suggestedMatch = lastErrorMessage.match(/models\/(gemini-[a-z0-9.-]+)/i);
+      if (suggestedMatch && suggestedMatch[1]) {
+        const suggestedId = suggestedMatch[1].trim();
+        if (!triedModels.includes(suggestedId) && !discoveredModels.includes(suggestedId)) {
+          discoveredModels.unshift(suggestedId);
+        }
+      }
+
+      for (let i = 0; i < discoveredModels.length; i++) {
+        const fallbackModel = discoveredModels[i];
+        triedModels.push(fallbackModel);
         try {
-          const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-
-          const dataAI = await callGeminiWithFallback(systemPrompt, userPrompt);
-
-          if (!response.ok) {
-            const apiErrMsg = data?.error?.message || `HTTP ${response.status}`;
-            if (response.status === 400 || response.status === 403) {
-              throw new Error(`API Key ditolak oleh Google (${apiErrMsg}). Periksa kembali kunci Anda.`);
-            }
-            lastErrorMessage = `${modelName}: ${apiErrMsg}`;
-            continue;
-          }
-
-          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!rawText) {
-            lastErrorMessage = `${modelName}: Respons AI kosong.`;
-            continue;
-          }
-
-          return JSON.parse(cleanJsonString(rawText));
+          return await tryGenerateWithModel(fallbackModel, apiKey, payload);
         } catch (err) {
-          if (err.message && err.message.startsWith('API Key ditolak')) {
-            throw err;
-          }
+          if (err.isFatal) throw err;
           lastErrorMessage = err.message || lastErrorMessage;
         }
       }
@@ -2316,124 +2420,7 @@ Balas dalam JSON valid dengan properti persis berikut:
         text.textContent = 'Isi Otomatis dengan AI';
       }
     }
-// 1. Deteksi otomatis daftar model Gemini Flash yang aktif pada API Key
-async function discoverLatestFlashModels(apiKey) {
-  try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
 
-    const models = (data.models || [])
-      .filter(m =>
-        Array.isArray(m.supportedGenerationMethods) &&
-        m.supportedGenerationMethods.includes('generateContent') &&
-        /gemini-.*flash/i.test(m.name) &&
-        !/image|audio|tts|thinking/i.test(m.name)
-      )
-      .map(m => m.name.replace(/^models\//, ''));
-
-    return models.sort((a, b) => {
-      const aLite = /lite/i.test(a) ? 1 : 0;
-      const bLite = /lite/i.test(b) ? 1 : 0;
-      if (aLite !== bLite) return aLite - bLite;
-      return b.localeCompare(a, undefined, { numeric: true });
-    });
-  } catch (_) {
-    return [];
-  }
-}
-
-// 2. Pemanggilan Gemini API tahan-error (mendukung 1 atau 2 parameter prompt & auto API Key)
-async function callGeminiWithFallback(arg1, arg2) {
-  const rawKey = (typeof arg2 === 'string' && arg2.trim().startsWith('AIza'))
-    ? arg2
-    : (document.getElementById('geminiApiKey')?.value || localStorage.getItem('smait_gemini_api_key') || '');
-  const apiKey = rawKey.trim();
-
-  if (!apiKey) {
-    throw new Error('API Key Gemini belum diisi. Silakan tempel API Key di kolom bagian atas.');
-  }
-
-  const promptParts = [];
-  if (typeof arg1 === 'string' && arg1.trim()) promptParts.push(arg1.trim());
-  if (typeof arg2 === 'string' && !arg2.trim().startsWith('AIza') && arg2.trim()) {
-    promptParts.push(arg2.trim());
-  }
-
-  const finalPrompt = promptParts.join('\n\n');
-  if (!finalPrompt) {
-    throw new Error('Teks prompt kosong. Pastikan kolom Mata Pelajaran dan Materi sudah diisi.');
-  }
-
-  const tried = new Set();
-  const primaryModels = ['gemini-3.8-flash'];
-
-  const tryGenerate = async (modelName) => {
-    tried.add(modelName);
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
-        generationConfig: { responseMimeType: 'application/json' }
-      })
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result?.error?.message || `HTTP ${response.status}`);
-    }
-
-    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) {
-      throw new Error('Respons AI kosong.');
-    }
-
-    const cleanJson = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
-    return JSON.parse(cleanJson);
-  };
-
-  let lastError = null;
-
-  for (const model of primaryModels) {
-    try {
-      return await tryGenerate(model);
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  const discoveredModels = await discoverLatestFlashModels(apiKey);
-  for (const model of discoveredModels) {
-    if (tried.has(model)) continue;
-    try {
-      return await tryGenerate(model);
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  throw lastError || new Error('Gagal memproses permintaan AI.');
-}
-
-// Alias agar pemanggilan fungsi lama callGemini(...) tetap langsung kompatibel
-const callGemini = callGeminiWithFallback;
-  // Tahap 2: Fallback otomatis ke daftar model Flash yang masih aktif
-  const discoveredModels = await discoverLatestFlashModels(apiKey);
-  for (const model of discoveredModels) {
-    if (tried.has(model)) continue;
-    try {
-      return await tryGenerate(model);
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  throw lastError || new Error('Gagal memproses permintaan AI.');
-}
     async function generateSectionWithAI(sectionName) {
       const apiKey = getStoredApiKey();
       if (!apiKey) {
