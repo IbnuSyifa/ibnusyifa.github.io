@@ -7,7 +7,7 @@
 // =========================================================================
 // 1. KONFIGURASI UTAMA (WAJIB DIISI)
 // =========================================================================
-$GEMINI_API_KEY = 'MASUKKAN_GEMINI_API_KEY_ANDA_DI_SINI';
+$GEMINI_API_KEY = 'AQ.Ab8RN6LX1FoZ2nmezhMyRWeF2-53A5Wc33Xm8bZBs1UAqIeSrQ';
 $GEMINI_MODEL   = 'gemini-2.5-flash'; // Alternatif: 'gemini-2.0-flash'
 $ALLOWED_DOMAIN = 'ibnusyifa.site';
 
