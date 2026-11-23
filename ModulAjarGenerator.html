@@ -2187,7 +2187,7 @@
             body: JSON.stringify(payload)
           });
 
-          const dataAI = await callGeminiWithFallback(prompt, apiKey);
+          const dataAI = await callGeminiWithFallback(systemPrompt, userPrompt);
 
           if (!response.ok) {
             const apiErrMsg = data?.error?.message || `HTTP ${response.status}`;
@@ -2334,7 +2334,6 @@ async function discoverLatestFlashModels(apiKey) {
       )
       .map(m => m.name.replace(/^models\//, ''));
 
-    // Urutkan versi terbaru di atas, prioritas non-lite lebih dulu
     return models.sort((a, b) => {
       const aLite = /lite/i.test(a) ? 1 : 0;
       const bLite = /lite/i.test(b) ? 1 : 0;
@@ -2346,10 +2345,30 @@ async function discoverLatestFlashModels(apiKey) {
   }
 }
 
-// 2. Pemanggilan Gemini API dengan fallback otomatis
-async function callGeminiWithFallback(prompt, apiKey) {
+// 2. Pemanggilan Gemini API tahan-error (mendukung 1 atau 2 parameter prompt & auto API Key)
+async function callGeminiWithFallback(arg1, arg2) {
+  const rawKey = (typeof arg2 === 'string' && arg2.trim().startsWith('AIza'))
+    ? arg2
+    : (document.getElementById('geminiApiKey')?.value || localStorage.getItem('smait_gemini_api_key') || '');
+  const apiKey = rawKey.trim();
+
+  if (!apiKey) {
+    throw new Error('API Key Gemini belum diisi. Silakan tempel API Key di kolom bagian atas.');
+  }
+
+  const promptParts = [];
+  if (typeof arg1 === 'string' && arg1.trim()) promptParts.push(arg1.trim());
+  if (typeof arg2 === 'string' && !arg2.trim().startsWith('AIza') && arg2.trim()) {
+    promptParts.push(arg2.trim());
+  }
+
+  const finalPrompt = promptParts.join('\n\n');
+  if (!finalPrompt) {
+    throw new Error('Teks prompt kosong. Pastikan kolom Mata Pelajaran dan Materi sudah diisi.');
+  }
+
   const tried = new Set();
-  const primaryModels = ['gemini-3.8-flash']; // Model utama
+  const primaryModels = ['gemini-3.8-flash'];
 
   const tryGenerate = async (modelName) => {
     tried.add(modelName);
@@ -2358,7 +2377,7 @@ async function callGeminiWithFallback(prompt, apiKey) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
+        contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
         generationConfig: { responseMimeType: 'application/json' }
       })
     });
@@ -2379,7 +2398,6 @@ async function callGeminiWithFallback(prompt, apiKey) {
 
   let lastError = null;
 
-  // Tahap 1: Coba model utama
   for (const model of primaryModels) {
     try {
       return await tryGenerate(model);
@@ -2388,6 +2406,21 @@ async function callGeminiWithFallback(prompt, apiKey) {
     }
   }
 
+  const discoveredModels = await discoverLatestFlashModels(apiKey);
+  for (const model of discoveredModels) {
+    if (tried.has(model)) continue;
+    try {
+      return await tryGenerate(model);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('Gagal memproses permintaan AI.');
+}
+
+// Alias agar pemanggilan fungsi lama callGemini(...) tetap langsung kompatibel
+const callGemini = callGeminiWithFallback;
   // Tahap 2: Fallback otomatis ke daftar model Flash yang masih aktif
   const discoveredModels = await discoverLatestFlashModels(apiKey);
   for (const model of discoveredModels) {
