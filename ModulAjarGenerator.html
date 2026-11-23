@@ -2187,7 +2187,7 @@
             body: JSON.stringify(payload)
           });
 
-          const data = await response.json().catch(() => ({}));
+          const dataAI = await callGeminiWithFallback(prompt, apiKey);
 
           if (!response.ok) {
             const apiErrMsg = data?.error?.message || `HTTP ${response.status}`;
@@ -2316,7 +2316,91 @@ Balas dalam JSON valid dengan properti persis berikut:
         text.textContent = 'Isi Otomatis dengan AI';
       }
     }
+// 1. Deteksi otomatis daftar model Gemini Flash yang aktif pada API Key
+async function discoverLatestFlashModels(apiKey) {
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
 
+    const models = (data.models || [])
+      .filter(m =>
+        Array.isArray(m.supportedGenerationMethods) &&
+        m.supportedGenerationMethods.includes('generateContent') &&
+        /gemini-.*flash/i.test(m.name) &&
+        !/image|audio|tts|thinking/i.test(m.name)
+      )
+      .map(m => m.name.replace(/^models\//, ''));
+
+    // Urutkan versi terbaru di atas, prioritas non-lite lebih dulu
+    return models.sort((a, b) => {
+      const aLite = /lite/i.test(a) ? 1 : 0;
+      const bLite = /lite/i.test(b) ? 1 : 0;
+      if (aLite !== bLite) return aLite - bLite;
+      return b.localeCompare(a, undefined, { numeric: true });
+    });
+  } catch (_) {
+    return [];
+  }
+}
+
+// 2. Pemanggilan Gemini API dengan fallback otomatis
+async function callGeminiWithFallback(prompt, apiKey) {
+  const tried = new Set();
+  const primaryModels = ['gemini-3.8-flash']; // Model utama
+
+  const tryGenerate = async (modelName) => {
+    tried.add(modelName);
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: 'application/json' }
+      })
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result?.error?.message || `HTTP ${response.status}`);
+    }
+
+    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) {
+      throw new Error('Respons AI kosong.');
+    }
+
+    const cleanJson = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+    return JSON.parse(cleanJson);
+  };
+
+  let lastError = null;
+
+  // Tahap 1: Coba model utama
+  for (const model of primaryModels) {
+    try {
+      return await tryGenerate(model);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  // Tahap 2: Fallback otomatis ke daftar model Flash yang masih aktif
+  const discoveredModels = await discoverLatestFlashModels(apiKey);
+  for (const model of discoveredModels) {
+    if (tried.has(model)) continue;
+    try {
+      return await tryGenerate(model);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('Gagal memproses permintaan AI.');
+}
     async function generateSectionWithAI(sectionName) {
       const apiKey = getStoredApiKey();
       if (!apiKey) {
