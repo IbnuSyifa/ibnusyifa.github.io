@@ -1978,8 +1978,9 @@
     // =========================================================================
     // 6. INTEGRASI GEMINI AI UNTUK PENYUSUNAN MODUL OTOMATIS
     // =========================================================================
-    const WORKER_URL = 'https://modul-ajar-ai.pages.dev';
+    
     async function callGeminiJson(promptText, maxRetries = 3) {
+      const WORKER_URL = 'https://modul-ajar-ai.pages.dev';
       const response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: {
@@ -2050,7 +2051,7 @@
     }
 
     async function generateFullModuleWithAI() {
-      const hasilAI = await panggilGeminiViaWorker(prompt);
+      const hasilAI = await callGeminiJson(promptText);
       const mapel = (appState.mapel || '').trim();
       const kelas = (appState.kelas || '').trim();
       const materi = (appState.materi || '').trim();
