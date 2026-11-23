@@ -7,7 +7,7 @@
 // =========================================================================
 // 1. KONFIGURASI UTAMA (WAJIB DIISI)
 // =========================================================================
-$GEMINI_API_KEY = 'AQ.Ab8RN6LX1FoZ2nmezhMyRWeF2-53A5Wc33Xm8bZBs1UAqIeSrQ';
+$GEMINI_API_KEY = '/config.php';
 $GEMINI_MODEL   = 'gemini-2.5-flash'; // Alternatif: 'gemini-2.0-flash'
 $ALLOWED_DOMAIN = 'ibnusyifa.site';
 
@@ -49,7 +49,7 @@ if (!$isAllowed) {
     exit;
 }
 
-if (empty($GEMINI_API_KEY) || $GEMINI_API_KEY === 'AQ.Ab8RN6I8hzhEZwf-PP2a0x72FDk9eoPbsCc3EdShYlSlfBMCvA') {
+if (empty($GEMINI_API_KEY) || $GEMINI_API_KEY === '/config.php') {
     http_response_code(500);
     echo json_encode(['error' => ['message' => 'API Key Gemini belum diatur di file ai-proxy.php.']]);
     exit;
