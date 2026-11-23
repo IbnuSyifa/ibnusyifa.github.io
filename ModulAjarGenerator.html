@@ -31,25 +31,28 @@
     .a4-page {
       width: 210mm;
       min-height: 297mm;
-      height: 297mm;
+      height: auto;
+      padding: 14mm 16mm;
+      margin: 0 auto 20px auto;
+      background-color: #ffffff;
       background-image: url('bg.jpg');
       background-size: 100% 100%;
       background-repeat: no-repeat;
-      background-color: #ffffff;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
-      margin: 0 auto 24px auto;
-      font-family: Tahoma, Geneva, Verdana, sans-serif;
+      background-position: center;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 10.5pt;
+      line-height: 1.4;
       color: #000000;
       box-sizing: border-box;
-      page-break-after: always;
-      break-after: page;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .a4-page:last-child {
-      page-break-after: auto;
-      break-after: auto;
+    .print-fixed-bg {
+      display: none;
     }
 
     /* Kotak Placeholder Logo Bergaris Putus-Putus (Tampil saat atribut src="" kosong/gagal muat) */
@@ -175,7 +178,7 @@
     }
 
     /* PENGATURAN CETAK A4 PRESISI */
-    @media print {
+   @media print {
       @page {
         size: A4 portrait;
         margin: 0;
@@ -183,57 +186,73 @@
 
       html,
       body {
+        width: 210mm !important;
         height: auto !important;
+        min-height: 0 !important;
         overflow: visible !important;
+        background: #ffffff !important;
         margin: 0 !important;
         padding: 0 !important;
-        background: #ffffff !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        color-adjust: exact !important;
       }
 
-      .no-print,
-      header,
-      #api-key-bar,
-      #form-pane,
-      #mobile-view-switcher {
+      .no-print {
         display: none !important;
       }
 
-      #app-shell,
-      #preview-pane,
-      #preview-scroll-area,
-      #preview-scale-wrapper,
-      #a4Container {
+      /* Background berulang otomatis di setiap halaman cetak (termasuk halaman 5, 6, dst.) */
+      .print-fixed-bg {
         display: block !important;
-        position: static !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 210mm;
+        height: 297mm;
+        background-image: url('bg.jpg');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        z-index: -1;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      #workspace-container {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+
+      #preview-pane {
         width: 100% !important;
         height: auto !important;
         overflow: visible !important;
         padding: 0 !important;
         margin: 0 !important;
-        background: none !important;
-        transform: none !important;
+        background: transparent !important;
       }
 
+      /* Tinggi otomatis agar tidak ada teks terpotong saat konten panjang */
       .a4-page {
         width: 210mm !important;
-        height: 297mm !important;
+        height: auto !important;
         min-height: 297mm !important;
         margin: 0 !important;
-        padding: 0 !important;
         box-shadow: none !important;
-        border: none !important;
-        page-break-after: always !important;
-        break-after: page !important;
+        background: transparent !important;
+        page-break-after: always;
+        break-after: page;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
 
       .a4-page:last-child {
-        page-break-after: auto !important;
-        break-after: auto !important;
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      /* Cegah baris tabel terpotong di tengah pergantian kertas */
+      .doc-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
     }
   </style>
