@@ -31,7 +31,7 @@
     .a4-page {
       width: 210mm;
       min-height: 297mm;
-      height: 297mm;
+      height: auto;
       background-image: url('bg.jpg');
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -45,6 +45,15 @@
       box-sizing: border-box;
       page-break-after: always;
       break-after: page;
+      box-shadow: none !important;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
 
     .a4-page:last-child {
