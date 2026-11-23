@@ -1978,10 +1978,20 @@
     // =========================================================================
     // 6. INTEGRASI GEMINI AI UNTUK PENYUSUNAN MODUL OTOMATIS
     // =========================================================================
+    const WORKER_URL = 'https://modul-ajar-ai.pages.dev';
     async function callGeminiJson(promptText, maxRetries = 3) {
-      const apiKey = "";
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            responseMimeType: 'application/json'
+          }
+        })
+      });
       const payload = {
         contents: [{ parts: [{ text: promptText }] }],
         systemInstruction: {
@@ -2004,7 +2014,20 @@
               generationConfig: { responseMimeType: "application/json" }
             })
           });
+          const data = await response.json();
 
+          if (!response.ok) {
+            const errMsg = data?.error?.message || `Gagal terhubung ke server AI (Status ${response.status})`;
+            throw new Error(errMsg);
+          }
+
+          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!rawText) {
+            throw new Error('Respons AI kosong. Silakan coba klik ulang.');
+          }
+
+          return JSON.parse(rawText);
+        }
           if (!response.ok) {
             if ((response.status === 429 || response.status >= 500) && attempt < maxRetries) {
               const delay = Math.pow(2, attempt) * 1000;
@@ -2027,6 +2050,7 @@
     }
 
     async function generateFullModuleWithAI() {
+      const hasilAI = await panggilGeminiViaWorker(prompt);
       const mapel = (appState.mapel || '').trim();
       const kelas = (appState.kelas || '').trim();
       const materi = (appState.materi || '').trim();
